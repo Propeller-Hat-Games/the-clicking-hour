@@ -17,6 +17,8 @@ public partial class GameManager : Node2D
 	private int quota;
 	private int currentQuota;
 	private int wavesSurvived = 0;
+	private int entitiesKilled = 0;
+	private int glassPassed = 0;
 	
 	private float difficulty;
 	private int maxEntities;	
@@ -43,6 +45,11 @@ public partial class GameManager : Node2D
 	{
 		int count = 1 + (int)((diff - 1.0f) * 4);
 		return Math.Clamp(count, 1, 3);
+	}
+
+	public void AddKill()
+	{
+		entitiesKilled++;
 	}
 
 	public int GetLife()
@@ -72,7 +79,7 @@ public partial class GameManager : Node2D
 			var gameOverScene = GD.Load<PackedScene>("res://scenes/ui/game_over.tscn");
 			var gameOverInstance = gameOverScene.Instantiate<GameOver>();
 			AddChild(gameOverInstance);
-			gameOverInstance.SetWavesSurvived(wavesSurvived);
+			gameOverInstance.SetWavesSurvived(wavesSurvived, entitiesKilled, glassPassed);
 		}
 	}
 
@@ -376,6 +383,7 @@ public partial class GameManager : Node2D
 				{
 					requiredGlassCounts[typeIdx]--;
 					currentQuota++;
+					glassPassed++;
 					board.UpdateCounts(requiredGlassCounts.ToArray());
 					GD.Print($"Entity passed! Quota: {currentQuota}/{quota}");
 					

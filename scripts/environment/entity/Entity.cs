@@ -129,6 +129,12 @@ public abstract partial class Entity : CharacterBody2D
 		isAlive = false;
 		currentState = EntityState.Hiding; // Stop walking
 		
+		var gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
+		if (gameManager != null)
+		{
+			gameManager.AddKill();
+		}
+
 		// Disable collisions
 		CollisionLayer = 0;
 		CollisionMask = 0;
