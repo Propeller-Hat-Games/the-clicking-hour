@@ -4,14 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://bm0g22lhu7mpc" path="res://assets/sprites/environment/entity/base_entitiy.png" id="2_lxsru"]
 [ext_resource type="PackedScene" uid="uid://cax1bv236pwwl" path="res://scenes/glass.tscn" id="3_glass"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lxsru"]
-size = Vector2(52, 108)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_ecdnh"]
 radius = 26.019224
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lxsru"]
+size = Vector2(52, 108)
+
 [node name="Entity" type="CharacterBody2D"]
 script = ExtResource("1_lxsru")
+walkSpeed = 25.0
 glassScene = ExtResource("3_glass")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
