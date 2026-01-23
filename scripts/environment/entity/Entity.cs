@@ -4,7 +4,6 @@ using System;
 public enum EntityState
 {
     Walking, 
-    Returning, 
     Hiding,
 }
 
@@ -93,18 +92,6 @@ public abstract partial class Entity : CharacterBody2D
             case EntityState.Walking:
                 Position += walkDirection * walkSpeed * (float)delta;
                 break;
-                
-            case EntityState.Returning:
-                Position += walkDirection * walkSpeed * (float)delta;
-                
-                var viewportSize = GetViewportRect().Size;
-                float margin = 150f;
-                if (Position.X < -margin || Position.X > viewportSize.X + margin ||
-                    Position.Y < -margin || Position.Y > viewportSize.Y + margin)
-                {
-                    QueueFree(); 
-                }
-                break;
         }
     }
     
@@ -113,9 +100,7 @@ public abstract partial class Entity : CharacterBody2D
     
     protected void Die()
     {
-        isAlive = false;
-        currentState = EntityState.Returning;
-        walkDirection = -walkDirection;
+        QueueFree();
     }
 
     public Glass GetGlass()
