@@ -490,8 +490,8 @@ public partial class GameManager : Node2D
 		AddChild(transitionInstance);
 		transitionInstance.SetCompletedWave(wavesSurvived);
 		
-		// Wait 3 seconds
-		await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
+		// Wait 7 seconds (transition + jingle)
+		await ToSignal(GetTree().CreateTimer(7.0f), "timeout");
 		transitionInstance.CloseWindow();
 		
 		if (!IsInstanceValid(this) || !IsInsideTree()) return;

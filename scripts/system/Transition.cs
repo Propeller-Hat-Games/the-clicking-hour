@@ -9,9 +9,13 @@ public partial class Transition : Control
 	[Signal]
 	public delegate void NextStageRequestedEventHandler();
 
+	private AudioStreamPlayer audioPlayer;
+	
 	public override void _Ready()
 	{
 		titleLabel = GetNode<Label>("CanvasLayer/Window/Title");
+		
+		PlayRandomJingle();
 		
 		var window = GetNodeOrNull<Control>("CanvasLayer/Window");
 		if (window != null)
@@ -36,5 +40,26 @@ public partial class Transition : Control
 	{
 		EmitSignal(SignalName.NextStageRequested);
 		QueueFree();
+	}
+
+	private void PlayRandomJingle()
+	{
+		audioPlayer = new AudioStreamPlayer();
+		AddChild(audioPlayer);
+		
+		int randomIndex = GD.RandRange(1, 3);
+		string path = $"res://assets/sounds/Jingle{randomIndex}.mp3";
+		
+		var stream = GD.Load<AudioStream>(path);
+		if (stream != null)
+		{
+			audioPlayer.Stream = stream;
+			audioPlayer.Play();
+			GD.Print($"Playing jingle: {path}");
+		}
+		else
+		{
+			GD.PrintErr($"Could not load jingle: {path}");
+		}
 	}
 }
