@@ -187,7 +187,7 @@ public partial class GameManager : Node2D
 		
 				int typeOfEnemy = random.Next(10);
 				
-				if (typeOfEnemy >= 0.5-difficulty) {
+				if (typeOfEnemy >= difficulty-0.5) {
 					randomScene = entityScenes[0];
 				}
 				else {
