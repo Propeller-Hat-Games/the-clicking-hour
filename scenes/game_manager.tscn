@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cx874y6efj4qr" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/ui/main_menu.tscn" id="2_glms7"]
 [ext_resource type="PackedScene" uid="uid://ciqsen53683eg" path="res://scenes/mockup.tscn" id="3_udu3i"]
-[ext_resource type="PackedScene" path="res://scenes/spawn_area.tscn" id="4_spawn"]
+[ext_resource type="PackedScene" uid="uid://ca31yr40ycoys" path="res://scenes/spawn_area.tscn" id="4_spawn"]
 [ext_resource type="PackedScene" uid="uid://dv81us2tealma" path="res://scenes/environment/board.tscn" id="5_board"]
 [ext_resource type="PackedScene" uid="uid://hhcrdfkwjpej" path="res://scenes/environment/door.tscn" id="6_eaq8r"]
 
@@ -24,3 +24,7 @@ scale = Vector2(1, 1)
 [node name="Board" parent="." instance=ExtResource("5_board")]
 visible = false
 position = Vector2(888, 100)
+
+[node name="HeartContainer" type="Node2D" parent="."]
+z_index = 100
+position = Vector2(175, 590)

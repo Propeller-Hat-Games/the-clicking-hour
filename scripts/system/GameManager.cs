@@ -26,8 +26,9 @@ public partial class GameManager : Node2D
 	private SpawnArea spawnArea;
 	private MainMenu mainMenu;
 
-	private Texture2D heartTexture;
-	private List<Sprite2D> heartSprites = new List<Sprite2D>();
+	private PackedScene heartScene;
+	private Node2D heartContainer;
+	private List<Node2D> heartNodes = new List<Node2D>();
 	
 	// 🎵 Le MusicManager
 	private MusicManager musicManager;
@@ -249,34 +250,33 @@ public partial class GameManager : Node2D
 
 	private void Affichecoeur()
 	{
-		// Supprime les anciens cœurs si nécessaire
-		foreach (var sprite in heartSprites)
-		{
-			sprite.QueueFree();
-		}
-		heartSprites.Clear();
+		if (heartContainer == null) return;
 
-		// Charge la texture
-		heartTexture = GD.Load<Texture2D>("res://assets/sprites/environment/entity/base_heart.png");
-		if (heartTexture == null)
+		// Supprime les anciens cœurs si nécessaire
+		foreach (var heart in heartNodes)
 		{
-			GD.PrintErr("Impossible de charger heart.png !");
+			if (IsInstanceValid(heart))
+			{
+				heart.QueueFree();
+			}
+		}
+		heartNodes.Clear();
+
+		if (heartScene == null)
+		{
+			GD.PrintErr("HeartScene non chargé !");
 			return;
 		}
 
-		// Position initiale
-		float startX = 150;
-		float startY = 600;
-		float spacing = 50; // espace entre les cœurs
+		float spacing = 100; // espace entre les cœurs
 
 		// Boucle pour créer les cœurs
 		for (int i = 0; i < GetLife(); i++)
 		{
-			var heart = new Sprite2D();
-			heart.Texture = heartTexture;
-			heart.Position = new Vector2(startX + i * spacing, startY);
-			AddChild(heart);
-			heartSprites.Add(heart);
+			var heart = heartScene.Instantiate<Node2D>();
+			heart.Position = new Vector2(i * spacing, 0);
+			heartContainer.AddChild(heart);
+			heartNodes.Add(heart);
 		}
 	}
 
@@ -284,6 +284,8 @@ public partial class GameManager : Node2D
 	{
 		board = GetNodeOrNull<Board>("Board");
 		spawnArea = GetNodeOrNull<SpawnArea>("SpawnArea");
+		heartContainer = GetNodeOrNull<Node2D>("HeartContainer");
+		heartScene = GD.Load<PackedScene>("res://scenes/heart.tscn");
 		
 		// 🎵 Créer le MusicManager
 		musicManager = new MusicManager();
