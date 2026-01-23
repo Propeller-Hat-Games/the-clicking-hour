@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Area2d : Area2D
+public partial class SpawnArea : Area2D
 {
 	
 	public CollisionShape2D area;

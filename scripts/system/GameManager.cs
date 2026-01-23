@@ -22,7 +22,7 @@ public partial class GameManager : Node2D
     private Random random = new Random();
     private List<PackedScene> entityScenes = new List<PackedScene>();
     private bool isSpawning = false;
-    private Area2d spawnArea;
+    private SpawnArea spawnArea;
 
     // We can just use the Enum for glass types, no need for a static list 0-3
     
@@ -188,7 +188,7 @@ public partial class GameManager : Node2D
     public override void _Ready() 
     {
         board = GetNodeOrNull<Board>("Board");
-        spawnArea = GetNodeOrNull<Area2d>("SpawnArea");
+        spawnArea = GetNodeOrNull<SpawnArea>("SpawnArea");
         var glassScene = GD.Load<PackedScene>("res://scenes/glass.tscn");
         var glassInstance = glassScene.Instantiate<Glass>();
 
