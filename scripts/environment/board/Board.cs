@@ -46,7 +46,9 @@ public partial class Board : Sprite2D
 			rightSlot.Visible = true;
 		}
 		else {
+			leftSlot.Visible = true;
 			middleSlot.Visible = true;
+			rightSlot.Visible = true;
 		}
 	}
 	

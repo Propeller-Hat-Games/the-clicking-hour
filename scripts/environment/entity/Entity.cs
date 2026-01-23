@@ -118,6 +118,18 @@ public abstract partial class Entity : CharacterBody2D
         walkDirection = -walkDirection;
     }
 
+    public Glass GetGlass()
+    {
+        foreach(var child in GetChildren())
+        {
+            if (child is Glass glass)
+            {
+                return glass;
+            }
+        }
+        return null;
+    }
+
     public void SetWalkDirection(Vector2 direction)
     {
         walkDirection = direction.Normalized();

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://xvhpdf7qoa4b"]
+[gd_scene load_steps=7 format=3 uid="uid://xvhpdf7qoa4b"]
 
 [ext_resource type="Script" uid="uid://cx874y6efj4qr" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/main_menu.tscn" id="2_glms7"]
 [ext_resource type="PackedScene" uid="uid://ciqsen53683eg" path="res://scenes/mockup.tscn" id="3_udu3i"]
+[ext_resource type="PackedScene" uid="uid://dv81us2tealma" path="res://scenes/environment/board.tscn" id="4_board"]
 [ext_resource type="PackedScene" uid="uid://hhcrdfkwjpej" path="res://scenes/environment/door.tscn" id="5_eaq8r"]
 [ext_resource type="AudioStream" uid="uid://bfy7p3fx5y1xo" path="res://assets/musics/background/GroovyDrink.mp3" id="6_ternb"]
 
@@ -16,6 +17,9 @@ script = ExtResource("1_hwd4i")
 [node name="Door" parent="." instance=ExtResource("5_eaq8r")]
 position = Vector2(1102, 465)
 scale = Vector2(1, 1)
+
+[node name="Board" parent="." instance=ExtResource("4_board")]
+position = Vector2(888, 76)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_ternb")
