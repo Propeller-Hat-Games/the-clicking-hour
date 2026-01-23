@@ -11,7 +11,7 @@
 scale = Vector2(3, 3)
 texture = ExtResource("1_8tprs")
 script = ExtResource("2_psm7c")
-sprites = [ExtResource("3_8tprs"), ExtResource("4_ygvyx"), ExtResource("5_hlvoh"), ExtResource("6_aoutw")]
+sprites = [ExtResource("6_aoutw"), ExtResource("5_hlvoh"), ExtResource("4_ygvyx"), ExtResource("3_8tprs")]
 amountOfSlots = 2
 
 [node name="LeftSlot" type="Sprite2D" parent="."]
