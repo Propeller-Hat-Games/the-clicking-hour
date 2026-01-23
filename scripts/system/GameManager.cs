@@ -345,6 +345,9 @@ public partial class GameManager : Node2D
 		glitchEffect = GetNodeOrNull<GlitchEffect>("GlitchEffect");
 		if (glitchEffect == null) GD.PrintErr("GlitchEffect NOT FOUND in GameManager!");
 		else GD.Print("GlitchEffect initialized successfully.");
+
+        SetupVHSEffect();
+        
 		heartScene = GD.Load<PackedScene>("res://scenes/heart.tscn");
 
 		var trash = GetNodeOrNull<Node2D>("Trash");
@@ -505,5 +508,30 @@ public partial class GameManager : Node2D
 
 		difficulty += 0.15f;
 		StartWave();
+	}
+
+    private void SetupVHSEffect()
+	{
+		var canvasLayer = new CanvasLayer();
+		canvasLayer.Layer = 10; // Ensure it's on top of everything
+		AddChild(canvasLayer);
+
+		var colorRect = new ColorRect();
+		colorRect.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+		colorRect.MouseFilter = Control.MouseFilterEnum.Ignore; // Allow clicks to pass through
+		
+		var shader = GD.Load<Shader>("res://assets/shaders/vhs.gdshader");
+		if (shader != null)
+		{
+			var material = new ShaderMaterial();
+			material.Shader = shader;
+			colorRect.Material = material;
+			canvasLayer.AddChild(colorRect);
+			GD.Print("📺 VHS Filter applied successfully.");
+		}
+		else
+		{
+			GD.PrintErr("❌ Failed to load VHS shader.");
+		}
 	}
 }
