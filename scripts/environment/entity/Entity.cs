@@ -100,7 +100,8 @@ public abstract partial class Entity : CharacterBody2D
 	{
 		if (!isAlive) return;
 
-		ZIndex = (int)GlobalPosition.Y;
+		// Keep ZIndex below HeartContainer (100)
+		ZIndex = Math.Min((int)GlobalPosition.Y, 99);
 
 		// Attendre le délai de spawn avant de bouger
 		if (spawnTimer < spawnDelay)

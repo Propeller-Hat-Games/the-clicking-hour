@@ -291,6 +291,7 @@ public partial class GameManager : Node2D
 		if (trash != null)
 		{
 			trash.AddToGroup("Trash");
+			trash.ZIndex = 100;
 		}
 		
 		// 🎵 Créer le MusicManager
