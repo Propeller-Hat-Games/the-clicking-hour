@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=3 format=3 uid="uid://dwuqnsorbnha"]
 
-[ext_resource type="FontFile" uid="uid://blevjy1jvbgc1" path="res://assets/fonts/edit-undo.brk.ttf" id="1_font"]
+[ext_resource type="FontFile" uid="uid://blevjy1jvbgc1" path="res://assets/fonts/edit-undo.brk.ttf" id="1_cstew"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
 content_margin_left = 24.0
@@ -19,11 +19,11 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [resource]
-default_font = ExtResource("1_font")
+default_font = ExtResource("1_cstew")
 Button/font_sizes/font_size = 32
 Button/styles/focus = SubResource("StyleBoxFlat_normal")
 Button/styles/hover = SubResource("StyleBoxFlat_normal")
 Button/styles/normal = SubResource("StyleBoxFlat_normal")
 Button/styles/pressed = SubResource("StyleBoxFlat_normal")
-HBoxContainer/constants/separation = 24
-VBoxContainer/constants/separation = 64
+HBoxContainer/constants/separation = 64
+VBoxContainer/constants/separation = 32
