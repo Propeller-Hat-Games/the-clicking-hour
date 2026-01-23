@@ -50,7 +50,7 @@ public partial class SfxManager : Node
 		doorClose = GD.Load<AudioStream>("res://assets/sounds/DoorClose.mp3");
 
 		entityDig1 = GD.Load<AudioStream>("res://assets/sounds/EntityDig1.mp3");
-		entityEmergence1 = GD.Load<AudioStream>("res://assets/sounds/EntityEmergence1.mp3");
+		entityEmergence1 = GD.Load<AudioStream>("res://assets/sounds/EntityEmerge1.mp3");
 
 		takeDamage1 = GD.Load<AudioStream>("res://assets/sounds/TakeDamage1.mp3");
 		takeDamage2 = GD.Load<AudioStream>("res://assets/sounds/TakeDamage2.mp3");
