@@ -30,7 +30,55 @@ public partial class MusicManager : Node
 		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/GroovyDrink.mp3"));
 		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/SeasideDrink.mp3"));
 		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/SeriousDrink.mp3"));
+		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/Jet27Drink.mp3"));
 		GD.Print($"🎵 [{GetInstanceId()}] Loaded {_playlist.Count} tracks");
+	}
+
+	public async Task PlayMenuMusic(float fadeDuration = 1.5f)
+	{
+		GD.Print($"🎵 [{GetInstanceId()}] PlayMenuMusic() called");
+		// Find Jet27 in playlist
+		int jetIndex = _playlist.FindIndex(s => s.ResourcePath.Contains("Jet27Drink.mp3"));
+		if (jetIndex != -1)
+		{
+			_index = jetIndex;
+		}
+		
+		_player.Stream = _playlist[_index];
+		_player.VolumeDb = -80f;
+		_player.Play(0f);
+		
+		Tween tween = FadeVolume(_baseVolumeDb, fadeDuration);
+		if (tween != null)
+		{
+			await ToSignal(tween, Tween.SignalName.Finished);
+		}
+	}
+
+	public async Task SwitchToGameMusic(float fadeDuration = 1.5f)
+	{
+		GD.Print($"🎵 [{GetInstanceId()}] SwitchToGameMusic() called");
+		
+		// Fade out current (menu) music
+		Tween fadeOutTween = FadeVolume(-80f, fadeDuration);
+		if (fadeOutTween != null)
+		{
+			await ToSignal(fadeOutTween, Tween.SignalName.Finished);
+		}
+		_player.Stop();
+
+		// Shuffle to get a random starting track and move to next
+		ShufflePlaylist();
+		_player.Stream = _playlist[_index];
+		_player.VolumeDb = -80f;
+		_player.Play(0f);
+		GD.Print($"🎵 [{GetInstanceId()}] Playing game track {_index}");
+
+		Tween fadeInTween = FadeVolume(_baseVolumeDb, fadeDuration);
+		if (fadeInTween != null)
+		{
+			await ToSignal(fadeInTween, Tween.SignalName.Finished);
+		}
 	}
 
 	private void ShufflePlaylist()

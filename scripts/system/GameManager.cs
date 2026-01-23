@@ -410,6 +410,7 @@ public partial class GameManager : Node2D
 		if (mainMenu != null)
 		{
 			mainMenu.GameStarted += StartGame;
+			_ = musicManager.PlayMenuMusic(1.5f);
 		}
 		else 
 		{
@@ -426,10 +427,10 @@ public partial class GameManager : Node2D
 			mainMenu.QueueFree();
 		}
 		
-		// 🎵 Démarre la musique
+		// 🎵 Démarre la musique de jeu (coupe la musique du menu)
 		if (musicManager != null)
 		{
-			_ = musicManager.StartMusic(1.5f);
+			_ = musicManager.SwitchToGameMusic(1.5f);
 		}
 		
 		StartWave();
@@ -437,10 +438,10 @@ public partial class GameManager : Node2D
 
 	private void StartGameDirectly()
 	{
-		// 🎵 Démarre la musique
+		// 🎵 Démarre la musique de jeu
 		if (musicManager != null)
 		{
-			_ = musicManager.StartMusic(1.5f);
+			_ = musicManager.SwitchToGameMusic(1.5f);
 		}
 		
 		StartWave();
