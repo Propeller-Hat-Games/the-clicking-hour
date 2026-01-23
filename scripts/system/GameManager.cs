@@ -27,6 +27,7 @@ public partial class GameManager : Node2D
 	private bool isSpawning = false;
 	private SpawnArea spawnArea;
 	private MainMenu mainMenu;
+	private GlitchEffect glitchEffect;
 
 	private PackedScene heartScene;
 	private Node2D heartContainer;
@@ -341,6 +342,9 @@ public partial class GameManager : Node2D
 		}
 		spawnArea = GetNodeOrNull<SpawnArea>("SpawnArea");
 		heartContainer = GetNodeOrNull<Node2D>("HeartContainer");
+		glitchEffect = GetNodeOrNull<GlitchEffect>("GlitchEffect");
+		if (glitchEffect == null) GD.PrintErr("GlitchEffect NOT FOUND in GameManager!");
+		else GD.Print("GlitchEffect initialized successfully.");
 		heartScene = GD.Load<PackedScene>("res://scenes/heart.tscn");
 
 		var trash = GetNodeOrNull<Node2D>("Trash");
@@ -447,12 +451,14 @@ public partial class GameManager : Node2D
 				{
 					GD.Print("Already have enough of this type! -1 Life");
 					UpdateLife(-1);
+					glitchEffect?.TriggerGlitch(0.5f, 0.15f);
 				}
 			}
 			else
 			{
-				GD.Print("Wrong entity entered! -1 Life");
+				GD.Print($"Wrong entity entered (Type: {type})! -1 Life");
 				UpdateLife(-1);
+				glitchEffect?.TriggerGlitch(0.8f, 0.2f);
 			}
 		}
 	}

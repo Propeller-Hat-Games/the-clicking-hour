@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://hhcrdfkwjpej" path="res://scenes/environment/door.tscn" id="6_eaq8r"]
 [ext_resource type="PackedScene" uid="uid://dsd1a26c5ck53" path="res://scenes/environment/trash.tscn" id="7_q8mjp"]
 [ext_resource type="PackedScene" uid="uid://bsuxqfkp8jlbh" path="res://scenes/environment/animated_background.tscn" id="8_jdad8"]
+[ext_resource type="PackedScene" path="res://scenes/ui/glitch_effect.tscn" id="9_glitch"]
 
 [node name="GameManager" type="Node2D"]
 script = ExtResource("1_hwd4i")
@@ -35,3 +36,5 @@ position = Vector2(175, 590)
 position = Vector2(64, 602)
 
 [node name="AnimatedBackground" parent="." instance=ExtResource("8_jdad8")]
+
+[node name="GlitchEffect" parent="." instance=ExtResource("9_glitch")]
