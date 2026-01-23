@@ -20,7 +20,7 @@ public partial class GameManager : Node2D
     private int maxEntities;
     
     private Random random = new Random();
-    private PackedScene entityScene;
+    private List<PackedScene> entityScenes = new List<PackedScene>();
     private bool isSpawning = false;
     private Area2d spawnArea;
 
@@ -135,9 +135,10 @@ public partial class GameManager : Node2D
     
     private void SpawnEntity()
     {
-        if (entityScene == null || !isSpawning) return;
+        if (entityScenes.Count == 0 || !isSpawning) return;
 
-        var entity = entityScene.Instantiate<Entity>();
+        var randomScene = entityScenes[random.Next(entityScenes.Count)];
+        var entity = randomScene.Instantiate<Entity>();
         
         if (spawnArea != null)
         {
@@ -204,7 +205,11 @@ public partial class GameManager : Node2D
             door.EntityEnteredDoor += OnEntityEnteredDoor;
         }
         
-        entityScene = GD.Load<PackedScene>("res://scenes/environment/entity.tscn");
+        entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/entity.tscn"));
+        entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/hiding_entity.tscn"));
+        entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/multi_click_entity.tscn"));
+        entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/teleport_entity.tscn"));
+
         maxEntities = 5; 
         difficulty = 1.0f;
         life = 3; // Initialize life
