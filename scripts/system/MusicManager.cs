@@ -1,31 +1,35 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class MusicManager : Node
 {
 	private AudioStreamPlayer _player;
 	private List<AudioStream> _playlist = new();
 	private int _index = 0;
+	private float _savedPosition = 0f;
+	private bool _isTransitioning = false;
+	private float _baseVolumeDb = 0f;
 	private Random _rng = new();
 
 	public override void _Ready()
 	{
+		GD.Print($"🎵 MusicManager._Ready() called - Instance: {GetInstanceId()}");
+		
 		_player = new AudioStreamPlayer();
 		AddChild(_player);
-
+		_player.VolumeDb = -80f;
+		
 		LoadMusic();
 		ShufflePlaylist();
-
-		_player.Finished += OnMusicFinished;
-
-		PlayCurrent();
 	}
 
 	private void LoadMusic()
 	{
-		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/SeasideDrink.mp3"));
 		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/GroovyDrink.mp3"));
+		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/SeasideDrink.mp3"));
+		GD.Print($"🎵 [{GetInstanceId()}] Loaded {_playlist.Count} tracks");
 	}
 
 	private void ShufflePlaylist()
@@ -35,23 +39,95 @@ public partial class MusicManager : Node
 			int j = _rng.Next(i + 1);
 			(_playlist[i], _playlist[j]) = (_playlist[j], _playlist[i]);
 		}
-
 		_index = 0;
+		GD.Print($"🎵 [{GetInstanceId()}] Playlist shuffled");
 	}
 
-	private void PlayCurrent()
+	// Démarre la musique avec fade in
+	public async Task StartMusic(float fadeDuration = 1.5f)
 	{
+		GD.Print($"🎵 [{GetInstanceId()}] StartMusic() called");
 		_player.Stream = _playlist[_index];
-		_player.Play();
+		_player.Play(0f);
+		GD.Print($"🎵 [{GetInstanceId()}] Playing track {_index}");
+		await FadeVolume(-80f, _baseVolumeDb, fadeDuration);
 	}
 
-	private void OnMusicFinished()
+	// Fade out, sauvegarde position, change de track
+	public async Task FadeOutAndSwitchTrack(float fadeDuration = 1.5f)
 	{
-		_index++;
+		if (_isTransitioning)
+		{
+			GD.Print($"⚠️ [{GetInstanceId()}] Already transitioning, skipping FadeOut");
+			return;
+		}
+		_isTransitioning = true;
 
-		if (_index >= _playlist.Count)
-			_index = 0; // ← AUTO LOOP DU PATTERN
+		GD.Print($"🎵 [{GetInstanceId()}] FadeOutAndSwitchTrack() called");
+		
+		// Sauvegarde position
+		_savedPosition = _player.GetPlaybackPosition();
+		GD.Print($"🎵 [{GetInstanceId()}] Saved position: {_savedPosition}s");
 
-		PlayCurrent();
+		// Fade out
+		await FadeVolume(_player.VolumeDb, -80f, fadeDuration);
+		
+		// Stop
+		_player.Stop();
+		GD.Print($"🎵 [{GetInstanceId()}] Stopped player");
+		
+		// Prochaine track
+		_index = (_index + 1) % _playlist.Count;
+		GD.Print($"🎵 [{GetInstanceId()}] Next track index: {_index}");
+
+		_isTransitioning = false;
+	}
+
+	// Fade in de la nouvelle track au timestamp sauvegardé
+	public async Task FadeInNextTrack(float fadeDuration = 1.5f)
+	{
+		if (_isTransitioning)
+		{
+			GD.Print($"⚠️ [{GetInstanceId()}] Already transitioning, skipping FadeIn");
+			return;
+		}
+		_isTransitioning = true;
+
+		GD.Print($"🎵 [{GetInstanceId()}] FadeInNextTrack() called");
+		
+		// Charge nouvelle musique
+		_player.Stream = _playlist[_index];
+		_player.VolumeDb = -80f;
+		
+		// Play au timestamp sauvegardé
+		_player.Play(_savedPosition);
+		GD.Print($"🎵 [{GetInstanceId()}] Playing track {_index} from {_savedPosition}s");
+
+		// Fade in
+		await FadeVolume(-80f, _baseVolumeDb, fadeDuration);
+
+		_isTransitioning = false;
+	}
+
+	private async Task FadeVolume(float fromDb, float toDb, float duration)
+	{
+		float elapsed = 0f;
+		while (elapsed < duration)
+		{
+			elapsed += (float)GetProcessDeltaTime();
+			float t = Mathf.Clamp(elapsed / duration, 0f, 1f);
+			_player.VolumeDb = Mathf.Lerp(fromDb, toDb, t);
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+		_player.VolumeDb = toDb;
+	}
+
+	public override void _ExitTree()
+	{
+		GD.Print($"🛑 [{GetInstanceId()}] MusicManager._ExitTree() - Stopping music");
+		if (_player != null && _player.Playing)
+		{
+			_player.Stop();
+		}
 	}
 }

@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://xvhpdf7qoa4b"]
+[gd_scene load_steps=7 format=3 uid="uid://xvhpdf7qoa4b"]
 
 [ext_resource type="Script" uid="uid://cx874y6efj4qr" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/ui/main_menu.tscn" id="2_glms7"]
 [ext_resource type="PackedScene" uid="uid://ciqsen53683eg" path="res://scenes/mockup.tscn" id="3_udu3i"]
-[ext_resource type="PackedScene" uid="uid://ca31yr40ycoys" path="res://scenes/spawn_area.tscn" id="4_spawn"]
+[ext_resource type="PackedScene" path="res://scenes/spawn_area.tscn" id="4_spawn"]
 [ext_resource type="PackedScene" uid="uid://dv81us2tealma" path="res://scenes/environment/board.tscn" id="5_board"]
 [ext_resource type="PackedScene" uid="uid://hhcrdfkwjpej" path="res://scenes/environment/door.tscn" id="6_eaq8r"]
-[ext_resource type="AudioStream" uid="uid://bfy7p3fx5y1xo" path="res://assets/musics/background/GroovyDrink.mp3" id="7_ternb"]
 
 [node name="GameManager" type="Node2D"]
 script = ExtResource("1_hwd4i")
@@ -25,8 +24,3 @@ scale = Vector2(1, 1)
 [node name="Board" parent="." instance=ExtResource("5_board")]
 visible = false
 position = Vector2(888, 100)
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_ternb")
-autoplay = true
-parameters/looping = true

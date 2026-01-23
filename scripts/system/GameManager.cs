@@ -25,9 +25,10 @@ public partial class GameManager : Node2D
 	private bool isSpawning = false;
 	private SpawnArea spawnArea;
 	private MainMenu mainMenu;
-
-	// We can just use the Enum for glass types, no need for a static list 0-3
 	
+	// 🎵 Le MusicManager
+	private MusicManager musicManager;
+
 	public GlassType GetRandomGlassType()
 	{
 		var values = Enum.GetValues(typeof(GlassType));
@@ -78,7 +79,6 @@ public partial class GameManager : Node2D
 	public void SelectRequiredGlassTypes(int count)
 	{
 		requiredGlassTypes.Clear();
-		// Ensure we don't request more than available types (4)
 		if (count > 4) count = 4;
 		
 		var allTypes = Enum.GetValues(typeof(GlassType));
@@ -88,7 +88,6 @@ public partial class GameManager : Node2D
 			tempTypes.Add((int)type);
 		}
 
-		// Populate requiredGlassTypes with unique random types
 		while (requiredGlassTypes.Count < count && tempTypes.Count > 0)
 		{
 			int index = random.Next(tempTypes.Count);
@@ -100,13 +99,11 @@ public partial class GameManager : Node2D
 	public void CloseDoor()
 	{
 		isDoorOpen = false;
-		// Play animation
 	}
 
 	public void OpenDoor()
 	{
 		isDoorOpen = true;
-		// Play animation
 	}
 
 	public List<int> GetRequiredGlassTypes()
@@ -135,7 +132,6 @@ public partial class GameManager : Node2D
 			}
 			else
 			{
-				// Ensure each type has at least 1
 				int maxShare = remainingQuota - (requiredGlassTypes.Count - 1 - i);
 				int share = random.Next(1, maxShare + 1);
 				requiredGlassCounts.Add(share);
@@ -152,6 +148,13 @@ public partial class GameManager : Node2D
 		}
 
 		GD.Print($"Starting wave! Difficulty: {difficulty}. Condition Glasses: {glassCount}. Quota needed: {quota}");
+		
+		// 🎵 Fade in musique pour waves 2+
+		if (musicManager != null && difficulty > 1.0f)
+		{
+			await musicManager.FadeInNextTrack(1.5f);
+		}
+		
 		isSpawning = true;
 		OpenDoor();
 		
@@ -159,14 +162,12 @@ public partial class GameManager : Node2D
 		while (isSpawning)
 		{
 			SpawnEntity();
-			// Random delay between spawns, decreases with difficulty
 			float delay = (float)GD.RandRange(1.5f, 3.0f) / difficulty;
 			delay = Math.Max(0.5f, delay);
 			
 			if (!IsInsideTree()) return;
 			await ToSignal(GetTree().CreateTimer(delay), "timeout");
 			
-			// Safety check if scene changed or game over
 			if (!IsInstanceValid(this) || !IsInsideTree()) return;
 		}
 	}
@@ -226,6 +227,11 @@ public partial class GameManager : Node2D
 	{
 		board = GetNodeOrNull<Board>("Board");
 		spawnArea = GetNodeOrNull<SpawnArea>("SpawnArea");
+		
+		// 🎵 Créer le MusicManager
+		musicManager = new MusicManager();
+		AddChild(musicManager);
+		
 		var glassScene = GD.Load<PackedScene>("res://scenes/glass.tscn");
 		var glassInstance = glassScene.Instantiate<Glass>();
 
@@ -236,7 +242,6 @@ public partial class GameManager : Node2D
 			GD.Print($"- {sprite.Name}");
 		}
 
-		// Connect door signal
 		var door = GetTree().GetFirstNodeInGroup("Door") as Door;
 		if (door != null)
 		{
@@ -250,7 +255,7 @@ public partial class GameManager : Node2D
 
 		maxEntities = 5; 
 		difficulty = 1.0f;
-		life = 3; // Initialize life
+		life = 3;
 		
 		mainMenu = GetNodeOrNull<MainMenu>("MainMenu");
 		if (mainMenu != null)
@@ -259,22 +264,40 @@ public partial class GameManager : Node2D
 		}
 		else 
 		{
-			StartWave();
+			StartGameDirectly();
 		}
 	}
 	
-	private void StartGame()
+	private async void StartGame()
 	{
 		if (mainMenu != null && IsInstanceValid(mainMenu))
-		{                                                                                
+		{
 			mainMenu.QueueFree();
 		}
+		
+		// 🎵 Démarre la musique
+		if (musicManager != null)
+		{
+			await musicManager.StartMusic(1.5f);
+		}
+		
+		StartWave();
+	}
+
+	private async void StartGameDirectly()
+	{
+		// 🎵 Démarre la musique
+		if (musicManager != null)
+		{
+			await musicManager.StartMusic(1.5f);
+		}
+		
 		StartWave();
 	}
 
 	private void OnEntityEnteredDoor(Entity entity)
 	{
-		if (!isSpawning) return; // Ignore if wave ended
+		if (!isSpawning) return;
 
 		Glass glass = entity.GetGlass();
 		if (glass != null)
@@ -303,7 +326,6 @@ public partial class GameManager : Node2D
 			}
 			else
 			{
-				// Condition failed!
 				GD.Print("Wrong entity entered! -1 Life");
 				UpdateLife(-1);
 			}
@@ -314,6 +336,12 @@ public partial class GameManager : Node2D
 	{
 		isSpawning = false;
 		CloseDoor();
+		
+		// 🎵 Fade out la musique
+		if (musicManager != null)
+		{
+			await musicManager.FadeOutAndSwitchTrack(1.5f);
+		}
 		
 		foreach (var entity in activeEntities)
 		{
