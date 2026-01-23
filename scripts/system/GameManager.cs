@@ -295,6 +295,39 @@ public partial class GameManager : Node2D
 		}
 	}
 
+	private async void StartHeartAnimationLoop()
+	{
+		while (IsInsideTree())
+		{
+			// Capture current hearts to avoid modification issues
+			var currentHearts = new List<Node2D>(heartNodes);
+			
+			foreach (var heart in currentHearts)
+			{
+				if (IsInstanceValid(heart))
+				{
+					Tween tween = CreateTween();
+					// Jump up
+					tween.TweenProperty(heart, "position:y", heart.Position.Y - 15, 0.15f)
+						.SetTrans(Tween.TransitionType.Sine)
+						.SetEase(Tween.EaseType.Out);
+					// Fall down
+					tween.TweenProperty(heart, "position:y", heart.Position.Y, 0.4f)
+						.SetTrans(Tween.TransitionType.Bounce)
+						.SetEase(Tween.EaseType.Out);
+				}
+				
+				// Delay between each heart
+				if (!IsInsideTree()) return;
+				await ToSignal(GetTree().CreateTimer(0.2f), "timeout");
+			}
+			
+			// Wait before next wave of animation
+			if (!IsInsideTree()) return;
+			await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
+		}
+	}
+
 	public override void _Ready() 
 	{
 		YSortEnabled = true;
@@ -355,6 +388,8 @@ public partial class GameManager : Node2D
 		{
 			StartGameDirectly();
 		}
+		
+		StartHeartAnimationLoop();
 	}
 	
 	private void StartGame()
