@@ -14,11 +14,15 @@ public abstract partial class Entity : CharacterBody2D
     [Export]
     protected float walkSpeed = 100f; 
     
+    [Export]
+    protected float spawnDelay = 2f; // Temps d'attente avant de bouger
+    
     protected EntityState currentState = EntityState.Walking;
     protected Sprite2D sprite;
     protected Vector2 walkDirection = Vector2.Right;
     protected int clicksRemaining;
     protected bool isAlive = true;
+    protected float spawnTimer = 0f;
 
     public override void _Ready()
     {
@@ -46,6 +50,13 @@ public abstract partial class Entity : CharacterBody2D
 
     public override void _Process(double delta)
     {
+        // Attendre le délai de spawn avant de bouger
+        if (spawnTimer < spawnDelay)
+        {
+            spawnTimer += (float)delta;
+            return;
+        }
+        
         ProcessEntity(delta);
         
         switch (currentState)
