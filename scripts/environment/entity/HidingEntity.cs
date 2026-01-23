@@ -8,7 +8,7 @@ public partial class HidingEntity : Entity
 	private float hideTimer = 0f;
 	private const float HIDE_DURATION = 3f;
 	private Vector2 originalPosition;
-	private float hideDepth = 50f; // Distance vers le bas quand cachée
+	private float hideDepth = 120f; // Distance vers le bas quand cachée
 	
 	protected override void InitializeEntity()
 	{

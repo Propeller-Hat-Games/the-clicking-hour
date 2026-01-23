@@ -36,6 +36,6 @@ public partial class Glass : Node2D {
 	public void Appear()
 	{
 		// Logic moved to Entity.cs for frame-syncing
-		AppearOffset = 50f;
+		AppearOffset = 120f;
 	}
 }

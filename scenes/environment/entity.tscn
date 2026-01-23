@@ -471,7 +471,6 @@ size = Vector2(52, 108)
 [node name="Entity" type="CharacterBody2D"]
 script = ExtResource("1_lxsru")
 walkSpeed = 25.0
-spawnDelay = 2.0
 glassScene = ExtResource("3_glass")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]

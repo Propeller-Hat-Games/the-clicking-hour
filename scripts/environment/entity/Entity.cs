@@ -183,12 +183,16 @@ public abstract partial class Entity : CharacterBody2D
 			if (sprite.Frame >= topFrame)
 			{
 				float progress = (float)(sprite.Frame - topFrame) / (frameCount - 1 - topFrame);
-				glassInstance.AppearOffset = progress * 50.0f;
+				glassInstance.AppearOffset = progress * 120.0f;
 			}
 			else
 			{
 				glassInstance.AppearOffset = 0f;
 			}
+		}
+		else
+		{
+			glassInstance.AppearOffset = 0f;
 		}
 
 		float frameOffset = (sprite.Frame % 2 == 0) ? 1.0f : 0.0f;
