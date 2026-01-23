@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://cax1bv236pwwl"]
+
+[ext_resource type="Script" uid="uid://cew0nkf3ugbby" path="res://scripts/environment/Glass.cs" id="1_gtrt1"]
+[ext_resource type="Texture2D" uid="uid://cofpgjlygiaod" path="res://icon.svg" id="2_6cmal"]
+
+[node name="Glass" type="Node2D" node_paths=PackedStringArray("sprites")]
+script = ExtResource("1_gtrt1")
+sprites = [NodePath("YellowGlass"), NodePath("RedGlass"), NodePath("GreenGlass"), NodePath("BlueGlass")]
+
+[node name="YellowGlass" type="Sprite2D" parent="."]
+texture = ExtResource("2_6cmal")
+
+[node name="RedGlass" type="Sprite2D" parent="."]
+position = Vector2(173, -2)
+texture = ExtResource("2_6cmal")
+
+[node name="GreenGlass" type="Sprite2D" parent="."]
+position = Vector2(182, 166)
+texture = ExtResource("2_6cmal")
+
+[node name="BlueGlass" type="Sprite2D" parent="."]
+position = Vector2(1, 168)
+texture = ExtResource("2_6cmal")
