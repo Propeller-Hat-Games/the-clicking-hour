@@ -15,7 +15,7 @@ uniform float noise_speed = 5.0;
 uniform float aberration_amount : hint_range(0.0, 10.0) = 0.5; // Décalage léger
 
 // CRT Curvature
-uniform float curvature_amount : hint_range(0.0, 10.0) = 4.0; // Plus haut = moins courbé
+uniform float curvature_amount : hint_range(0.0, 10.0) = 5.0; // Plus haut = moins courbé
 
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 

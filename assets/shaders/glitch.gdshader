@@ -22,9 +22,12 @@ void fragment() {
     }
     
     vec4 color;
-    color.r = texture(screen_texture, uv + vec2(aberration * glitch, 0.0)).r;
+    // Chromatic aberration is applied using the aberration uniform, 
+    // and we can also multiply it by glitch if we want it to only happen during glitch blocks
+    // but here we'll let it be controlled by its own uniform parameter.
+    color.r = texture(screen_texture, uv + vec2(aberration, 0.0)).r;
     color.g = texture(screen_texture, uv).g;
-    color.b = texture(screen_texture, uv - vec2(aberration * glitch, 0.0)).b;
+    color.b = texture(screen_texture, uv - vec2(aberration, 0.0)).b;
     color.a = 1.0;
     
     // Add a slight darkening during glitch

@@ -69,8 +69,8 @@ public partial class GameManager : Node2D
 		}
 
 		// Update desaturation based on life (assuming max life is 3)
-		// 3 hearts = 0.0 desat, 2 hearts = 0.33 desat, 1 heart = 0.66 desat, 0 hearts = 1.0 desat
-		float desatValue = Mathf.Clamp(1.0f - (life / 3.0f), 0.0f, 1.0f);
+		// 3 hearts = 0.0 desat, 0 hearts = 0.5 desat (reduced from 1.0)
+		float desatValue = Mathf.Clamp((1.0f - (life / 3.0f)) * 0.5f, 0.0f, 0.5f);
 		glitchEffect?.SetDesaturation(desatValue);
 	
 		Affichecoeur();
