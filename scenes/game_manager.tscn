@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://cx874y6efj4qr" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/main_menu.tscn" id="2_glms7"]
 [ext_resource type="PackedScene" uid="uid://ciqsen53683eg" path="res://scenes/mockup.tscn" id="3_udu3i"]
-[ext_resource type="PackedScene" path="res://scenes/area_2d.tscn" id="4_spawn"]
-[ext_resource type="PackedScene" path="res://scenes/environment/board.tscn" id="5_board"]
+[ext_resource type="PackedScene" uid="uid://ca31yr40ycoys" path="res://scenes/area_2d.tscn" id="4_spawn"]
+[ext_resource type="PackedScene" uid="uid://dv81us2tealma" path="res://scenes/environment/board.tscn" id="5_board"]
 [ext_resource type="PackedScene" uid="uid://hhcrdfkwjpej" path="res://scenes/environment/door.tscn" id="6_eaq8r"]
 [ext_resource type="AudioStream" uid="uid://bfy7p3fx5y1xo" path="res://assets/musics/background/GroovyDrink.mp3" id="7_ternb"]
 
@@ -16,7 +16,7 @@ script = ExtResource("1_hwd4i")
 [node name="Sprite2D" parent="." instance=ExtResource("3_udu3i")]
 
 [node name="SpawnArea" parent="." instance=ExtResource("4_spawn")]
-position = Vector2(326, 327)
+position = Vector2(324, 406)
 
 [node name="Door" parent="." instance=ExtResource("6_eaq8r")]
 position = Vector2(1102, 465)
