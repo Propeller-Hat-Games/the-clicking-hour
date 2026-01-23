@@ -30,9 +30,18 @@ public partial class SfxManager : Node
 	private AudioStream takeDamage2;
 	private AudioStream takeDamage3;
 
+	public override void _ExitTree()
+	{
+		if (instance == this)
+		{
+			instance = null;
+		}
+	}
+
 	public override void _Ready()
 	{
-		if (instance != null)
+		// Force update instance if it's pointing to a freed object or null
+		if (instance != null && IsInstanceValid(instance) && instance != this)
 		{
 			QueueFree();
 			return;

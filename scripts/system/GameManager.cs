@@ -179,7 +179,7 @@ public partial class GameManager : Node2D
 		// 🎵 Fade in musique pour waves 2+
 		if (musicManager != null && difficulty > 1.0f)
 		{
-			_ = musicManager.FadeInNextTrack(1.5f);
+			await musicManager.FadeInNextTrack(1.5f);
 		}
 		
 		isSpawning = true;
