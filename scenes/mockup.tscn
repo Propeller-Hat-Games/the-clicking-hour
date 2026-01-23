@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c010h06hykl6n"]
+
+[ext_resource type="Texture2D" uid="uid://bgma8mytvyqes" path="res://assets/sprites/splashScreen/place_holders/mockup_screen.png" id="1_15xc4"]
+
+[node name="Sprite2D" type="Sprite2D"]
+texture = ExtResource("1_15xc4")
+centered = false
