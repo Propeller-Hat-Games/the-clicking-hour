@@ -128,6 +128,18 @@ public abstract partial class Entity : CharacterBody2D
 		isAlive = false;
 		currentState = EntityState.Hiding; // Stop walking
 		
+		// Disable collisions
+		CollisionLayer = 0;
+		CollisionMask = 0;
+		
+		var clickArea = GetNodeOrNull<Area2D>("ClickArea");
+		if (clickArea != null)
+		{
+			clickArea.Monitoring = false;
+			clickArea.Monitorable = false;
+			clickArea.InputPickable = false;
+		}
+
 		Node2D trash = GetTree().GetFirstNodeInGroup("Trash") as Node2D;
 		if (trash == null)
 		{
