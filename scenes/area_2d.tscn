@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4mvb5ynlh6ye"]
+[gd_scene load_steps=3 format=3 uid="uid://csfgr1al4rdqt"]
 
 [ext_resource type="Script" uid="uid://brmv2tsyqkso8" path="res://scripts/Area2d.cs" id="1_svk5y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dl81w"]
-size = Vector2(50, 50)
+size = Vector2(600, 600)
 
 [node name="Spawn" type="Area2D"]
 collision_layer = 0

@@ -22,6 +22,7 @@ public partial class GameManager : Node2D
     private Random random = new Random();
     private PackedScene entityScene;
     private bool isSpawning = false;
+    private Area2d spawnArea;
 
     // We can just use the Enum for glass types, no need for a static list 0-3
     
@@ -137,9 +138,19 @@ public partial class GameManager : Node2D
         if (entityScene == null || !isSpawning) return;
 
         var entity = entityScene.Instantiate<Entity>();
-        entity.Position = GetRandomSpawnPosition();
+        
+        if (spawnArea != null)
+        {
+            spawnArea.AddChild(entity);
+            entity.Position = GetRandomLocalPositionInArea();
+        }
+        else
+        {
+            entity.Position = GetRandomSpawnPosition();
+            AddChild(entity);
+        }
+
         entity.TreeExited += () => OnEntityTreeExited(entity);
-        AddChild(entity);
         activeEntities.Add(entity);
     }
 
@@ -151,19 +162,31 @@ public partial class GameManager : Node2D
         }
     }
 
+    private Vector2 GetRandomLocalPositionInArea()
+    {
+        if (spawnArea == null) return Vector2.Zero;
+        
+        Vector2 size = spawnArea.AreaSize();
+        float x = (float)(random.NextDouble() * size.X - size.X / 2);
+        float y = (float)(random.NextDouble() * size.Y - size.Y / 2);
+        
+        return new Vector2(x, y);
+    }
+
     private Vector2 GetRandomSpawnPosition()
     {
         var viewportRect = GetViewportRect();
         float margin = 100f;
         Vector2 pos = Vector2.Zero;
         pos.X = -margin;
-        pos.Y = (float)GD.RandRange(50, viewportRect.Size.Y - 50); // Added padding
+        pos.Y = (float)random.Next(50, (int)viewportRect.Size.Y - 50);
         return pos;
     }
 
     public override void _Ready() 
     {
         board = GetNodeOrNull<Board>("Board");
+        spawnArea = GetNodeOrNull<Area2d>("SpawnArea");
         var glassScene = GD.Load<PackedScene>("res://scenes/glass.tscn");
         var glassInstance = glassScene.Instantiate<Glass>();
 
