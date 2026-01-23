@@ -16,40 +16,40 @@ sprites = [ExtResource("6_aoutw"), ExtResource("5_hlvoh"), ExtResource("4_ygvyx"
 amountOfSlots = 2
 
 [node name="LeftSlot" type="Sprite2D" parent="."]
-position = Vector2(-34, 3)
+position = Vector2(-34, -4)
 
 [node name="MiddleSlot" type="Sprite2D" parent="."]
-position = Vector2(0, 3)
+position = Vector2(0, -4)
 
 [node name="RightSlot" type="Sprite2D" parent="."]
-position = Vector2(34, 3)
+position = Vector2(34, -4)
 
 [node name="LeftNb" type="Label" parent="."]
-offset_left = -25.333334
-offset_top = 11.0
-offset_right = -10.333334
-offset_bottom = 23.0
+offset_left = -35.333332
+offset_top = 10.0
+offset_right = -20.333332
+offset_bottom = 25.0
 theme = ExtResource("7_ygvyx")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "10"
 horizontal_alignment = 1
 
 [node name="MiddleNb" type="Label" parent="."]
-offset_left = 8.666666
-offset_top = 11.0
-offset_right = 23.666666
-offset_bottom = 23.0
+offset_left = -1.3333315
+offset_top = 10.0
+offset_right = 13.666669
+offset_bottom = 25.0
 theme = ExtResource("7_ygvyx")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "10"
 horizontal_alignment = 1
 
 [node name="RightNb" type="Label" parent="."]
-offset_left = 43.000004
-offset_top = 11.0
-offset_right = 58.000004
-offset_bottom = 23.0
+offset_left = 33.000008
+offset_top = 10.0
+offset_right = 48.000008
+offset_bottom = 25.0
 theme = ExtResource("7_ygvyx")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "10"
 horizontal_alignment = 1

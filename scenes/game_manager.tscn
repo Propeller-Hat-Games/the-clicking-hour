@@ -24,7 +24,7 @@ scale = Vector2(1, 1)
 
 [node name="Board" parent="." instance=ExtResource("5_board")]
 visible = false
-position = Vector2(888, 76)
+position = Vector2(888, 100)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_ternb")
