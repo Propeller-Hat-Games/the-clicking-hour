@@ -10,7 +10,7 @@ public enum EntityState
 public abstract partial class Entity : CharacterBody2D
 {
 	[Export]
-	protected float walkSpeed = 50f; 
+	protected float walkSpeed = 100f;
 	
 	[Export]
 	protected float spawnDelay = 2f;

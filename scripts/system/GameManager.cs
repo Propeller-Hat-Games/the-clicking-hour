@@ -183,7 +183,7 @@ public partial class GameManager : Node2D
 		while (isSpawning)
 		{
 			SpawnEntity();
-			float delay = (float)GD.RandRange(2.5f, 5.0f) / difficulty;
+			float delay = (float)GD.RandRange(1.5f, 3.0f) / difficulty;
 			delay = Math.Max(0.5f, delay);
 			
 			if (!IsInsideTree()) return;
@@ -457,7 +457,7 @@ public partial class GameManager : Node2D
 		if (!IsInstanceValid(this) || !IsInsideTree()) return;
 		if (CheckGameOver()) return;
 
-		difficulty += 0.25f;
+		difficulty += 0.15f;
 		StartWave();
 	}
 }
