@@ -11,7 +11,7 @@ public partial class SplashScreen : Control
 	private AudioStreamPlayer _audio;
 	
 	public override async void _Ready()
-	{
+	{ 
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		_audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 		
