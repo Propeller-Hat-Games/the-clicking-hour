@@ -107,6 +107,7 @@ public partial class GameManager : Node2D
         
         if (board != null)
         {
+            board.Visible = true;
             board.amountOfSlots = requiredGlassTypes.Count;
             board.ChangeImages(requiredGlassTypes.ToArray());
         }

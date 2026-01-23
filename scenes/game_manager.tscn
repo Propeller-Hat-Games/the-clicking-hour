@@ -23,6 +23,7 @@ position = Vector2(1102, 465)
 scale = Vector2(1, 1)
 
 [node name="Board" parent="." instance=ExtResource("5_board")]
+visible = false
 position = Vector2(888, 76)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
