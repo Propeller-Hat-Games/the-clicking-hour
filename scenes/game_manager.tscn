@@ -18,22 +18,22 @@ script = ExtResource("1_hwd4i")
 [node name="Sprite2D" parent="." instance=ExtResource("3_udu3i")]
 
 [node name="SpawnArea" parent="." instance=ExtResource("4_spawn")]
-position = Vector2(324, 406)
+position = Vector2(324, 405)
 
 [node name="Door" parent="." instance=ExtResource("6_eaq8r")]
-position = Vector2(1102, 465)
+position = Vector2(1101, 465)
 scale = Vector2(1, 1)
 
 [node name="Board" parent="." instance=ExtResource("5_board")]
 visible = false
-position = Vector2(888, 100)
+position = Vector2(888, 99)
 
 [node name="HeartContainer" type="Node2D" parent="."]
 z_index = 100
-position = Vector2(175, 590)
+position = Vector2(174, 591)
 
 [node name="Trash" parent="." instance=ExtResource("7_q8mjp")]
-position = Vector2(64, 602)
+position = Vector2(63, 603)
 
 [node name="AnimatedBackground" parent="." instance=ExtResource("8_jdad8")]
 

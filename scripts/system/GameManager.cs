@@ -284,7 +284,7 @@ public partial class GameManager : Node2D
 			return;
 		}
 
-		float spacing = 100; // espace entre les cœurs
+		float spacing = 96; // espace entre les cœurs
 
 		// Boucle pour créer les cœurs
 		for (int i = 0; i < GetLife(); i++)

@@ -229,7 +229,7 @@ animations = [{
 }]
 
 [node name="Sprite2D" type="Sprite2D"]
-scale = Vector2(2.999, 3)
+scale = Vector2(3, 3)
 texture = ExtResource("1_15xc4")
 centered = false
 
