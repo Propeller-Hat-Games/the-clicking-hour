@@ -5,7 +5,7 @@ public partial class SplashScreen : Control
 {
 	[Export] private float FadeDuration = 1.5f;
 	[Export] private float WaitDuration = 1.0f;
-	[Export] private string MainMenuScenePath = "res://scenes/main_menu.tscn";
+	[Export] private string MainMenuScenePath = "res://scenes/game_manager.tscn";
 	
 	private AnimatedSprite2D _sprite;
 	private AudioStreamPlayer _audio;
