@@ -297,10 +297,15 @@ public partial class GameManager : Node2D
 
 	public override void _Ready() 
 	{
+		YSortEnabled = true;
 		var sfxManager = new SfxManager();
 		AddChild(sfxManager);
 
 		board = GetNodeOrNull<Board>("Board");
+		if (board != null)
+		{
+			board.ZIndex = 100;
+		}
 		spawnArea = GetNodeOrNull<SpawnArea>("SpawnArea");
 		heartContainer = GetNodeOrNull<Node2D>("HeartContainer");
 		heartScene = GD.Load<PackedScene>("res://scenes/heart.tscn");

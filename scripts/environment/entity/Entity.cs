@@ -10,7 +10,7 @@ public enum EntityState
 public abstract partial class Entity : CharacterBody2D
 {
 	[Export]
-	protected float walkSpeed = 100f;
+	protected float walkSpeed = 200f;
 	
 	[Export]
 	protected float spawnDelay = 1f;
@@ -99,8 +99,6 @@ public abstract partial class Entity : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		if (!isAlive) return;
-
-		ZIndex = Math.Min((int)GlobalPosition.Y, 99);
 
 		UpdateAnimation();
 

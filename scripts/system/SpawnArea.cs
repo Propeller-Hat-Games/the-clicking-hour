@@ -8,6 +8,7 @@ public partial class SpawnArea : Area2D
 	public RectangleShape2D rec;
 	
 	public override void _Ready() {
+		YSortEnabled = true;
 		area = GetNode<CollisionShape2D>("Box");
 		rec = (RectangleShape2D)area.Shape;
 	}
