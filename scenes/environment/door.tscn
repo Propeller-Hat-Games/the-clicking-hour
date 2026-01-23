@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://hhcrdfkwjpej"]
+
+[ext_resource type="Texture2D" uid="uid://cofpgjlygiaod" path="res://icon.svg" id="1_md2ur"]
+[ext_resource type="Script" uid="uid://c3ejhakvb3u0q" path="res://scripts/environment/door/Door.cs" id="2_hs68i"]
+
+[node name="Door" type="Sprite2D"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_md2ur")
+script = ExtResource("2_hs68i")

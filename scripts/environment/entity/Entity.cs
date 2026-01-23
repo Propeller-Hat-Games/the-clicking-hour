@@ -29,6 +29,17 @@ public abstract partial class Entity : CharacterBody2D
         sprite = GetNode<Sprite2D>("Sprite2D");
         InputPickable = true;
         InitializeEntity();
+        
+        CallDeferred(nameof(SetDirectionTowardsDoor));
+    }
+
+    private void SetDirectionTowardsDoor()
+    {
+        var door = GetTree().GetFirstNodeInGroup("Door") as Node2D;
+        if (door != null)
+        {
+            walkDirection = (door.GlobalPosition - GlobalPosition).Normalized();
+        }
     }
     
     // Méthode abstraite pour initialiser les paramètres spécifiques de chaque type d'entité
