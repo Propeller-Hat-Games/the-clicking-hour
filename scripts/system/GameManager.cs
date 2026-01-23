@@ -396,7 +396,7 @@ public partial class GameManager : Node2D
 		
 		if (musicManager != null)
 		{
-			await musicManager.FadeOutAndSwitchTrack(1.5f);
+			_ = musicManager.FadeOutAndSwitchTrack(1.5f);
 		}
 		
 		foreach (var entity in activeEntities)
