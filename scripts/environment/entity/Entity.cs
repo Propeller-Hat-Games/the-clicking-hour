@@ -3,153 +3,153 @@ using System;
 
 public enum EntityState
 {
-    Walking, 
-    Hiding,
+	Walking, 
+	Hiding,
 }
 
 // Classe de base abstraite pour toutes les entités
 public abstract partial class Entity : CharacterBody2D
 {
-    [Export]
-    protected float walkSpeed = 50f; 
-    
-    [Export]
-    protected float spawnDelay = 2f; // Temps d'attente avant de bouger
+	[Export]
+	protected float walkSpeed = 50f; 
+	
+	[Export]
+	protected float spawnDelay = 2f; // Temps d'attente avant de bouger
 
-    [Export]
-    protected PackedScene glassScene;
-    
-    protected EntityState currentState = EntityState.Walking;
-    protected Sprite2D sprite;
-    protected Vector2 walkDirection = Vector2.Right;
-    protected int clicksRemaining;
-    protected bool isAlive = true;
-    protected float spawnTimer = 0f;
+	[Export]
+	protected PackedScene glassScene;
+	
+	protected EntityState currentState = EntityState.Walking;
+	protected Sprite2D sprite;
+	protected Vector2 walkDirection = Vector2.Right;
+	protected int clicksRemaining;
+	protected bool isAlive = true;
+	protected float spawnTimer = 0f;
 
-    public override void _Ready()
-    {
-        sprite = GetNode<Sprite2D>("Sprite2D");
-        // Picking is now handled by the child Area2D ("ClickArea")
-        // InputPickable = true; 
-        InitializeEntity();
+	public override void _Ready()
+	{
+		sprite = GetNode<Sprite2D>("Sprite2D");
+		// Picking is now handled by the child Area2D ("ClickArea")
+		// InputPickable = true; 
+		InitializeEntity();
 
-        if (glassScene != null)
-        {
-            var glassInstance = glassScene.Instantiate<Glass>();
-            AddChild(glassInstance);
-            float halfHeight = sprite.GetRect().Size.Y * sprite.Scale.Y / 2.0f;
-            // Account for sprite position (e.g. if shifted up)
-            glassInstance.Position = new Vector2(0, sprite.Position.Y - halfHeight + 45);
-            
-            var gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
-            if (gameManager != null)
-            {
-                glassInstance.SetGlassType(gameManager.GetRandomGlassType());
-            }
-        }
-        
-        var clickArea = GetNodeOrNull<Area2D>("ClickArea");
-        if (clickArea != null)
-        {
-            clickArea.InputPickable = true;
-            clickArea.InputEvent += OnClickAreaInputEvent;
-        }
+		if (glassScene != null)
+		{
+			var glassInstance = glassScene.Instantiate<Glass>();
+			AddChild(glassInstance);
+			float halfHeight = sprite.GetRect().Size.Y * sprite.Scale.Y / 2.0f;
+			// Account for sprite position (e.g. if shifted up)
+			glassInstance.Position = new Vector2(0, sprite.Position.Y - halfHeight + 45);
+			
+			var gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
+			if (gameManager != null)
+			{
+				glassInstance.SetGlassType(gameManager.GetRandomGlassType());
+			}
+		}
+		
+		var clickArea = GetNodeOrNull<Area2D>("ClickArea");
+		if (clickArea != null)
+		{
+			clickArea.InputPickable = true;
+			clickArea.InputEvent += OnClickAreaInputEvent;
+		}
 
-        CallDeferred(nameof(SetDirectionTowardsDoor));
-    }
+		CallDeferred(nameof(SetDirectionTowardsDoor));
+	}
 
-    private void SetDirectionTowardsDoor()
-    {
-        if (!IsInsideTree()) return;
-        var door = GetTree().GetFirstNodeInGroup("Door") as Node2D;
-        if (door != null)
-        {
-            walkDirection = (door.GlobalPosition - GlobalPosition).Normalized();
-        }
-    }
-    
-    // Méthode abstraite pour initialiser les paramètres spécifiques de chaque type d'entité
-    protected abstract void InitializeEntity();
-    
-    // Méthode abstraite pour gérer le clic spécifique à chaque type
-    protected abstract void OnClicked();
-    
-    private void OnClickAreaInputEvent(Node viewport, InputEvent @event, long shapeIdx)
-    {
-        if (@event is InputEventMouseButton mouseEvent && 
-            mouseEvent.Pressed && 
-            mouseEvent.ButtonIndex == MouseButton.Left &&
-            isAlive)
-        {
-            OnClicked();
-        }
-    }
-    
-    public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
-    {
-        if (@event is InputEventMouseButton mouseEvent && 
-            mouseEvent.Pressed && 
-            mouseEvent.ButtonIndex == MouseButton.Left &&
-            isAlive)
-        {
-            OnClicked();
-        }
-    }
+	private void SetDirectionTowardsDoor()
+	{
+		if (!IsInsideTree()) return;
+		var door = GetTree().GetFirstNodeInGroup("Door") as Node2D;
+		if (door != null)
+		{
+			walkDirection = (door.GlobalPosition - GlobalPosition).Normalized();
+		}
+	}
+	
+	// Méthode abstraite pour initialiser les paramètres spécifiques de chaque type d'entité
+	protected abstract void InitializeEntity();
+	
+	// Méthode abstraite pour gérer le clic spécifique à chaque type
+	protected abstract void OnClicked();
+	
+	private void OnClickAreaInputEvent(Node viewport, InputEvent @event, long shapeIdx)
+	{
+		if (@event is InputEventMouseButton mouseEvent && 
+			mouseEvent.Pressed && 
+			mouseEvent.ButtonIndex == MouseButton.Left &&
+			isAlive)
+		{
+			OnClicked();
+		}
+	}
+	
+	public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
+	{
+		if (@event is InputEventMouseButton mouseEvent && 
+			mouseEvent.Pressed && 
+			mouseEvent.ButtonIndex == MouseButton.Left &&
+			isAlive)
+		{
+			OnClicked();
+		}
+	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        ZIndex = (int)GlobalPosition.Y;
+	public override void _PhysicsProcess(double delta)
+	{
+		ZIndex = (int)GlobalPosition.Y;
 
-        // Attendre le délai de spawn avant de bouger
-        if (spawnTimer < spawnDelay)
-        {
-            spawnTimer += (float)delta;
-            return;
-        }
-        
-        ProcessEntity(delta);
-        
-        switch (currentState)
-        {
-            case EntityState.Walking:
-                Velocity = walkDirection * walkSpeed;
-                MoveAndSlide();
-                break;
-        }
-    }
-    
-    // Méthode virtuelle pour comportements spécifiques durant _Process
-    protected virtual void ProcessEntity(double delta) { }
-    
-    protected void Die()
-    {
-        QueueFree();
-    }
+		// Attendre le délai de spawn avant de bouger
+		if (spawnTimer < spawnDelay)
+		{
+			spawnTimer += (float)delta;
+			return;
+		}
+		
+		ProcessEntity(delta);
+		
+		switch (currentState)
+		{
+			case EntityState.Walking:
+				Velocity = walkDirection * walkSpeed;
+				MoveAndSlide();
+				break;
+		}
+	}
+	
+	// Méthode virtuelle pour comportements spécifiques durant _Process
+	protected virtual void ProcessEntity(double delta) { }
+	
+	protected void Die()
+	{
+		QueueFree();
+	}
 
-    public Glass GetGlass()
-    {
-        foreach(var child in GetChildren())
-        {
-            if (child is Glass glass)
-            {
-                return glass;
-            }
-        }
-        return null;
-    }
+	public Glass GetGlass()
+	{
+		foreach(var child in GetChildren())
+		{
+			if (child is Glass glass)
+			{
+				return glass;
+			}
+		}
+		return null;
+	}
 
-    public void SetWalkDirection(Vector2 direction)
-    {
-        walkDirection = direction.Normalized();
-    }
+	public void SetWalkDirection(Vector2 direction)
+	{
+		walkDirection = direction.Normalized();
+	}
 
-    public void SetSpeed(float speed)
-    {
-        walkSpeed = speed;
-    }
+	public void SetSpeed(float speed)
+	{
+		walkSpeed = speed;
+	}
 
-    public float GetSpeed()
-    {
-        return walkSpeed;
-    }
+	public float GetSpeed()
+	{
+		return walkSpeed;
+	}
 }
