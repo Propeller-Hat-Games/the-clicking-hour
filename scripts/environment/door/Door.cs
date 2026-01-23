@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Door : Sprite2D
+public partial class Door : Area2D
 {
 	// Signal émis lorsqu'une entité entre dans la zone de la porte
 	[Signal]
@@ -10,15 +10,16 @@ public partial class Door : Sprite2D
 	public override void _Ready()
 	{
 		AddToGroup("Door");
+		BodyEntered += OnBodyEntered;
 	}
 
-	private void _on_body_entered(Node2D body)
+	private void OnBodyEntered(Node2D body)
 	{
 		if (body is Entity entity)
 		{
 			GD.Print("Une entité est entrée dans la porte.");
-			EmitSignal(nameof(EntityEnteredDoorEventHandler), entity);
-			// TODO: Gérer la logique de sortie de l'entité
+			EmitSignal(SignalName.EntityEnteredDoor, entity);
+			entity.QueueFree();
 		}
 	}
 }

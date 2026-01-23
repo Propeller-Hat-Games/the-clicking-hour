@@ -24,7 +24,8 @@ position = Vector2(310, 556)
 position = Vector2(488, 172)
 
 [node name="Door" parent="." instance=ExtResource("5_eaq8r")]
-position = Vector2(1073, 480)
+position = Vector2(1102, 465)
+scale = Vector2(1, 1)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_ternb")
