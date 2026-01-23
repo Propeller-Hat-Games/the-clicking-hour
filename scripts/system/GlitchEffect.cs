@@ -13,6 +13,15 @@ public partial class GlitchEffect : CanvasLayer
         material = (ShaderMaterial)colorRect.Material;
         // Start with no effect
         material.SetShaderParameter("strength", 0.0f);
+        material.SetShaderParameter("desaturation", 0.0f);
+    }
+
+    public void SetDesaturation(float value)
+    {
+        if (material != null)
+        {
+            material.SetShaderParameter("desaturation", Mathf.Clamp(value, 0.0f, 1.0f));
+        }
     }
 
     public void TriggerGlitch(float duration = 0.5f, float intensity = 0.05f)

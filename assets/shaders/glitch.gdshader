@@ -5,6 +5,7 @@ uniform float strength : hint_range(0.0, 0.1) = 0.05;
 uniform float speed : hint_range(0.0, 10.0) = 5.0;
 uniform float aberration : hint_range(0.0, 0.1) = 0.01;
 uniform float frequency : hint_range(0.0, 100.0) = 10.0;
+uniform float desaturation : hint_range(0.0, 1.0) = 0.0;
 
 float random(float co) {
     return fract(sin(co * 12.9898) * 43758.5453);
@@ -28,6 +29,10 @@ void fragment() {
     
     // Add a slight darkening during glitch
     color.rgb *= (1.0 - glitch * 0.2);
+    
+    // Desaturation
+    float luminance = dot(color.rgb, vec3(0.299, 0.587, 0.114));
+    color.rgb = mix(color.rgb, vec3(luminance), desaturation);
     
     COLOR = color;
 }

@@ -67,6 +67,11 @@ public partial class GameManager : Node2D
 		{
 			SfxManager.Instance?.PlayTakeDamageSound();
 		}
+
+		// Update desaturation based on life (assuming max life is 3)
+		// 3 hearts = 0.0 desat, 2 hearts = 0.33 desat, 1 heart = 0.66 desat, 0 hearts = 1.0 desat
+		float desatValue = Mathf.Clamp(1.0f - (life / 3.0f), 0.0f, 1.0f);
+		glitchEffect?.SetDesaturation(desatValue);
 	
 		Affichecoeur();
 		if (CheckGameOver())
@@ -346,8 +351,8 @@ public partial class GameManager : Node2D
 		if (glitchEffect == null) GD.PrintErr("GlitchEffect NOT FOUND in GameManager!");
 		else GD.Print("GlitchEffect initialized successfully.");
 
-        SetupVHSEffect();
-        
+		SetupVHSEffect();
+		
 		heartScene = GD.Load<PackedScene>("res://scenes/heart.tscn");
 
 		var trash = GetNodeOrNull<Node2D>("Trash");
@@ -385,6 +390,7 @@ public partial class GameManager : Node2D
 		maxEntities = 5; 
 		difficulty = 1.0f;
 		life = 3;
+		glitchEffect?.SetDesaturation(0.0f);
 		
 		mainMenu = GetNodeOrNull<MainMenu>("MainMenu");
 		if (mainMenu != null)
@@ -510,7 +516,7 @@ public partial class GameManager : Node2D
 		StartWave();
 	}
 
-    private void SetupVHSEffect()
+	private void SetupVHSEffect()
 	{
 		var canvasLayer = new CanvasLayer();
 		canvasLayer.Layer = 10; // Ensure it's on top of everything
