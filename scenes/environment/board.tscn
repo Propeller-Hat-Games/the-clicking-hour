@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dv81us2tealma"]
+[gd_scene load_steps=8 format=3 uid="uid://dv81us2tealma"]
 
 [ext_resource type="Texture2D" uid="uid://bx75csak6gkgq" path="res://assets/sprites/environment/entity/base_pannel.png" id="1_8tprs"]
 [ext_resource type="Script" uid="uid://06c2gcei85rn" path="res://scripts/environment/board/Board.cs" id="2_psm7c"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dk5byvyskfmhu" path="res://assets/sprites/environment/entity/base_glass_green.png" id="4_ygvyx"]
 [ext_resource type="Texture2D" uid="uid://c087phli2nxic" path="res://assets/sprites/environment/entity/base_glass_red.png" id="5_hlvoh"]
 [ext_resource type="Texture2D" uid="uid://de186ppk2qbk5" path="res://assets/sprites/environment/entity/base_glass_yellow.png" id="6_aoutw"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="7_ygvyx"]
 
 [node name="Board" type="Sprite2D"]
 scale = Vector2(3, 3)
@@ -15,9 +16,40 @@ sprites = [ExtResource("6_aoutw"), ExtResource("5_hlvoh"), ExtResource("4_ygvyx"
 amountOfSlots = 2
 
 [node name="LeftSlot" type="Sprite2D" parent="."]
-position = Vector2(-34, 0)
+position = Vector2(-34, 3)
 
 [node name="MiddleSlot" type="Sprite2D" parent="."]
+position = Vector2(0, 3)
 
 [node name="RightSlot" type="Sprite2D" parent="."]
-position = Vector2(34, 0)
+position = Vector2(34, 3)
+
+[node name="LeftNb" type="Label" parent="."]
+offset_left = -25.333334
+offset_top = 11.0
+offset_right = -10.333334
+offset_bottom = 23.0
+theme = ExtResource("7_ygvyx")
+theme_override_font_sizes/font_size = 12
+text = "10"
+horizontal_alignment = 1
+
+[node name="MiddleNb" type="Label" parent="."]
+offset_left = 8.666666
+offset_top = 11.0
+offset_right = 23.666666
+offset_bottom = 23.0
+theme = ExtResource("7_ygvyx")
+theme_override_font_sizes/font_size = 12
+text = "10"
+horizontal_alignment = 1
+
+[node name="RightNb" type="Label" parent="."]
+offset_left = 43.000004
+offset_top = 11.0
+offset_right = 58.000004
+offset_bottom = 23.0
+theme = ExtResource("7_ygvyx")
+theme_override_font_sizes/font_size = 12
+text = "10"
+horizontal_alignment = 1

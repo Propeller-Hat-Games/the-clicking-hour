@@ -60,6 +60,7 @@ public abstract partial class Entity : CharacterBody2D
 
     private void SetDirectionTowardsDoor()
     {
+        if (!IsInsideTree()) return;
         var door = GetTree().GetFirstNodeInGroup("Door") as Node2D;
         if (door != null)
         {

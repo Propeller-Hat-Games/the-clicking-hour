@@ -9,6 +9,7 @@ public partial class GameManager : Node2D
 	private Godot.Collections.Array<Sprite2D> glassSprites;
 	private int life;
 	private List<int> requiredGlassTypes = new List<int>();
+	private List<int> requiredGlassCounts = new List<int>();
 
 	private List<Entity> activeEntities = new List<Entity>();
 	private bool isDoorOpen;
@@ -118,183 +119,219 @@ public partial class GameManager : Node2D
 		int glassCount = GetGlassCountForDifficulty(difficulty);
 		SelectRequiredGlassTypes(glassCount);
 		
+		// Setup Quota
+		quota = 5 + (int)((difficulty - 1.0f) * 2);
+		currentQuota = 0;
+
+		// Distribute quota
+		requiredGlassCounts.Clear();
+		int remainingQuota = quota;
+		for (int i = 0; i < requiredGlassTypes.Count; i++)
+		{
+			if (i == requiredGlassTypes.Count - 1)
+			{
+				requiredGlassCounts.Add(remainingQuota);
+			}
+			else
+			{
+				// Ensure each type has at least 1
+				int maxShare = remainingQuota - (requiredGlassTypes.Count - 1 - i);
+				int share = random.Next(1, maxShare + 1);
+				requiredGlassCounts.Add(share);
+				remainingQuota -= share;
+			}
+		}
+
 		if (board != null)
 		{
 			board.Visible = true;
 			board.amountOfSlots = requiredGlassTypes.Count;
 			board.ChangeImages(requiredGlassTypes.ToArray());
+			board.UpdateCounts(requiredGlassCounts.ToArray());
 		}
-
-		// Setup Quota
-		quota = 5 + (int)((difficulty - 1.0f) * 2);
-		currentQuota = 0;
 
 		GD.Print($"Starting wave! Difficulty: {difficulty}. Condition Glasses: {glassCount}. Quota needed: {quota}");
 		isSpawning = true;
 		OpenDoor();
 		
-		// Continuous spawning loop until wave ends
-		while (isSpawning)
-		{
-			SpawnEntity();
-			// Random delay between spawns, decreases with difficulty
-			float delay = (float)GD.RandRange(1.5f, 3.0f) / difficulty;
-			delay = Math.Max(0.5f, delay);
-			await ToSignal(GetTree().CreateTimer(delay), "timeout");
-			
-			// Safety check if scene changed or game over
-			if (!IsInstanceValid(this)) return;
-		}
-	}
-	
-	private void SpawnEntity()
-	{
-		if (entityScenes.Count == 0 || !isSpawning) return;
-
-		var randomScene = entityScenes[random.Next(entityScenes.Count)];
-		var entity = randomScene.Instantiate<Entity>();
-		
-		if (spawnArea != null)
-		{
-			spawnArea.AddChild(entity);
-			entity.Position = GetRandomLocalPositionInArea();
-		}
-		else
-		{
-			entity.Position = GetRandomSpawnPosition();
-			AddChild(entity);
-		}
-
-		entity.TreeExited += () => OnEntityTreeExited(entity);
-		activeEntities.Add(entity);
-	}
-
-	private void OnEntityTreeExited(Entity entity)
-	{
-		if (activeEntities.Contains(entity))
-		{
-			activeEntities.Remove(entity);
-		}
-	}
-
-	private Vector2 GetRandomLocalPositionInArea()
-	{
-		if (spawnArea == null) return Vector2.Zero;
-		
-		Vector2 size = spawnArea.AreaSize();
-		float x = (float)(random.NextDouble() * size.X - size.X / 2);
-		float y = (float)(random.NextDouble() * size.Y - size.Y / 2);
-		
-		return new Vector2(x, y);
-	}
-
-	private Vector2 GetRandomSpawnPosition()
-	{
-		var viewportRect = GetViewportRect();
-		float margin = 100f;
-		Vector2 pos = Vector2.Zero;
-		pos.X = -margin;
-		pos.Y = (float)random.Next(50, (int)viewportRect.Size.Y - 50);
-		return pos;
-	}
-
-	public override void _Ready() 
-	{
-		board = GetNodeOrNull<Board>("Board");
-		spawnArea = GetNodeOrNull<SpawnArea>("SpawnArea");
-		var glassScene = GD.Load<PackedScene>("res://scenes/glass.tscn");
-		var glassInstance = glassScene.Instantiate<Glass>();
-
-		glassSprites = glassInstance.GetSprites();
-		
-		GD.Print("Loaded sprites:");
-		foreach (var sprite in glassSprites) {
-			GD.Print($"- {sprite.Name}");
-		}
-
-		// Connect door signal
-		var door = GetTree().GetFirstNodeInGroup("Door") as Door;
-		if (door != null)
-		{
-			door.EntityEnteredDoor += OnEntityEnteredDoor;
-		}
-		
-		entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/entity.tscn"));
-		entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/hiding_entity.tscn"));
-		entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/multi_click_entity.tscn"));
-		entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/teleport_entity.tscn"));
-
-		maxEntities = 5; 
-		difficulty = 1.0f;
-		life = 3; // Initialize life
-		
-		mainMenu = GetNodeOrNull<MainMenu>("MainMenu");		if (mainMenu != null)
-		{
-			mainMenu.GameStarted += StartGame;
-		}
-		else 
-		{
-			StartWave();
-		}
-	}
-	
-	private void StartGame()
-	{
-		if (mainMenu != null && IsInstanceValid(mainMenu))
-		{                                                                                
-			mainMenu.QueueFree();
-		}
-		StartWave();
-	}
-
-	private void OnEntityEnteredDoor(Entity entity)
-	{
-		if (!isSpawning) return; // Ignore if wave ended
-
-		Glass glass = entity.GetGlass();
-		if (glass != null)
-		{
-			GlassType type = glass.GetGlassType();
-			if (requiredGlassTypes.Contains((int)type))
-			{
-				// Condition met!
-				currentQuota++;
-				GD.Print($"Entity passed! Quota: {currentQuota}/{quota}");
-				
-				if (currentQuota >= quota)
+				// Continuous spawning loop until wave ends
+				while (isSpawning)
 				{
-					EndWave();
+					SpawnEntity();
+					// Random delay between spawns, decreases with difficulty
+					float delay = (float)GD.RandRange(1.5f, 3.0f) / difficulty;
+					delay = Math.Max(0.5f, delay);
+					
+					if (!IsInsideTree()) return;
+					await ToSignal(GetTree().CreateTimer(delay), "timeout");
+					
+					// Safety check if scene changed or game over
+					if (!IsInstanceValid(this) || !IsInsideTree()) return;
 				}
 			}
-			else
-			{
-				// Condition failed!
-				GD.Print("Wrong entity entered! -1 Life");
-				UpdateLife(-1);
-			}
-		}
-	}
-
-	private async void EndWave()
-	{
-		isSpawning = false;
-		CloseDoor();
 		
-		foreach (var entity in activeEntities)
-		{
-			if (IsInstanceValid(entity))
+			private void SpawnEntity()
 			{
-				entity.QueueFree();
+				if (entityScenes.Count == 0 || !isSpawning) return;
+		
+				var randomScene = entityScenes[random.Next(entityScenes.Count)];
+				var entity = randomScene.Instantiate<Entity>();
+				
+				if (spawnArea != null)
+				{
+					spawnArea.AddChild(entity);
+					entity.Position = GetRandomLocalPositionInArea();
+				}
+				else
+				{
+					entity.Position = GetRandomSpawnPosition();
+					AddChild(entity);
+				}
+		
+				entity.TreeExited += () => OnEntityTreeExited(entity);
+				activeEntities.Add(entity);
+			}
+		
+			private void OnEntityTreeExited(Entity entity)
+			{
+				if (activeEntities.Contains(entity))
+				{
+					activeEntities.Remove(entity);
+				}
+			}
+		
+			private Vector2 GetRandomLocalPositionInArea()
+			{
+				if (spawnArea == null) return Vector2.Zero;
+				
+				Vector2 size = spawnArea.AreaSize();
+				float x = (float)(random.NextDouble() * size.X - size.X / 2);
+				float y = (float)(random.NextDouble() * size.Y - size.Y / 2);
+				
+				return new Vector2(x, y);
+			}
+		
+			private Vector2 GetRandomSpawnPosition()
+			{
+				var viewportRect = GetViewportRect();
+				float margin = 100f;
+				Vector2 pos = Vector2.Zero;
+				pos.X = -margin;
+				pos.Y = (float)random.Next(50, (int)viewportRect.Size.Y - 50);
+				return pos;
+			}
+		
+			public override void _Ready() 
+			{
+				board = GetNodeOrNull<Board>("Board");
+				spawnArea = GetNodeOrNull<SpawnArea>("SpawnArea");
+				var glassScene = GD.Load<PackedScene>("res://scenes/glass.tscn");
+				var glassInstance = glassScene.Instantiate<Glass>();
+		
+				glassSprites = glassInstance.GetSprites();
+				
+				GD.Print("Loaded sprites:");
+				foreach (var sprite in glassSprites) {
+					GD.Print($"- {sprite.Name}");
+				}
+		
+				// Connect door signal
+				var door = GetTree().GetFirstNodeInGroup("Door") as Door;
+				if (door != null)
+				{
+					door.EntityEnteredDoor += OnEntityEnteredDoor;
+				}
+				
+				entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/entity.tscn"));
+				entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/hiding_entity.tscn"));
+				entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/multi_click_entity.tscn"));
+				entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/teleport_entity.tscn"));
+		
+				maxEntities = 5; 
+				difficulty = 1.0f;
+				life = 3; // Initialize life
+				
+				mainMenu = GetNodeOrNull<MainMenu>("MainMenu");		if (mainMenu != null)
+				{
+					mainMenu.GameStarted += StartGame;
+				}
+				else 
+				{
+					StartWave();
+				}
+			}
+			
+			private void StartGame()
+			{
+				if (mainMenu != null && IsInstanceValid(mainMenu))
+				{                                                                                
+					mainMenu.QueueFree();
+				}
+				StartWave();
+			}
+		
+			private void OnEntityEnteredDoor(Entity entity)
+			{
+				if (!isSpawning) return; // Ignore if wave ended
+		
+				Glass glass = entity.GetGlass();
+				if (glass != null)
+				{
+					GlassType type = glass.GetGlassType();
+					int typeIdx = requiredGlassTypes.IndexOf((int)type);
+					if (typeIdx != -1)
+					{
+						if (requiredGlassCounts[typeIdx] > 0)
+						{
+							requiredGlassCounts[typeIdx]--;
+							currentQuota++;
+							board.UpdateCounts(requiredGlassCounts.ToArray());
+							GD.Print($"Entity passed! Quota: {currentQuota}/{quota}");
+							
+							if (currentQuota >= quota)
+							{
+								EndWave();
+							}
+						}
+						else
+						{
+							GD.Print("Already have enough of this type! -1 Life");
+							UpdateLife(-1);
+						}
+					}
+					else
+					{
+						// Condition failed!
+						GD.Print("Wrong entity entered! -1 Life");
+						UpdateLife(-1);
+					}
+				}
+			}
+		
+			private async void EndWave()
+			{
+				isSpawning = false;
+				CloseDoor();
+				
+				foreach (var entity in activeEntities)
+				{
+					if (IsInstanceValid(entity))
+					{
+						entity.QueueFree();
+					}
+				}
+				activeEntities.Clear();
+		
+				GD.Print("Wave Finished! Next wave in 3s...");
+				
+				if (!IsInsideTree()) return;
+				await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
+				
+				if (!IsInstanceValid(this) || !IsInsideTree()) return;
+				if (CheckGameOver()) return;
+		
+				wavesSurvived++;
+				difficulty += 0.5f;
+				StartWave();
 			}
 		}
-		activeEntities.Clear();
-
-						GD.Print("Wave Finished! Next wave in 3s...");
-						await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
-						
-						if (CheckGameOver()) return;
-				
-						wavesSurvived++;
-						difficulty += 0.5f;
-						StartWave();
-					}		}
