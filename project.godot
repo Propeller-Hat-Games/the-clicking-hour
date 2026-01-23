@@ -17,11 +17,6 @@ boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="res://icon.svg"
 
-[display]
-
-window/stretch/mode="viewport"
-window/stretch/scale=3.0
-
 [dotnet]
 
 project/assembly_name="Godot Project"

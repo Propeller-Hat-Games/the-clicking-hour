@@ -1,38 +1,81 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdkbrq21ysjr4"]
+[gd_scene load_steps=5 format=3 uid="uid://cdkbrq21ysjr4"]
 
 [ext_resource type="Script" uid="uid://dbuy0jnnubs3s" path="res://scripts/system/MainMenu.cs" id="1_l6cm7"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/main_theme.tres" id="2_ekxnf"]
+
+[sub_resource type="Gradient" id="Gradient_l6cm7"]
+colors = PackedColorArray(0.31764707, 0, 1, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ekxnf"]
+gradient = SubResource("Gradient_l6cm7")
+fill_to = Vector2(1, 1)
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_l6cm7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="Background" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 144.0
+offset_top = 81.0
+offset_right = -144.0
+offset_bottom = -81.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("GradientTexture2D_ekxnf")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+[node name="BackgroundBorder" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 151.0
+offset_top = 88.0
+offset_right = -151.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0034003255, 0.0011342621, 0.043252215, 1)
+
+[node name="HDiv" type="VBoxContainer" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -33.0
-offset_right = 32.0
-offset_bottom = 33.0
+offset_left = -132.5
+offset_top = -48.5
+offset_right = 132.5
+offset_bottom = 48.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_ekxnf")
 
-[node name="PlayButton" type="Button" parent="CanvasLayer/VBoxContainer"]
+[node name="Title" type="Label" parent="CanvasLayer/HDiv"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 72
+text = "Code Game Bar"
+horizontal_alignment = 1
+
+[node name="VDiv" type="HBoxContainer" parent="CanvasLayer/HDiv"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_ekxnf")
+
+[node name="PlayButton" type="Button" parent="CanvasLayer/HDiv/VDiv"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_ekxnf")
 text = "Jouer"
 
-[node name="QuitButton" type="Button" parent="CanvasLayer/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="CanvasLayer/HDiv/VDiv"]
 layout_mode = 2
+theme = ExtResource("2_ekxnf")
 text = "Quitter"
 
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/HDiv/VDiv/QuitButton" to="." method="_on_quit_button_pressed"]
