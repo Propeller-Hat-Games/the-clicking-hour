@@ -15,16 +15,13 @@ scale = Vector2(3, 3)
 texture = ExtResource("2_71jq8")
 
 [node name="RedGlass" type="Sprite2D" parent="."]
-position = Vector2(173, -2)
 scale = Vector2(3, 3)
 texture = ExtResource("3_2h05u")
 
 [node name="GreenGlass" type="Sprite2D" parent="."]
-position = Vector2(182, 166)
 scale = Vector2(3, 3)
 texture = ExtResource("4_vd0xx")
 
 [node name="BlueGlass" type="Sprite2D" parent="."]
-position = Vector2(1, 168)
 scale = Vector2(3, 3)
 texture = ExtResource("5_coerm")

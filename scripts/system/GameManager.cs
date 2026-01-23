@@ -1,14 +1,15 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class GameManager : Node2D {
 	private Godot.Collections.Array<Sprite2D> glassSprites;
 	private int vie;
-	private static List<int> liste_verre = new List<int> {1,2,3,4} ;
-	private List<int> liste_choisie;
+	private static List<int> liste_verre = new List<int> {0,1,2,3} ;
+	private List<int> liste_choisie = new List<int>();
 
-	private List<Entity> liste_entite;
+	private List<Entity> liste_entite = new List<Entity>();
 	private bool porte_ouverte;
 
 	private int quotat;
@@ -16,6 +17,16 @@ public partial class GameManager : Node2D {
 
 	private float difficulte;
 	private int nb_max_entite;
+	
+	private Random random = new Random();
+	private PackedScene entityScene;
+	private bool isSpawning = false;
+
+	public GlassType GetRandomGlassType()
+	{
+		var values = Enum.GetValues(typeof(GlassType));
+		return (GlassType)values.GetValue(random.Next(values.Length));
+	}
 
 	public int Get_vie(){
 		return vie;
@@ -58,10 +69,6 @@ public partial class GameManager : Node2D {
 	{
 		porte_ouverte=false;
 		//joue_animation
-		foreach(Entity entite in liste_entite)
-		{
-			//entite.Die();
-		}
 	}
 
 	public void Ouvre_porte()
@@ -88,9 +95,71 @@ public partial class GameManager : Node2D {
 		}
 	}
 
-	public void Creer_manche()
+	public async void Creer_manche()
 	{
+		GD.Print($"Starting wave with {nb_max_entite} entities. Difficulty: {difficulte}");
+		isSpawning = true;
+		Ouvre_porte();
 		
+		for (int i = 0; i < nb_max_entite; i++)
+		{
+			SpawnEntity();
+			await ToSignal(GetTree().CreateTimer(2.0f), "timeout");
+		}
+		
+		isSpawning = false;
+		CheckWaveFinished();
+	}
+	
+	private void SpawnEntity()
+	{
+		if (entityScene == null) return;
+
+		var entity = entityScene.Instantiate<Entity>();
+		entity.Position = GetRandomSpawnPosition();
+		entity.TreeExited += () => OnEntityTreeExited(entity);
+		AddChild(entity);
+		liste_entite.Add(entity);
+	}
+
+	private void OnEntityTreeExited(Entity entity)
+	{
+		if (liste_entite.Contains(entity))
+		{
+			liste_entite.Remove(entity);
+		}
+		
+		if (!isSpawning)
+		{
+			CheckWaveFinished();
+		}
+	}
+
+	private async void CheckWaveFinished()
+	{
+		if (liste_entite.Count == 0 && !isSpawning)
+		{
+			GD.Print("Wave finished! Preparing next wave...");
+			Ferme_porte();
+			
+			// Wait 3 seconds before next wave
+			await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
+			
+			difficulte += 0.2f;
+			nb_max_entite = (int)Math.Max(5, 5 * difficulte);
+			Creer_manche();
+		}
+	}
+
+	private Vector2 GetRandomSpawnPosition()
+	{
+		var viewportRect = GetViewportRect();
+		float margin = 100f;
+		// Always spawn on Left side
+		Vector2 pos = Vector2.Zero;
+		pos.X = -margin;
+		pos.Y = (float)GD.RandRange(0, viewportRect.Size.Y);
+		return pos;
 	}
 
 	public override void _Ready() {
@@ -104,5 +173,26 @@ public partial class GameManager : Node2D {
 		foreach (var sprite in glassSprites) {
 			GD.Print($"- {sprite.Name}");
 		}
+
+		// Connect door signal
+		var door = GetTree().GetFirstNodeInGroup("Door") as Door;
+		if (door != null)
+		{
+			door.EntityEnteredDoor += OnEntityEnteredDoor;
+		}
+		
+		entityScene = GD.Load<PackedScene>("res://scenes/environment/entity.tscn");
+		nb_max_entite = 5;
+		difficulte = 1.0f;
+		
+		// Start first wave
+		Creer_manche();
+	}
+
+	private void OnEntityEnteredDoor(Entity entity)
+	{
+		GD.Print("Entity reached the door!");
+		// You might want to decrease life here
+		// Set_vie(-1);
 	}
 }

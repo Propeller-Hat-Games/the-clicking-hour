@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://xvhpdf7qoa4b"]
+[gd_scene load_steps=6 format=3 uid="uid://xvhpdf7qoa4b"]
 
 [ext_resource type="Script" uid="uid://cx874y6efj4qr" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/main_menu.tscn" id="2_glms7"]
 [ext_resource type="PackedScene" uid="uid://ciqsen53683eg" path="res://scenes/mockup.tscn" id="3_udu3i"]
-[ext_resource type="PackedScene" uid="uid://de8a82s41jlab" path="res://scenes/environment/entity.tscn" id="4_oo155"]
 [ext_resource type="PackedScene" uid="uid://hhcrdfkwjpej" path="res://scenes/environment/door.tscn" id="5_eaq8r"]
 [ext_resource type="AudioStream" uid="uid://bfy7p3fx5y1xo" path="res://assets/musics/background/GroovyDrink.mp3" id="6_ternb"]
 
@@ -13,15 +12,6 @@ script = ExtResource("1_hwd4i")
 [node name="MainMenu" parent="." instance=ExtResource("2_glms7")]
 
 [node name="Sprite2D" parent="." instance=ExtResource("3_udu3i")]
-
-[node name="Entity" parent="." instance=ExtResource("4_oo155")]
-position = Vector2(156, 334)
-
-[node name="Entity2" parent="." instance=ExtResource("4_oo155")]
-position = Vector2(310, 556)
-
-[node name="Entity3" parent="." instance=ExtResource("4_oo155")]
-position = Vector2(488, 172)
 
 [node name="Door" parent="." instance=ExtResource("5_eaq8r")]
 position = Vector2(1102, 465)

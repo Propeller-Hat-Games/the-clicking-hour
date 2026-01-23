@@ -16,6 +16,9 @@ public abstract partial class Entity : CharacterBody2D
     
     [Export]
     protected float spawnDelay = 2f; // Temps d'attente avant de bouger
+
+    [Export]
+    protected PackedScene glassScene;
     
     protected EntityState currentState = EntityState.Walking;
     protected Sprite2D sprite;
@@ -29,6 +32,21 @@ public abstract partial class Entity : CharacterBody2D
         sprite = GetNode<Sprite2D>("Sprite2D");
         InputPickable = true;
         InitializeEntity();
+
+        if (glassScene != null)
+        {
+            var glassInstance = glassScene.Instantiate<Glass>();
+            AddChild(glassInstance);
+            float halfHeight = sprite.GetRect().Size.Y * sprite.Scale.Y / 2.0f;
+            // Account for sprite position (e.g. if shifted up)
+            glassInstance.Position = new Vector2(0, sprite.Position.Y - halfHeight + 45);
+            
+            var gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
+            if (gameManager != null)
+            {
+                glassInstance.SetGlassType(gameManager.GetRandomGlassType());
+            }
+        }
         
         CallDeferred(nameof(SetDirectionTowardsDoor));
     }
@@ -79,7 +97,10 @@ public abstract partial class Entity : CharacterBody2D
             case EntityState.Returning:
                 Position += walkDirection * walkSpeed * (float)delta;
                 
-                if (Position.X < -100 || Position.X > GetViewportRect().Size.X + 100)
+                var viewportSize = GetViewportRect().Size;
+                float margin = 150f;
+                if (Position.X < -margin || Position.X > viewportSize.X + margin ||
+                    Position.Y < -margin || Position.Y > viewportSize.Y + margin)
                 {
                     QueueFree(); 
                 }
