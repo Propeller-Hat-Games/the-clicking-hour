@@ -185,7 +185,21 @@ public partial class GameManager : Node2D {
 		nb_max_entite = 5;
 		difficulte = 1.0f;
 		
-		// Start first wave
+		// Connect MainMenu signal
+		var mainMenu = GetNodeOrNull<MainMenu>("MainMenu");
+		if (mainMenu != null)
+		{
+			mainMenu.GameStarted += StartGame;
+		}
+		else 
+		{
+			// Fallback if no menu, or for testing
+			Creer_manche();
+		}
+	}
+
+	private void StartGame()
+	{
 		Creer_manche();
 	}
 
