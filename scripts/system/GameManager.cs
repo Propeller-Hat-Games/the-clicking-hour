@@ -25,6 +25,9 @@ public partial class GameManager : Node2D
 	private bool isSpawning = false;
 	private SpawnArea spawnArea;
 	private MainMenu mainMenu;
+
+	private Texture2D heartTexture;
+	private List<Sprite2D> heartSprites = new List<Sprite2D>();
 	
 	// 🎵 Le MusicManager
 	private MusicManager musicManager;
@@ -50,6 +53,7 @@ public partial class GameManager : Node2D
 	{
 		life += amount;
 		GD.Print($"Life updated: {life}");
+		Affichecoeur();
 		if (CheckGameOver())
 		{
 			GD.Print("Game Over!");
@@ -147,6 +151,7 @@ public partial class GameManager : Node2D
 			board.UpdateCounts(requiredGlassCounts.ToArray());
 		}
 
+		Affichecoeur();
 		GD.Print($"Starting wave! Difficulty: {difficulty}. Condition Glasses: {glassCount}. Quota needed: {quota}");
 		
 		// 🎵 Fade in musique pour waves 2+
@@ -221,6 +226,39 @@ public partial class GameManager : Node2D
 		pos.X = -margin;
 		pos.Y = (float)random.Next(50, (int)viewportRect.Size.Y - 50);
 		return pos;
+	}
+
+	private void Affichecoeur()
+	{
+		// Supprime les anciens cœurs si nécessaire
+		foreach (var sprite in heartSprites)
+		{
+			sprite.QueueFree();
+		}
+		heartSprites.Clear();
+
+		// Charge la texture
+		heartTexture = GD.Load<Texture2D>("res://assets/heart.png");
+		if (heartTexture == null)
+		{
+			GD.PrintErr("Impossible de charger heart.png !");
+			return;
+		}
+
+		// Position initiale
+		float startX = 150;
+		float startY = 600;
+		float spacing = 50; // espace entre les cœurs
+
+		// Boucle pour créer les cœurs
+		for (int i = 0; i < GetLife(); i++)
+		{
+			var heart = new Sprite2D();
+			heart.Texture = heartTexture;
+			heart.Position = new Vector2(startX + i * spacing, startY);
+			AddChild(heart);
+			heartSprites.Add(heart);
+		}
 	}
 
 	public override void _Ready() 
