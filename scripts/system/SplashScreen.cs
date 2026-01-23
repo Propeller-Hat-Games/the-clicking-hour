@@ -9,12 +9,20 @@ public partial class SplashScreen : Control
 	
 	private AnimatedSprite2D _sprite;
 	private AudioStreamPlayer _audio;
+	private ColorRect _fadeColorRect;
 	
 	public override async void _Ready()
 	{ 
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		_audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 		
+		// Add a dedicated fade overlay
+		_fadeColorRect = new ColorRect();
+		_fadeColorRect.Color = Colors.Black;
+		_fadeColorRect.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+		_fadeColorRect.Modulate = new Color(1, 1, 1, 0);
+		AddChild(_fadeColorRect);
+
 		_sprite.Position = GetViewportRect().Size / 2f;
 		
 		Color color = _sprite.Modulate;
@@ -24,33 +32,30 @@ public partial class SplashScreen : Control
 		_sprite.Play();
 		_audio.Play();
 		
-		await Fade(0f, 1f);
+		await FadeSprite(0f, 1f);
 		
 		await ToSignal(GetTree().CreateTimer(WaitDuration), "timeout");
 		
-		await Fade(1f, 0f);
+		// Fade out everything to black
+		Tween fadeOutTween = CreateTween().SetParallel();
+		fadeOutTween.TweenProperty(_sprite, "modulate:a", 0f, FadeDuration);
+		fadeOutTween.TweenProperty(_audio, "volume_db", -80f, FadeDuration);
+		fadeOutTween.TweenProperty(_fadeColorRect, "modulate:a", 1f, FadeDuration);
+		
+		await ToSignal(fadeOutTween, "finished");
+		
+		// Wait one extra frame to be sure black is rendered
+		await ToSignal(GetTree(), "process_frame");
 		
 		GetTree().ChangeSceneToFile(MainMenuScenePath);
 	}
 	
-	private async Task Fade(float from, float to)
+	private async Task FadeSprite(float from, float to)
 	{
-		float time = 0f;
+		Tween tween = CreateTween();
+		tween.TweenProperty(_sprite, "modulate:a", to, FadeDuration)
+			 .From(from);
 		
-		while (time < FadeDuration)
-		{
-			time += (float)GetProcessDeltaTime();
-			float alpha = Mathf.Lerp(from, to, time / FadeDuration);
-		
-			Color color = _sprite.Modulate;
-			color.A = alpha;
-			_sprite.Modulate = color;
-
-			await ToSignal(GetTree(), "process_frame");
-		}
-		
-		Color finalColor = _sprite.Modulate;
-		finalColor.A = to;
-		_sprite.Modulate = finalColor;
+		await ToSignal(tween, "finished");
 	}
 }

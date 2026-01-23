@@ -336,6 +336,20 @@ public partial class GameManager : Node2D
 
 	public override void _Ready() 
 	{
+		// Initial fade in
+		var fadeLayer = new CanvasLayer();
+		fadeLayer.Layer = 128; // On top of everything
+		var fadeRect = new ColorRect();
+		fadeRect.Color = Colors.Black;
+		fadeRect.Modulate = new Color(1, 1, 1, 1); // Start fully opaque
+		fadeRect.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+		fadeLayer.AddChild(fadeRect);
+		AddChild(fadeLayer);
+
+		var fadeTween = CreateTween();
+		fadeTween.TweenProperty(fadeRect, "modulate:a", 0f, 1.5f);
+		fadeTween.Finished += () => fadeLayer.QueueFree();
+		
 		YSortEnabled = true;
 		var sfxManager = new SfxManager();
 		AddChild(sfxManager);
