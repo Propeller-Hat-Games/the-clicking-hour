@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://bnurmthuvt78j" path="res://scripts/environment/entity/SimpleEntity.cs" id="1_lxsru"]
 [ext_resource type="Texture2D" uid="uid://bm0g22lhu7mpc" path="res://assets/sprites/environment/entity/base_entitiy.png" id="2_lxsru"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_lxsru"]
-radius = 19.026299
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lxsru"]
+size = Vector2(52, 108)
 
 [node name="Entity" type="CharacterBody2D"]
 script = ExtResource("1_lxsru")
@@ -15,4 +15,6 @@ scale = Vector2(3, 3)
 texture = ExtResource("2_lxsru")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_lxsru")
+light_mask = 7
+position = Vector2(-1, -56)
+shape = SubResource("RectangleShape2D_lxsru")
