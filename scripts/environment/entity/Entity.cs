@@ -98,6 +98,8 @@ public abstract partial class Entity : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (!isAlive) return;
+
 		ZIndex = (int)GlobalPosition.Y;
 
 		// Attendre le délai de spawn avant de bouger
@@ -123,7 +125,30 @@ public abstract partial class Entity : CharacterBody2D
 	
 	protected void Die()
 	{
-		QueueFree();
+		isAlive = false;
+		currentState = EntityState.Hiding; // Stop walking
+		
+		Node2D trash = GetTree().GetFirstNodeInGroup("Trash") as Node2D;
+		if (trash == null)
+		{
+			trash = GetTree().Root.FindChild("Trash", true, false) as Node2D;
+		}
+
+		Vector2 targetPos = new Vector2(64, 602); // Fallback position
+		if (trash != null)
+		{
+			targetPos = trash.GlobalPosition;
+		}
+
+		var tween = CreateTween();
+		tween.SetParallel(true);
+		tween.TweenProperty(this, "global_position", targetPos, 0.5f)
+			 .SetTrans(Tween.TransitionType.Quad)
+			 .SetEase(Tween.EaseType.In);
+		tween.TweenProperty(this, "scale", Vector2.Zero, 0.5f);
+		
+		tween.SetParallel(false);
+		tween.Chain().TweenCallback(Callable.From(QueueFree));
 	}
 
 	public Glass GetGlass()

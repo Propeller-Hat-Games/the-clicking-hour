@@ -37,6 +37,8 @@ public partial class HidingEntity : Entity
 	
 	protected override void ProcessEntity(double delta)
 	{
+		if (!isAlive) return;
+
 		if (currentState == EntityState.Hiding)
 		{
 			hideTimer += (float)delta;

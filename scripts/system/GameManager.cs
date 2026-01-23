@@ -286,6 +286,12 @@ public partial class GameManager : Node2D
 		spawnArea = GetNodeOrNull<SpawnArea>("SpawnArea");
 		heartContainer = GetNodeOrNull<Node2D>("HeartContainer");
 		heartScene = GD.Load<PackedScene>("res://scenes/heart.tscn");
+
+		var trash = GetNodeOrNull<Node2D>("Trash");
+		if (trash != null)
+		{
+			trash.AddToGroup("Trash");
+		}
 		
 		// 🎵 Créer le MusicManager
 		musicManager = new MusicManager();
