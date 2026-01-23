@@ -1,17 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwq1be8pnf85v"]
+[gd_scene load_steps=4 format=3 uid="uid://bgumxhw7b3qvc"]
 
-[ext_resource type="Script" path="res://scripts/system/Transition.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="1_jpjvg"]
+[ext_resource type="Script" uid="uid://c5najs8m1tc5p" path="res://scripts/system/Transition.cs" id="1_script"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ghw5a"]
 
 [node name="Transition" type="Control"]
-script = ExtResource("1_script")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_script")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -45,27 +45,21 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0034003255, 0.0011342621, 0.043252215, 1)
 
-[node name="VDiv" type="VBoxContainer" parent="CanvasLayer"]
+[node name="Title" type="Label" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -241.0
-offset_top = -96.5
+offset_top = -100.5
 offset_right = 241.0
-offset_bottom = 96.5
+offset_bottom = 100.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_ghw5a")
-
-[node name="Title" type="Label" parent="CanvasLayer/VDiv"]
-layout_mode = 2
 theme_override_font_sizes/font_size = 72
 text = "STAGE X
 CLEARED !"
 horizontal_alignment = 1
-
-[node name="Button" type="Button" parent="CanvasLayer/VDiv"]
-layout_mode = 2
-text = "NEXT STAGE"
+vertical_alignment = 1

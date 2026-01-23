@@ -424,8 +424,9 @@ public partial class GameManager : Node2D
 		AddChild(transitionInstance);
 		transitionInstance.SetCompletedWave(wavesSurvived);
 		
-		// Attendre que le joueur clique sur Next Stage
-		await ToSignal(transitionInstance, Transition.SignalName.NextStageRequested);
+		// Wait 3 seconds
+		await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
+		transitionInstance.CloseWindow();
 		
 		if (!IsInstanceValid(this) || !IsInsideTree()) return;
 		if (CheckGameOver()) return;

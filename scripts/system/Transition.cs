@@ -11,10 +11,7 @@ public partial class Transition : Control
 
 	public override void _Ready()
 	{
-		titleLabel = GetNode<Label>("CanvasLayer/VDiv/Title");
-		nextButton = GetNode<Button>("CanvasLayer/VDiv/Button");
-		
-		nextButton.Pressed += OnNextButtonPressed;
+		titleLabel = GetNode<Label>("CanvasLayer/Title");
 	}
 
 	public void SetCompletedWave(int waveNumber)
@@ -23,7 +20,7 @@ public partial class Transition : Control
 		titleLabel.Text = $"STAGE {waveNumber}\nCLEARED !";
 	}
 
-	private void OnNextButtonPressed()
+	public void CloseWindow()
 	{
 		EmitSignal(SignalName.NextStageRequested);
 		QueueFree();
