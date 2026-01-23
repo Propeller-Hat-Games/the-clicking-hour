@@ -41,7 +41,7 @@ public partial class GameManager : Node2D
 
 	private int GetGlassCountForDifficulty(float diff)
 	{
-		int count = 3 - (int)(diff - 1.0f);
+		int count = 1 + (int)((diff - 1.0f) * 4);
 		return Math.Clamp(count, 1, 3);
 	}
 
