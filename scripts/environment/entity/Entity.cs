@@ -78,6 +78,8 @@ public abstract partial class Entity : CharacterBody2D
 
     public override void _Process(double delta)
     {
+        ZIndex = (int)GlobalPosition.Y;
+
         // Attendre le délai de spawn avant de bouger
         if (spawnTimer < spawnDelay)
         {
