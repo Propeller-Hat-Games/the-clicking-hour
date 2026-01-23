@@ -29,6 +29,8 @@ public partial class MusicManager : Node
 	{
 		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/GroovyDrink.mp3"));
 		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/SeasideDrink.mp3"));
+		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/Jet27Drink.mp3"));
+		_playlist.Add(GD.Load<AudioStream>("res://assets/musics/background/SeriousDrink.mp3"));
 		GD.Print($"🎵 [{GetInstanceId()}] Loaded {_playlist.Count} tracks");
 	}
 
