@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://xvhpdf7qoa4b"]
+[gd_scene load_steps=9 format=3 uid="uid://xvhpdf7qoa4b"]
 
 [ext_resource type="Script" uid="uid://cx874y6efj4qr" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/ui/main_menu.tscn" id="2_glms7"]
@@ -6,7 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://ca31yr40ycoys" path="res://scenes/spawn_area.tscn" id="4_spawn"]
 [ext_resource type="PackedScene" uid="uid://dv81us2tealma" path="res://scenes/environment/board.tscn" id="5_board"]
 [ext_resource type="PackedScene" uid="uid://hhcrdfkwjpej" path="res://scenes/environment/door.tscn" id="6_eaq8r"]
-[ext_resource type="PackedScene" path="res://scenes/environment/trash.tscn" id="7_q8mjp"]
+[ext_resource type="PackedScene" uid="uid://dsd1a26c5ck53" path="res://scenes/environment/trash.tscn" id="7_q8mjp"]
+[ext_resource type="PackedScene" uid="uid://bsuxqfkp8jlbh" path="res://scenes/environment/animated_background.tscn" id="8_jdad8"]
 
 [node name="GameManager" type="Node2D"]
 script = ExtResource("1_hwd4i")
@@ -32,3 +33,5 @@ position = Vector2(175, 590)
 
 [node name="Trash" parent="." instance=ExtResource("7_q8mjp")]
 position = Vector2(64, 602)
+
+[node name="AnimatedBackground" parent="." instance=ExtResource("8_jdad8")]

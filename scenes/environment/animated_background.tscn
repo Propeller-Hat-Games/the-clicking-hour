@@ -1,0 +1,77 @@
+[gd_scene load_steps=12 format=3 uid="uid://bsuxqfkp8jlbh"]
+
+[ext_resource type="Texture2D" uid="uid://bnwqyn78tcvhc" path="res://assets/sprites/environment/background/background_aspritesheet.png" id="1_ewy2f"]
+[ext_resource type="Script" uid="uid://b6l4ncht1msor" path="res://scripts/environment/AnimatedBackground.cs" id="1_h7ob3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7ob3"]
+atlas = ExtResource("1_ewy2f")
+region = Rect2(0, 0, 316, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twueu"]
+atlas = ExtResource("1_ewy2f")
+region = Rect2(0, 64, 316, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4uvy6"]
+atlas = ExtResource("1_ewy2f")
+region = Rect2(0, 128, 316, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4mu36"]
+atlas = ExtResource("1_ewy2f")
+region = Rect2(0, 192, 316, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u2rmy"]
+atlas = ExtResource("1_ewy2f")
+region = Rect2(0, 256, 316, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbmor"]
+atlas = ExtResource("1_ewy2f")
+region = Rect2(0, 320, 316, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnjh1"]
+atlas = ExtResource("1_ewy2f")
+region = Rect2(0, 384, 316, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tbkrj"]
+atlas = ExtResource("1_ewy2f")
+region = Rect2(0, 448, 316, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_06gk8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7ob3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twueu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4uvy6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4mu36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u2rmy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbmor")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tnjh1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tbkrj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="AnimatedBackground" type="Node2D"]
+script = ExtResource("1_h7ob3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_06gk8")
+frame_progress = 0.26014155
+centered = false
