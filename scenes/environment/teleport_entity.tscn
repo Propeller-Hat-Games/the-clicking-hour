@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" uid="uid://cgblifsbgu0dy" path="res://scripts/environment/entity/TeleportEntity.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bm0g22lhu7mpc" path="res://assets/sprites/environment/entity/base_entitiy.png" id="2_sprite"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_shape"]
 size = Vector2(52, 108)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_feet"]
+radius = 26.019224
 
 [node name="TeleportEntity" type="CharacterBody2D"]
 script = ExtResource("1_script")
@@ -16,7 +19,13 @@ position = Vector2(0, -84)
 scale = Vector2(3, 3)
 texture = ExtResource("2_sprite")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Feet" type="CollisionShape2D" parent="."]
+light_mask = 1025
+shape = SubResource("CircleShape2D_feet")
+
+[node name="ClickArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
 light_mask = 7
 position = Vector2(-1, -56)
 shape = SubResource("RectangleShape2D_shape")

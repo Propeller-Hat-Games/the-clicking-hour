@@ -29,7 +29,8 @@ public abstract partial class Entity : CharacterBody2D
     public override void _Ready()
     {
         sprite = GetNode<Sprite2D>("Sprite2D");
-        InputPickable = true;
+        // Picking is now handled by the child Area2D ("ClickArea")
+        // InputPickable = true; 
         InitializeEntity();
 
         if (glassScene != null)
@@ -47,6 +48,13 @@ public abstract partial class Entity : CharacterBody2D
             }
         }
         
+        var clickArea = GetNodeOrNull<Area2D>("ClickArea");
+        if (clickArea != null)
+        {
+            clickArea.InputPickable = true;
+            clickArea.InputEvent += OnClickAreaInputEvent;
+        }
+
         CallDeferred(nameof(SetDirectionTowardsDoor));
     }
 
@@ -65,6 +73,17 @@ public abstract partial class Entity : CharacterBody2D
     // Méthode abstraite pour gérer le clic spécifique à chaque type
     protected abstract void OnClicked();
     
+    private void OnClickAreaInputEvent(Node viewport, InputEvent @event, long shapeIdx)
+    {
+        if (@event is InputEventMouseButton mouseEvent && 
+            mouseEvent.Pressed && 
+            mouseEvent.ButtonIndex == MouseButton.Left &&
+            isAlive)
+        {
+            OnClicked();
+        }
+    }
+    
     public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
     {
         if (@event is InputEventMouseButton mouseEvent && 
@@ -76,7 +95,7 @@ public abstract partial class Entity : CharacterBody2D
         }
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
         ZIndex = (int)GlobalPosition.Y;
 
@@ -92,7 +111,8 @@ public abstract partial class Entity : CharacterBody2D
         switch (currentState)
         {
             case EntityState.Walking:
-                Position += walkDirection * walkSpeed * (float)delta;
+                Velocity = walkDirection * walkSpeed;
+                MoveAndSlide();
                 break;
         }
     }
