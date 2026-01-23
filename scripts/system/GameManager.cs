@@ -61,12 +61,18 @@ public partial class GameManager : Node2D
 	{
 		life += amount;
 		GD.Print($"Life updated: {life}");
+		// 🔊 JOUER LE SON DE DÉGÂTS SI ON PERD DE LA VIE
+		if (amount < 0)
+		{
+			SfxManager.Instance?.PlayTakeDamageSound();
+		}
+	
 		Affichecoeur();
 		if (CheckGameOver())
 		{
 			GD.Print("Game Over!");
 			isSpawning = false;
-			
+
 			foreach (var entity in activeEntities)
 			{
 				if (IsInstanceValid(entity))
@@ -111,11 +117,13 @@ public partial class GameManager : Node2D
 	public void CloseDoor()
 	{
 		isDoorOpen = false;
+		SfxManager.Instance?.PlayDoorCloseSound();
 	}
 
 	public void OpenDoor()
 	{
 		isDoorOpen = true;
+		SfxManager.Instance?.PlayDoorOpenSound();
 	}
 
 	public List<int> GetRequiredGlassTypes()
@@ -289,6 +297,9 @@ public partial class GameManager : Node2D
 
 	public override void _Ready() 
 	{
+		var sfxManager = new SfxManager();
+		AddChild(sfxManager);
+
 		board = GetNodeOrNull<Board>("Board");
 		spawnArea = GetNodeOrNull<SpawnArea>("SpawnArea");
 		heartContainer = GetNodeOrNull<Node2D>("HeartContainer");

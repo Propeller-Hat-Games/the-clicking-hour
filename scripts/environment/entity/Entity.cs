@@ -7,14 +7,13 @@ public enum EntityState
 	Hiding,
 }
 
-// Classe de base abstraite pour toutes les entités
 public abstract partial class Entity : CharacterBody2D
 {
 	[Export]
 	protected float walkSpeed = 50f; 
 	
 	[Export]
-	protected float spawnDelay = 2f; // Temps d'attente avant de bouger
+	protected float spawnDelay = 2f;
 
 	[Export]
 	protected PackedScene glassScene;
@@ -29,8 +28,6 @@ public abstract partial class Entity : CharacterBody2D
 	public override void _Ready()
 	{
 		sprite = GetNode<Sprite2D>("Sprite2D");
-		// Picking is now handled by the child Area2D ("ClickArea")
-		// InputPickable = true; 
 		InitializeEntity();
 
 		if (glassScene != null)
@@ -38,7 +35,6 @@ public abstract partial class Entity : CharacterBody2D
 			var glassInstance = glassScene.Instantiate<Glass>();
 			AddChild(glassInstance);
 			float halfHeight = sprite.GetRect().Size.Y * sprite.Scale.Y / 2.0f;
-			// Account for sprite position (e.g. if shifted up)
 			glassInstance.Position = new Vector2(0, sprite.Position.Y - halfHeight + 45);
 			
 			var gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
@@ -68,10 +64,8 @@ public abstract partial class Entity : CharacterBody2D
 		}
 	}
 	
-	// Méthode abstraite pour initialiser les paramètres spécifiques de chaque type d'entité
 	protected abstract void InitializeEntity();
 	
-	// Méthode abstraite pour gérer le clic spécifique à chaque type
 	protected abstract void OnClicked();
 	
 	private void OnClickAreaInputEvent(Node viewport, InputEvent @event, long shapeIdx)
@@ -81,6 +75,8 @@ public abstract partial class Entity : CharacterBody2D
 			mouseEvent.ButtonIndex == MouseButton.Left &&
 			isAlive)
 		{
+			// 🔊 JOUER LE SON DE CLIC
+			SfxManager.Instance?.PlayClickSound();
 			OnClicked();
 		}
 	}
@@ -92,6 +88,8 @@ public abstract partial class Entity : CharacterBody2D
 			mouseEvent.ButtonIndex == MouseButton.Left &&
 			isAlive)
 		{
+			// 🔊 JOUER LE SON DE CLIC
+			SfxManager.Instance?.PlayClickSound();
 			OnClicked();
 		}
 	}
@@ -100,10 +98,8 @@ public abstract partial class Entity : CharacterBody2D
 	{
 		if (!isAlive) return;
 
-		// Keep ZIndex below HeartContainer (100)
 		ZIndex = Math.Min((int)GlobalPosition.Y, 99);
 
-		// Attendre le délai de spawn avant de bouger
 		if (spawnTimer < spawnDelay)
 		{
 			spawnTimer += (float)delta;
@@ -121,13 +117,15 @@ public abstract partial class Entity : CharacterBody2D
 		}
 	}
 	
-	// Méthode virtuelle pour comportements spécifiques durant _Process
 	protected virtual void ProcessEntity(double delta) { }
 	
 	protected void Die()
 	{
 		isAlive = false;
-		currentState = EntityState.Hiding; // Stop walking
+		currentState = EntityState.Hiding;
+		
+		// 🔊 JOUER LE SON DE MORT
+		SfxManager.Instance?.PlayDeathSound();
 		
 		var gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
 		if (gameManager != null)
@@ -135,7 +133,6 @@ public abstract partial class Entity : CharacterBody2D
 			gameManager.AddKill();
 		}
 
-		// Disable collisions
 		CollisionLayer = 0;
 		CollisionMask = 0;
 		
@@ -153,7 +150,7 @@ public abstract partial class Entity : CharacterBody2D
 			trash = GetTree().Root.FindChild("Trash", true, false) as Node2D;
 		}
 
-		Vector2 targetPos = new Vector2(64, 602); // Fallback position
+		Vector2 targetPos = new Vector2(64, 602);
 		if (trash != null)
 		{
 			targetPos = trash.GlobalPosition;
