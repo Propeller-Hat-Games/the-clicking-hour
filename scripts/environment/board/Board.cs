@@ -14,9 +14,25 @@ public partial class Board : Sprite2D
 	[Export]
 	public int amountOfSlots {get;set;}= 1;
 	
+	private Sprite2D[] slotSprites;
+	private Label[] slotLabels;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		slotSprites = new Sprite2D[] {
+			GetNode<Sprite2D>("LeftSlot"),
+			GetNode<Sprite2D>("MiddleSlot"),
+			GetNode<Sprite2D>("RightSlot")
+		};
+		slotLabels = new Label[] {
+			GetNode<Label>("LeftNb"),
+			GetNode<Label>("MiddleNb"),
+			GetNode<Label>("RightNb")
+		};
+
+		foreach (var slot in slotSprites) slot.Visible = false;
+		foreach (var label in slotLabels) label.Visible = false;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,45 +40,83 @@ public partial class Board : Sprite2D
 	{
 		
 	}
+
+	private async void Flash(CanvasItem item, bool appearing)
+	{
+		if (item == null || !IsInstanceValid(item)) return;
+
+		float[] opacities;
+		if (appearing)
+		{
+			opacities = new float[] { 0.0f, 0.25f, 0.0f, 0.5f, 0.0f, 0.75f, 0.0f, 1.0f };
+			item.Visible = true;
+		}
+		else
+		{
+			opacities = new float[] { 1.0f, 0.0f, 0.75f, 0.0f, 0.5f, 0.0f, 0.25f, 0.0f };
+		}
+
+		foreach (float opacity in opacities)
+		{
+			if (!IsInstanceValid(item)) return;
+			item.Modulate = new Color(item.Modulate.R, item.Modulate.G, item.Modulate.B, opacity);
+			await ToSignal(GetTree().CreateTimer(0.05f), "timeout");
+		}
+
+		if (!IsInstanceValid(item)) return;
+		if (!appearing)
+		{
+			item.Visible = false;
+		}
+		else
+		{
+			item.Modulate = new Color(item.Modulate.R, item.Modulate.G, item.Modulate.B, 1.0f);
+		}
+	}
 	
 	public void AddASlot() {
 		amountOfSlots++;
 	}
 	
 	public void ChangeDisplay() {
-		Sprite2D leftSlot = GetNode<Sprite2D>("LeftSlot");
-		Sprite2D middleSlot = GetNode<Sprite2D>("MiddleSlot");
-		Sprite2D rightSlot = GetNode<Sprite2D>("RightSlot");
-		
-		Label leftNb = GetNode<Label>("LeftNb");
-		Label middleNb = GetNode<Label>("MiddleNb");
-		Label rightNb = GetNode<Label>("RightNb");
-		
-		leftSlot.Visible = false;
-		middleSlot.Visible = false;
-		rightSlot.Visible = false;
-		
-		leftNb.Visible = false;
-		middleNb.Visible = false;
-		rightNb.Visible = false;
-		
-		if (amountOfSlots == 1) {
-			middleSlot.Visible = true;
-			middleNb.Visible = true;
+		for (int i = 0; i < slotSprites.Length; i++)
+		{
+			bool shouldBeVisible = i < amountOfSlots;
+			bool wasVisible = slotSprites[i].Visible;
+			UpdateSlotVisibility(slotSprites[i], slotLabels[i], shouldBeVisible, wasVisible);
 		}
-		else if (amountOfSlots == 2) {
-			leftSlot.Visible = true;
-			rightSlot.Visible = true;
-			leftNb.Visible = true;
-			rightNb.Visible = true;
+	}
+
+	public void UpdateSlotVisibility(Sprite2D slot, Label label, bool shouldBeVisible, bool wasVisible)
+	{
+		if (shouldBeVisible && !wasVisible)
+		{
+			Flash(slot, true);
+			Flash(label, true);
 		}
-		else if (amountOfSlots >= 3) {
-			leftSlot.Visible = true;
-			middleSlot.Visible = true;
-			rightSlot.Visible = true;
-			leftNb.Visible = true;
-			middleNb.Visible = true;
-			rightNb.Visible = true;
+		else if (!shouldBeVisible && wasVisible)
+		{
+			Flash(slot, false);
+			Flash(label, false);
+		}
+		else
+		{
+			slot.Visible = shouldBeVisible;
+			label.Visible = shouldBeVisible;
+			if (shouldBeVisible)
+			{
+				slot.Modulate = new Color(slot.Modulate.R, slot.Modulate.G, slot.Modulate.B, 1.0f);
+				label.Modulate = new Color(label.Modulate.R, label.Modulate.G, label.Modulate.B, 1.0f);
+			}
+		}
+	}
+
+	public void ClearDisplay() {
+		for (int i = 0; i < slotSprites.Length; i++) {
+			if (slotSprites[i].Visible) {
+				Flash(slotSprites[i], false);
+				Flash(slotLabels[i], false);
+			}
 		}
 	}
 	
@@ -71,46 +125,32 @@ public partial class Board : Sprite2D
 		
 		if (indexes == null) return;
 		
-		Sprite2D leftSlot = GetNode<Sprite2D>("LeftSlot");
-		Sprite2D middleSlot = GetNode<Sprite2D>("MiddleSlot");
-		Sprite2D rightSlot = GetNode<Sprite2D>("RightSlot");
-		
-		int availableIndex = 0;
-		
-		if (leftSlot.Visible && availableIndex < indexes.Length) {
-			int spriteIdx = indexes[availableIndex++];
-			if (spriteIdx >= 0 && spriteIdx < sprites.Length)
-				leftSlot.Texture = sprites[spriteIdx];
-		}
-		if (middleSlot.Visible && availableIndex < indexes.Length) {
-			int spriteIdx = indexes[availableIndex++];
-			if (spriteIdx >= 0 && spriteIdx < sprites.Length)
-				middleSlot.Texture = sprites[spriteIdx];
-		}
-		if (rightSlot.Visible && availableIndex < indexes.Length) {
-			int spriteIdx = indexes[availableIndex++];
-			if (spriteIdx >= 0 && spriteIdx < sprites.Length)
-				rightSlot.Texture = sprites[spriteIdx];
+		for (int i = 0; i < slotSprites.Length; i++)
+		{
+			if (slotSprites[i].Visible && i < indexes.Length)
+			{
+				int spriteIdx = indexes[i];
+				if (spriteIdx >= 0 && spriteIdx < sprites.Length)
+					slotSprites[i].Texture = sprites[spriteIdx];
+			}
 		}
 	}
 
 	public void UpdateCounts(int[] counts) {
 		if (counts == null) return;
 		
-		Label leftNb = GetNode<Label>("LeftNb");
-		Label middleNb = GetNode<Label>("MiddleNb");
-		Label rightNb = GetNode<Label>("RightNb");
-		
-		int availableIndex = 0;
-		
-		if (leftNb.Visible && availableIndex < counts.Length) {
-			leftNb.Text = counts[availableIndex++].ToString();
-		}
-		if (middleNb.Visible && availableIndex < counts.Length) {
-			middleNb.Text = counts[availableIndex++].ToString();
-		}
-		if (rightNb.Visible && availableIndex < counts.Length) {
-			rightNb.Text = counts[availableIndex++].ToString();
+		for (int i = 0; i < slotSprites.Length; i++)
+		{
+			if (slotLabels[i].Visible && i < counts.Length)
+			{
+				int count = counts[i];
+				if (count == 0 && slotLabels[i].Text != "0" && slotLabels[i].Text != "")
+				{
+					Flash(slotLabels[i], false);
+					Flash(slotSprites[i], false);
+				}
+				slotLabels[i].Text = count.ToString();
+			}
 		}
 	}
 }

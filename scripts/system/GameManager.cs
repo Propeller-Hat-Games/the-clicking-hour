@@ -393,6 +393,11 @@ public partial class GameManager : Node2D
 	{
 		isSpawning = false;
 		CloseDoor();
+
+		if (board != null)
+		{
+			board.ClearDisplay();
+		}
 		
 		if (musicManager != null)
 		{
