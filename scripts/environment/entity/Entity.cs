@@ -11,7 +11,7 @@ public enum EntityState
 public abstract partial class Entity : CharacterBody2D
 {
     [Export]
-    protected float walkSpeed = 100f; 
+    protected float walkSpeed = 50f; 
     
     [Export]
     protected float spawnDelay = 2f; // Temps d'attente avant de bouger
@@ -141,5 +141,15 @@ public abstract partial class Entity : CharacterBody2D
     public void SetWalkDirection(Vector2 direction)
     {
         walkDirection = direction.Normalized();
+    }
+
+    public void SetSpeed(float speed)
+    {
+        walkSpeed = speed;
+    }
+
+    public float GetSpeed()
+    {
+        return walkSpeed;
     }
 }
