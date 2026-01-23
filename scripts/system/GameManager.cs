@@ -181,7 +181,29 @@ public partial class GameManager : Node2D
 	{
 		if (entityScenes.Count == 0 || !isSpawning) return;
 
-		var randomScene = entityScenes[random.Next(entityScenes.Count)];
+		var randomScene = entityScenes[0];;
+		
+		var randomScene = entityScenes[0];;
+		
+				int typeOfEnemy = random.Next(10);
+				
+				if (typeOfEnemy >= 0.5-difficulty) {
+					randomScene = entityScenes[0];
+				}
+				else {
+					int rareType = random.Next(100);
+					
+					if (rareType >= 50) {
+						randomScene = entityScenes[1];
+					}
+					else if (rareType >= 25) {
+						randomScene = entityScenes[2];
+					}
+					else {
+						randomScene = entityScenes[3];
+					}
+				}
+				
 		var entity = randomScene.Instantiate<Entity>();
 
 		entity.SetSpeed(entity.GetSpeed() * difficulty); 
