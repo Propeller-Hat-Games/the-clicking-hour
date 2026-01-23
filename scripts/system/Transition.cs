@@ -11,7 +11,19 @@ public partial class Transition : Control
 
 	public override void _Ready()
 	{
-		titleLabel = GetNode<Label>("CanvasLayer/Title");
+		titleLabel = GetNode<Label>("CanvasLayer/Window/Title");
+		
+		var window = GetNodeOrNull<Control>("CanvasLayer/Window");
+		if (window != null)
+		{
+			var tween = CreateTween().SetLoops();
+			tween.TweenProperty(window, "position:y", window.Position.Y - 20f, 2.0f)
+				 .SetTrans(Tween.TransitionType.Sine)
+				 .SetEase(Tween.EaseType.InOut);
+			tween.TweenProperty(window, "position:y", window.Position.Y, 2.0f)
+				 .SetTrans(Tween.TransitionType.Sine)
+				 .SetEase(Tween.EaseType.InOut);
+		}
 	}
 
 	public void SetCompletedWave(int waveNumber)
