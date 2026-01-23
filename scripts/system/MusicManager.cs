@@ -48,9 +48,15 @@ public partial class MusicManager : Node
 	{
 		GD.Print($"🎵 [{GetInstanceId()}] StartMusic() called");
 		_player.Stream = _playlist[_index];
+		_player.VolumeDb = -80f;
 		_player.Play(0f);
 		GD.Print($"🎵 [{GetInstanceId()}] Playing track {_index}");
-		await FadeVolume(-80f, _baseVolumeDb, fadeDuration);
+		
+		Tween tween = FadeVolume(_baseVolumeDb, fadeDuration);
+		if (tween != null)
+		{
+			await ToSignal(tween, Tween.SignalName.Finished);
+		}
 	}
 
 	// Fade out, sauvegarde position, change de track
@@ -70,17 +76,26 @@ public partial class MusicManager : Node
 		GD.Print($"🎵 [{GetInstanceId()}] Saved position: {_savedPosition}s");
 
 		// Fade out
-		await FadeVolume(_player.VolumeDb, -80f, fadeDuration);
-		
-		// Stop
-		_player.Stop();
-		GD.Print($"🎵 [{GetInstanceId()}] Stopped player");
-		
-		// Prochaine track
-		_index = (_index + 1) % _playlist.Count;
-		GD.Print($"🎵 [{GetInstanceId()}] Next track index: {_index}");
+		Tween tween = FadeVolume(-80f, fadeDuration);
+		if (tween != null)
+		{
+			await ToSignal(tween, Tween.SignalName.Finished);
+			// Stop
+			_player.Stop();
+			GD.Print($"🎵 [{GetInstanceId()}] Stopped player");
+			
+			// Prochaine track
+			_index = (_index + 1) % _playlist.Count;
+			GD.Print($"🎵 [{GetInstanceId()}] Next track index: {_index}");
 
-		_isTransitioning = false;
+			_isTransitioning = false;
+		}
+		else
+		{
+			_player.Stop();
+			_index = (_index + 1) % _playlist.Count;
+			_isTransitioning = false;
+		}
 	}
 
 	// Fade in de la nouvelle track au timestamp sauvegardé
@@ -104,22 +119,24 @@ public partial class MusicManager : Node
 		GD.Print($"🎵 [{GetInstanceId()}] Playing track {_index} from {_savedPosition}s");
 
 		// Fade in
-		await FadeVolume(-80f, _baseVolumeDb, fadeDuration);
-
-		_isTransitioning = false;
+		Tween tween = FadeVolume(_baseVolumeDb, fadeDuration);
+		if (tween != null)
+		{
+			await ToSignal(tween, Tween.SignalName.Finished);
+			_isTransitioning = false;
+		}
+		else
+		{
+			_isTransitioning = false;
+		}
 	}
 
-	private async Task FadeVolume(float fromDb, float toDb, float duration)
+	private Tween FadeVolume(float toDb, float duration)
 	{
-		float elapsed = 0f;
-		while (elapsed < duration)
-		{
-			elapsed += (float)GetProcessDeltaTime();
-			float t = Mathf.Clamp(elapsed / duration, 0f, 1f);
-			_player.VolumeDb = Mathf.Lerp(fromDb, toDb, t);
-			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-		}
-		_player.VolumeDb = toDb;
+		if (!IsInsideTree()) return null;
+		Tween tween = CreateTween();
+		tween.TweenProperty(_player, "volume_db", toDb, duration);
+		return tween;
 	}
 
 	public override void _ExitTree()

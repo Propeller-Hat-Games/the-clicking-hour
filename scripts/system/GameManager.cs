@@ -157,7 +157,7 @@ public partial class GameManager : Node2D
 		// 🎵 Fade in musique pour waves 2+
 		if (musicManager != null && difficulty > 1.0f)
 		{
-			await musicManager.FadeInNextTrack(1.5f);
+			_ = musicManager.FadeInNextTrack(1.5f);
 		}
 		
 		isSpawning = true;
@@ -181,28 +181,23 @@ public partial class GameManager : Node2D
 	{
 		if (entityScenes.Count == 0 || !isSpawning) return;
 
-		var randomScene = entityScenes[0];;
+		var randomScene = entityScenes[0];
 		
-		var randomScene = entityScenes[0];;
-		
-				int typeOfEnemy = random.Next(10);
+		int typeOfEnemy = random.Next(10);
 				
-				if (typeOfEnemy >= difficulty-0.5) {
-					randomScene = entityScenes[0];
-				}
-				else {
-					int rareType = random.Next(100);
+		if (typeOfEnemy >= difficulty-1) {
+			randomScene = entityScenes[0];
+		} else {
+			int rareType = random.Next(100);
 					
-					if (rareType >= 50) {
-						randomScene = entityScenes[1];
-					}
-					else if (rareType >= 25) {
-						randomScene = entityScenes[2];
-					}
-					else {
-						randomScene = entityScenes[3];
-					}
-				}
+			if (rareType >= 50) {
+				randomScene = entityScenes[1];
+			} else if (rareType >= 25) {
+				randomScene = entityScenes[2];
+			} else {
+				randomScene = entityScenes[3];
+			}
+		}
 				
 		var entity = randomScene.Instantiate<Entity>();
 
@@ -330,7 +325,7 @@ public partial class GameManager : Node2D
 		}
 	}
 	
-	private async void StartGame()
+	private void StartGame()
 	{
 		if (mainMenu != null && IsInstanceValid(mainMenu))
 		{
@@ -340,18 +335,18 @@ public partial class GameManager : Node2D
 		// 🎵 Démarre la musique
 		if (musicManager != null)
 		{
-			await musicManager.StartMusic(1.5f);
+			_ = musicManager.StartMusic(1.5f);
 		}
 		
 		StartWave();
 	}
 
-	private async void StartGameDirectly()
+	private void StartGameDirectly()
 	{
 		// 🎵 Démarre la musique
 		if (musicManager != null)
 		{
-			await musicManager.StartMusic(1.5f);
+			_ = musicManager.StartMusic(1.5f);
 		}
 		
 		StartWave();
