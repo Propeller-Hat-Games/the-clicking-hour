@@ -238,7 +238,7 @@ public partial class GameManager : Node2D
 		heartSprites.Clear();
 
 		// Charge la texture
-		heartTexture = GD.Load<Texture2D>("res://assets/heart.png");
+		heartTexture = GD.Load<Texture2D>("res://assets/sprites/environment/entity/base_heart.png");
 		if (heartTexture == null)
 		{
 			GD.PrintErr("Impossible de charger heart.png !");
@@ -375,7 +375,6 @@ public partial class GameManager : Node2D
 		isSpawning = false;
 		CloseDoor();
 		
-		// 🎵 Fade out la musique
 		if (musicManager != null)
 		{
 			await musicManager.FadeOutAndSwitchTrack(1.5f);
@@ -390,15 +389,21 @@ public partial class GameManager : Node2D
 		}
 		activeEntities.Clear();
 
-		GD.Print("Wave Finished! Next wave in 3s...");
+		wavesSurvived++;
+		GD.Print($"Wave {wavesSurvived} Finished!");
 		
-		if (!IsInsideTree()) return;
-		await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
+		// Afficher l'écran de transition
+		var transitionScene = GD.Load<PackedScene>("res://scenes/ui/transition.tscn");
+		var transitionInstance = transitionScene.Instantiate<Transition>();
+		AddChild(transitionInstance);
+		transitionInstance.SetCompletedWave(wavesSurvived);
+		
+		// Attendre que le joueur clique sur Next Stage
+		await ToSignal(transitionInstance, Transition.SignalName.NextStageRequested);
 		
 		if (!IsInstanceValid(this) || !IsInsideTree()) return;
 		if (CheckGameOver()) return;
 
-		wavesSurvived++;
 		difficulty += 0.5f;
 		StartWave();
 	}
