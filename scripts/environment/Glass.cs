@@ -30,4 +30,12 @@ public partial class Glass : Node2D {
 	}
 	
 	public GlassType GetGlassType() => currentType;
+
+	public float AppearOffset { get; set; } = 0f;
+
+	public void Appear()
+	{
+		// Logic moved to Entity.cs for frame-syncing
+		AppearOffset = 50f;
+	}
 }

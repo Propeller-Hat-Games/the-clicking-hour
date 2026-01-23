@@ -5,6 +5,7 @@ public partial class MultiClickEntity : Entity
 {
 	protected override void InitializeEntity()
 	{
+		animPrefix = "normal";
 		clicksRemaining = (int)GD.RandRange(3, 5);
 		GD.Print($"MultiClickEntity créée avec {clicksRemaining} clics requis");
 	}
