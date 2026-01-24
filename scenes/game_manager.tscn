@@ -40,12 +40,12 @@ position = Vector2(63, 603)
 [node name="AnimatedBackground" parent="." instance=ExtResource("8_jdad8")]
 
 [node name="GlitchEffect" parent="." instance=ExtResource("9_glitch")]
-visible = false
 
 [node name="Wall" parent="." instance=ExtResource("10_frtjd")]
 position = Vector2(1152, 0)
 
 [node name="Frontground" type="Sprite2D" parent="."]
+z_index = 5
 scale = Vector2(3, 3)
 texture = ExtResource("11_0rse5")
 centered = false
