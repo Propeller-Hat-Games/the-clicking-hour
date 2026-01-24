@@ -69,7 +69,8 @@ theme = ExtResource("2_ekxnf")
 [node name="Title" type="Label" parent="CanvasLayer/Window/VDiv"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 72
-text = "Code Game Bar"
+text = "The Clicking
+hour"
 horizontal_alignment = 1
 
 [node name="HDiv" type="HBoxContainer" parent="CanvasLayer/Window/VDiv"]
@@ -89,5 +90,5 @@ layout_mode = 2
 theme = ExtResource("2_ekxnf")
 text = "Quitter"
 
-[connection signal="pressed" from="CanvasLayer/Window/VDiv/HDiv/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Window/VDiv/HDiv/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Window/VDiv/HDiv/QuitButton" to="." method="_on_quit_button_pressed"]

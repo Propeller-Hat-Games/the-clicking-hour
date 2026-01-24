@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Godot Project"
+config/name="The Clicking Hour"
 run/main_scene="uid://xvhpdf7qoa4b"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
@@ -23,18 +23,11 @@ MusicManager="*res://scripts/system/MusicManager.cs"
 
 [display]
 
-window/size/viewport_width=1152
-window/size/viewport_height=648
 window/stretch/mode="viewport"
-window/stretch/aspect="keep"
 
 [dotnet]
 
 project/assembly_name="Godot Project"
-
-[gui]
-
-common/snap_controls_to_pixels=true
 
 [rendering]
 
