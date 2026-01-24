@@ -208,7 +208,16 @@ public abstract partial class Entity : CharacterBody2D
 		}
 
 		float frameOffset = (sprite.Frame % 2 == 0) ? 1.0f : 0.0f;
-		glassInstance.Position = new Vector2(0, sprite.Position.Y - baseHalfHeight + glassInstance.AppearOffset + frameOffset);
+		
+		// Correction spécifique pour l'animation de creusement où le sprite est visuellement différent
+		float animCorrection = 0f;
+		// On applique l'offset seulement si on est caché ou en train d'apparaitre (pas quand on marche)
+		if (anim.StartsWith("dig") && (currentState == EntityState.Hiding || spawnTimer < spawnDelay))
+		{
+			animCorrection = -35.0f;
+		}
+		
+		glassInstance.Position = new Vector2(0, sprite.Position.Y - baseHalfHeight + glassInstance.AppearOffset + frameOffset + animCorrection);
 	}
 
 	protected void Die()
