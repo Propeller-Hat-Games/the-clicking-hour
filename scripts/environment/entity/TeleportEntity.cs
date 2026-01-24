@@ -7,6 +7,7 @@ public partial class TeleportEntity : Entity
 	
 	protected override void InitializeEntity()
 	{
+		animPrefix = "tp";
 		clicksRemaining = 3;
 	}
 	
