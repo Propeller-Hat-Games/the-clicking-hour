@@ -20,10 +20,6 @@ script = ExtResource("1_hwd4i")
 [node name="SpawnArea" parent="." instance=ExtResource("4_spawn")]
 position = Vector2(324, 405)
 
-[node name="Door" parent="." instance=ExtResource("6_eaq8r")]
-position = Vector2(1101, 465)
-scale = Vector2(1, 1)
-
 [node name="Board" parent="." instance=ExtResource("5_board")]
 visible = false
 position = Vector2(888, 99)
@@ -38,7 +34,6 @@ position = Vector2(70, 567)
 [node name="AnimatedBackground" parent="." instance=ExtResource("8_jdad8")]
 
 [node name="GlitchEffect" parent="." instance=ExtResource("9_glitch")]
-visible = false
 
 [node name="Wall" parent="." instance=ExtResource("10_frtjd")]
 position = Vector2(1152, 0)
@@ -48,6 +43,10 @@ z_index = 5
 scale = Vector2(3, 3)
 texture = ExtResource("11_0rse5")
 centered = false
+
+[node name="Door" parent="." instance=ExtResource("6_eaq8r")]
+position = Vector2(1062, 382)
+scale = Vector2(1, 1)
 
 [node name="Floor" parent="." instance=ExtResource("11_aonbx")]
 position = Vector2(0, 192)
