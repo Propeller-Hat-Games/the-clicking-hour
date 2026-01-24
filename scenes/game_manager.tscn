@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cx874y6efj4qr" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/ui/main_menu.tscn" id="2_glms7"]
-[ext_resource type="PackedScene" uid="uid://ciqsen53683eg" path="res://scenes/mockup.tscn" id="3_udu3i"]
 [ext_resource type="PackedScene" uid="uid://ca31yr40ycoys" path="res://scenes/spawn_area.tscn" id="4_spawn"]
 [ext_resource type="PackedScene" uid="uid://dv81us2tealma" path="res://scenes/environment/board.tscn" id="5_board"]
 [ext_resource type="PackedScene" uid="uid://hhcrdfkwjpej" path="res://scenes/environment/door.tscn" id="6_eaq8r"]
@@ -11,13 +10,12 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/glitch_effect.tscn" id="9_glitch"]
 [ext_resource type="PackedScene" uid="uid://bhoi4skfxyuti" path="res://scenes/environment/wall.tscn" id="10_frtjd"]
 [ext_resource type="Texture2D" uid="uid://c50o746oq4yab" path="res://assets/sprites/environment/background/frontground.png" id="11_0rse5"]
+[ext_resource type="PackedScene" uid="uid://mhapi4tkbht" path="res://scenes/environment/floor.tscn" id="11_aonbx"]
 
 [node name="GameManager" type="Node2D"]
 script = ExtResource("1_hwd4i")
 
 [node name="MainMenu" parent="." instance=ExtResource("2_glms7")]
-
-[node name="Sprite2D" parent="." instance=ExtResource("3_udu3i")]
 
 [node name="SpawnArea" parent="." instance=ExtResource("4_spawn")]
 position = Vector2(324, 405)
@@ -40,6 +38,7 @@ position = Vector2(70, 567)
 [node name="AnimatedBackground" parent="." instance=ExtResource("8_jdad8")]
 
 [node name="GlitchEffect" parent="." instance=ExtResource("9_glitch")]
+visible = false
 
 [node name="Wall" parent="." instance=ExtResource("10_frtjd")]
 position = Vector2(1152, 0)
@@ -49,3 +48,7 @@ z_index = 5
 scale = Vector2(3, 3)
 texture = ExtResource("11_0rse5")
 centered = false
+
+[node name="Floor" parent="." instance=ExtResource("11_aonbx")]
+position = Vector2(0, 192)
+scale = Vector2(3, 3)
