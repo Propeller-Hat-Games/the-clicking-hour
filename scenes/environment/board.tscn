@@ -1,28 +1,21 @@
 [gd_scene load_steps=6 format=3 uid="uid://53jip01gdddx"]
 
-[ext_resource type="Texture2D" uid="uid://cofpgjlygiaod" path="res://icon.svg" id="1_p0ybc"]
 [ext_resource type="Script" uid="uid://06c2gcei85rn" path="res://scripts/environment/board/Board.cs" id="2_psm7c"]
-[ext_resource type="Texture2D" uid="uid://cbfmuvfrs6los" path="res://assets/sprites/sprites/red.png" id="3_o23xj"]
-[ext_resource type="Texture2D" uid="uid://cs3p2aq3qj578" path="res://assets/sprites/sprites/green.png" id="4_8tprs"]
-[ext_resource type="Texture2D" uid="uid://bjvaqnyb5dwc" path="res://assets/sprites/sprites/blue.png" id="5_ygvyx"]
+[ext_resource type="Texture2D" uid="uid://dpnxehxdsmip4" path="res://assets/sprites/environment/entity/base_glass_blue.png" id="3_8tprs"]
+[ext_resource type="Texture2D" uid="uid://dk5byvyskfmhu" path="res://assets/sprites/environment/entity/base_glass_green.png" id="4_ygvyx"]
+[ext_resource type="Texture2D" uid="uid://c087phli2nxic" path="res://assets/sprites/environment/entity/base_glass_red.png" id="5_hlvoh"]
+[ext_resource type="Texture2D" uid="uid://de186ppk2qbk5" path="res://assets/sprites/environment/entity/base_glass_yellow.png" id="6_aoutw"]
 
 [node name="Board" type="Sprite2D"]
 scale = Vector2(3, 3)
-texture = ExtResource("1_p0ybc")
 script = ExtResource("2_psm7c")
-sprites = [ExtResource("3_o23xj"), ExtResource("4_8tprs"), ExtResource("5_ygvyx")]
+sprites = [ExtResource("3_8tprs"), ExtResource("4_ygvyx"), ExtResource("5_hlvoh"), ExtResource("6_aoutw")]
 amountOfSlots = 2
 
 [node name="LeftSlot" type="Sprite2D" parent="."]
 position = Vector2(-40, 0)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_p0ybc")
 
 [node name="MiddleSlot" type="Sprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_p0ybc")
 
 [node name="RightSlot" type="Sprite2D" parent="."]
 position = Vector2(40, 0)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_p0ybc")
