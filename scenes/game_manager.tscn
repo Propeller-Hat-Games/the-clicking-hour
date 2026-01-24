@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://xvhpdf7qoa4b"]
+[gd_scene load_steps=16 format=3 uid="uid://xvhpdf7qoa4b"]
 
 [ext_resource type="Script" uid="uid://d1wuo203q2duk" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="PackedScene" uid="uid://bk8cwxtfujhoj" path="res://scenes/ui/pause_menu.tscn" id="2_5xtl8"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/ui/main_menu.tscn" id="2_glms7"]
 [ext_resource type="PackedScene" uid="uid://ca31yr40ycoys" path="res://scenes/spawn_area.tscn" id="4_spawn"]
 [ext_resource type="PackedScene" uid="uid://dv81us2tealma" path="res://scenes/environment/board.tscn" id="5_board"]
@@ -18,7 +19,7 @@
 [node name="GameManager" type="Node2D" node_paths=PackedStringArray("unboarding")]
 script = ExtResource("1_hwd4i")
 unboarding = NodePath("Unboarding")
-pauseMenuScene = ExtResource("2_glms7")
+pauseMenuScene = ExtResource("2_5xtl8")
 
 [node name="MainMenu" parent="." instance=ExtResource("2_glms7")]
 
