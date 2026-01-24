@@ -25,5 +25,5 @@ Button/styles/focus = SubResource("StyleBoxFlat_normal")
 Button/styles/hover = SubResource("StyleBoxFlat_normal")
 Button/styles/normal = SubResource("StyleBoxFlat_normal")
 Button/styles/pressed = SubResource("StyleBoxFlat_normal")
-HBoxContainer/constants/separation = 64
+HBoxContainer/constants/separation = 32
 VBoxContainer/constants/separation = 32

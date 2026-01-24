@@ -1,0 +1,100 @@
+[gd_scene load_steps=4 format=3 uid="uid://ci1fmmjv0sef6"]
+
+[ext_resource type="Script" uid="uid://ccdk7x4rnhskl" path="res://scripts/system/CreditMenu.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_gradient"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="3_theme"]
+
+[node name="CreditMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Window" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundBorder" type="TextureRect" parent="CanvasLayer/Window"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -250.0
+offset_right = 300.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_gradient")
+
+[node name="Background" type="ColorRect" parent="CanvasLayer/Window"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = -240.0
+offset_right = 290.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.00392157, 0, 0.0431373, 1)
+
+[node name="VDiv" type="VBoxContainer" parent="CanvasLayer/Window"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/Window/VDiv"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Crédits"
+horizontal_alignment = 1
+
+[node name="CreditsList" type="Label" parent="CanvasLayer/Window/VDiv"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Ferdiand Del Re
+Ternoy Gaspard
+Baptiste May
+Lucas Guglielmetti
+Hugo Louis Joseph
+Kamil Charbenaga
+Clément Thery"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="CloseButton" type="Button" parent="CanvasLayer/Window/VDiv"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Retour"
+
+[connection signal="pressed" from="CanvasLayer/Window/VDiv/CloseButton" to="." method="_on_close_button_pressed"]

@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://cdkbrq21ysjr4"]
+[gd_scene load_steps=5 format=3 uid="uid://cdkbrq21ysjr4"]
 
 [ext_resource type="Script" uid="uid://dbuy0jnnubs3s" path="res://scripts/system/MainMenu.cs" id="1_l6cm7"]
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_1g8jr"]
+[ext_resource type="PackedScene" uid="uid://ci1fmmjv0sef6" path="res://scenes/ui/credit_menu.tscn" id="2_credit"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ekxnf"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_l6cm7")
+CreditMenuScene = ExtResource("2_credit")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -85,10 +87,17 @@ size_flags_horizontal = 4
 theme = ExtResource("2_ekxnf")
 text = "Jouer"
 
+[node name="CreditsButton" type="Button" parent="CanvasLayer/Window/VDiv/HDiv"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_ekxnf")
+text = "Crédits"
+
 [node name="QuitButton" type="Button" parent="CanvasLayer/Window/VDiv/HDiv"]
 layout_mode = 2
 theme = ExtResource("2_ekxnf")
 text = "Quitter"
 
 [connection signal="pressed" from="CanvasLayer/Window/VDiv/HDiv/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Window/VDiv/HDiv/CreditsButton" to="." method="_on_credits_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Window/VDiv/HDiv/QuitButton" to="." method="_on_quit_button_pressed"]
