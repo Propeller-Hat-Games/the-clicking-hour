@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://3qs8wglfigns" path="res://scripts/Area2d.cs" id="1_svk5y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dl81w"]
-size = Vector2(200, 108)
+size = Vector2(200, 128)
 
 [node name="Spawn" type="Area2D"]
 collision_layer = 0

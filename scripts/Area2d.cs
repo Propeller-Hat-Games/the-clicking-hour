@@ -21,9 +21,10 @@ public partial class Area2d : Area2D
 		
 		Vector2 size = AreaSize();
 		Vector2 position = this.Position;
+		Vector2 scale = this.Scale;
 		
-		int amountX = rand.Next((int)(position.X - size.X) , (int)(position.X + size.X));
-		int amountY = rand.Next((int)(position.Y - size.Y) , (int)(position.Y + size.Y));
+		int amountX = rand.Next((int)scale.X * (int)(position.X - size.X) ,(int)scale.X * (int)(position.X + size.X));
+		int amountY = rand.Next((int)scale.Y * (int)(position.Y - size.Y) ,(int)scale.Y * (int)(position.Y + size.Y));
 		
 		return new Vector2(amountX , amountY);
 	}
