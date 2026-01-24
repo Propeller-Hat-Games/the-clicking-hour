@@ -57,9 +57,6 @@ public partial class GameManager : Node2D
 	private bool isFirstWaveOfSession = true;
 	private TaskCompletionSource<bool> unboardingClosedTcs;
 
-	protected bool paused;
-	Dictionary<Entity,float> entitySpeeds = new Dictionary<Entity, float>();
-
 	public GlassType GetRandomGlassType()
 	{
 		var values = Enum.GetValues(typeof(GlassType));
@@ -253,9 +250,6 @@ public partial class GameManager : Node2D
 		// Continuous spawning loop until wave ends
 		while (isSpawning)
 		{
-			
-			while (paused) {await ToSignal(GetTree().CreateTimer(0.5f, false), "timeout");}
-			
 			SpawnEntity();
 			float delay = (float)GD.RandRange(1.5f, 3.0f) / difficulty;
 			delay = Math.Max(0.25f, delay);
@@ -526,36 +520,10 @@ public partial class GameManager : Node2D
 		
 		if (pauseMenuScene != null)
 		{
-			_gameStarted = false;
-			mainMenu = (MainMenu)pauseMenuScene.Instantiate<Control>();
-			AddChild(mainMenu);
-			SetMovementAndSpawningOfEntitiesTo(false);
-			mainMenu.GameStarted += ResumeGame;
-			_ = musicManager.PlayMenuMusic(1.5f);
+			var pauseMenu = pauseMenuScene.Instantiate<Control>();
+			AddChild(pauseMenu);
+			GetTree().Paused = true;
 		}
-	}
-	
-	public void SetMovementAndSpawningOfEntitiesTo(bool value) {
-		paused = !value;
-		if (paused) {
-			entitySpeeds = new Dictionary<Entity, float>();
-			foreach (Entity entity in activeEntities) {
-				entitySpeeds.Add(entity,entity.walkSpeed);
-				entity.walkSpeed = 0;
-			}
-		}
-		else {
-			foreach (Entity entity in activeEntities) {
-				entity.walkSpeed = entitySpeeds[entity];
-			}
-		}
-	}
-
-private void ResumeGame() {
-		mainMenu.QueueFree();
-		_gameStarted = true;
-		_ = musicManager.SwitchToGameMusic(1.5f);
-		SetMovementAndSpawningOfEntitiesTo(true);
 	}
 
 	public override void _Process(double delta)
@@ -582,10 +550,7 @@ private void ResumeGame() {
 				GetViewport().SetInputAsHandled();
 				return;
 			}
-			
-			if (!paused) {
-				HandleEntityClick(mouseEvent.Position);
-			}
+			HandleEntityClick(mouseEvent.Position);
 		}
 	}
 
