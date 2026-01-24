@@ -19,5 +19,9 @@ public partial class MultiClickEntity : Entity
 		{
 			Die();
 		}
+		else
+		{
+			SfxManager.Instance?.PlayClickSound();
+		}
 	}
 }

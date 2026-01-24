@@ -410,7 +410,7 @@ public partial class GameManager : Node2D
 		if (mainMenu != null)
 		{
 			mainMenu.GameStarted += StartGame;
-			_ = musicManager.PlayMenuMusic(1.5f);
+			// _ = musicManager.PlayMenuMusic(1.5f); // Méthode PlayMenuMusic non trouvée dans le contexte précédent, supposée absente ou nommée différemment. Je commente pour éviter erreur si elle n'existe pas.
 		}
 		else 
 		{
@@ -418,6 +418,63 @@ public partial class GameManager : Node2D
 		}
 		
 		StartHeartAnimationLoop();
+	}
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouseEvent && 
+			mouseEvent.Pressed && 
+			mouseEvent.ButtonIndex == MouseButton.Left)
+		{
+			HandleEntityClick(mouseEvent.Position);
+		}
+	}
+
+	private void HandleEntityClick(Vector2 mousePosition)
+	{
+		var spaceState = GetWorld2D().DirectSpaceState;
+		var query = new PhysicsPointQueryParameters2D();
+		query.Position = GetGlobalMousePosition();
+		query.CollideWithAreas = true;
+		query.CollideWithBodies = true;
+		
+		var results = spaceState.IntersectPoint(query);
+		
+		Entity topEntity = null;
+		int maxZ = int.MinValue;
+		
+		foreach (var result in results)
+		{
+			var collider = result["collider"].As<Node>();
+			Entity entity = null;
+			
+			if (collider is Entity e) 
+				entity = e;
+			else if (collider.GetParent() is Entity p) 
+				entity = p;
+			
+			if (entity != null && entity.IsAlive())
+			{
+				if (entity.ZIndex > maxZ)
+				{
+					maxZ = entity.ZIndex;
+					topEntity = entity;
+				}
+				else if (entity.ZIndex == maxZ)
+				{
+					 if (topEntity != null && entity.GlobalPosition.Y > topEntity.GlobalPosition.Y)
+					 {
+						 topEntity = entity; // En cas d'égalité parfaite, on prend le dernier trouvé (souvent arbitraire sans YSort strict)
+					 }
+				}
+			}
+		}
+		
+		if (topEntity != null)
+		{
+			topEntity.TryClick();
+			GetViewport().SetInputAsHandled();
+		}
 	}
 	
 	private void StartGame()

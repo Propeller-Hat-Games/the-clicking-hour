@@ -47,13 +47,26 @@ public abstract partial class Entity : CharacterBody2D
 		}
 		
 		var clickArea = GetNodeOrNull<Area2D>("ClickArea");
+		// La gestion du clic est maintenant centralisée dans le GameManager
+		/*
 		if (clickArea != null)
 		{
 			clickArea.InputPickable = true;
 			clickArea.InputEvent += OnClickAreaInputEvent;
 		}
+		*/
 
 		CallDeferred(nameof(SetDirectionTowardsDoor));
+	}
+	
+	public bool IsAlive() => isAlive;
+
+	public void TryClick()
+	{
+		if (isAlive)
+		{
+			OnClicked();
+		}
 	}
 
 	private void SetDirectionTowardsDoor()
@@ -70,6 +83,7 @@ public abstract partial class Entity : CharacterBody2D
 	
 	protected abstract void OnClicked();
 	
+	/*
 	private void OnClickAreaInputEvent(Node viewport, InputEvent @event, long shapeIdx)
 	{
 		if (@event is InputEventMouseButton mouseEvent && 
@@ -77,8 +91,6 @@ public abstract partial class Entity : CharacterBody2D
 			mouseEvent.ButtonIndex == MouseButton.Left &&
 			isAlive)
 		{
-			// 🔊 JOUER LE SON DE CLIC
-			SfxManager.Instance?.PlayClickSound();
 			OnClicked();
 		}
 	}
@@ -90,11 +102,10 @@ public abstract partial class Entity : CharacterBody2D
 			mouseEvent.ButtonIndex == MouseButton.Left &&
 			isAlive)
 		{
-			// 🔊 JOUER LE SON DE CLIC
-			SfxManager.Instance?.PlayClickSound();
 			OnClicked();
 		}
 	}
+	*/
 
 	public override void _PhysicsProcess(double delta)
 	{

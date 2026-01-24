@@ -8,7 +8,6 @@ public partial class TeleportEntity : Entity
 	protected override void InitializeEntity()
 	{
 		clicksRemaining = 3;
-		animPrefix = "tp";
 	}
 	
 	protected override void OnClicked()
@@ -22,11 +21,12 @@ public partial class TeleportEntity : Entity
 		}
 		else
 		{
-			// Se téléporter en arrière
+			// Se téléporter
 			Teleport();
+			SfxManager.Instance?.PlayClickSound();
 		}
 	}
-	
+
 	private void Teleport()
 	{
 		// Téléporter vers une position aléatoire dans la zone d'apparition
