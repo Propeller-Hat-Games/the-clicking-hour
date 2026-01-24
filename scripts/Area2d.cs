@@ -3,12 +3,28 @@ using System;
 
 public partial class Area2d : Area2D
 {
+	
+	public CollisionShape2D area;
+	public RectangleShape2D rec;
+	
+	public override void _Ready() {
+		area = GetNode<CollisionShape2D>("Box");
+		rec = (RectangleShape2D)area.Shape;
+	}
+	
 	public Vector2 AreaSize() {
-		CollisionShape2D area = GetNode<CollisionShape2D>("Box");
-		if (area.Shape is RectangleShape2D rec)
-		{
-			return rec.Size;
-		}
-		return Vector2.Zero;
+		return rec.Size;
+	}
+	
+	public Vector2 RandomPosition() {
+		var rand = new Random();
+		
+		Vector2 size = AreaSize();
+		Vector2 position = this.Position;
+		
+		int amountX = rand.Next((int)(position.X - size.X) , (int)(position.X + size.X));
+		int amountY = rand.Next((int)(position.Y - size.Y) , (int)(position.Y + size.Y));
+		
+		return new Vector2(amountX , amountY);
 	}
 }
