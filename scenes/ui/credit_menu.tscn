@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://ci1fmmjv0sef6"]
+[gd_scene load_steps=4 format=3 uid="uid://6ejxl705e67l"]
 
 [ext_resource type="Script" uid="uid://ccdk7x4rnhskl" path="res://scripts/system/CreditMenu.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_gradient"]
@@ -81,13 +81,13 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Ferdiand Del Re
-Ternoy Gaspard
-Baptiste May
-Lucas Guglielmetti
-Hugo Louis Joseph
-Kamil Charbenaga
-Clément Thery"
+text = "Ferdinand Del Re | Flamasar - Art
+Gaspard Ternoy - Musique
+Baptiste May - Code
+Lucas Guglielmetti - Code
+Hugo Louis Joseph - Code
+Kamil Charbenaga - Code
+Clément Thery - Code"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
