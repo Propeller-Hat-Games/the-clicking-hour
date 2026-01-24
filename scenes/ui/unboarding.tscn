@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba4p5yeipj4bk"]
+
+[ext_resource type="Texture2D" uid="uid://bekg81ing340d" path="res://assets/sprites/unboarding.png" id="1_qibao"]
+
+[node name="Unboarding" type="Sprite2D"]
+scale = Vector2(3, 3)
+texture = ExtResource("1_qibao")
+centered = false

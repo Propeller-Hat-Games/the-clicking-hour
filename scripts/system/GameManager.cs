@@ -42,8 +42,12 @@ public partial class GameManager : Node2D
 	private CanvasLayer nightModeLayer;
 	private bool isNightMode = false;
 
-	// 📺 VHS
 	private CanvasLayer vhsLayer;
+
+	[Export]
+	private Sprite2D unboarding;
+	private bool isFirstWaveOfSession = true;
+	private TaskCompletionSource<bool> unboardingClosedTcs;
 
 	public GlassType GetRandomGlassType()
 	{
@@ -156,6 +160,20 @@ public partial class GameManager : Node2D
 
 	public async void StartWave()
 	{
+
+		if (isFirstWaveOfSession && unboarding != null)
+		{
+			var settings = GetNode<SettingsManager>("/root/SettingsManager");
+			if (settings != null && !settings.HasSeenOnboarding)
+			{
+				unboarding.Visible = true;
+				unboardingClosedTcs = new TaskCompletionSource<bool>();
+				await unboardingClosedTcs.Task;
+				settings.HasSeenOnboarding = true;
+			}
+			isFirstWaveOfSession = false;
+		}
+
 		// Difficulty logic
 		int glassCount = GetGlassCountForDifficulty(difficulty);
 		SelectRequiredGlassTypes(glassCount);
@@ -192,8 +210,6 @@ public partial class GameManager : Node2D
 
 		Affichecoeur();
 		GD.Print($"Starting wave! Difficulty: {difficulty}. Condition Glasses: {glassCount}. Quota needed: {quota}");
-		
-
 		
 		// 🌑 Calcul de la probabilité de Nuit (30% de chance dès la vague 3, et pas deux fois de suite)
 		// wavesSurvived commence à 0. Vague 1 = 0, Vague 2 = 1, Vague 3 = 2.
@@ -281,6 +297,15 @@ public partial class GameManager : Node2D
 		if (activeEntities.Contains(entity))
 		{
 			activeEntities.Remove(entity);
+		}
+	}
+
+	private void SetupUnboarding()
+	{
+		if (unboarding != null)
+		{
+			unboarding.Visible = false;
+			unboarding.ZIndex = 200; // Make sure it's on top
 		}
 	}
 
@@ -403,6 +428,7 @@ public partial class GameManager : Node2D
 
 		SetupVHSEffect();
 		SetupNightModeEffect();
+		SetupUnboarding();
 		
 		heartScene = GD.Load<PackedScene>("res://scenes/heart.tscn");
 
@@ -477,6 +503,13 @@ public partial class GameManager : Node2D
 			mouseEvent.Pressed && 
 			mouseEvent.ButtonIndex == MouseButton.Left)
 		{
+			if (unboarding != null && unboarding.Visible)
+			{
+				unboarding.Visible = false;
+				unboardingClosedTcs?.TrySetResult(true);
+				GetViewport().SetInputAsHandled();
+				return;
+			}
 			HandleEntityClick(mouseEvent.Position);
 		}
 	}

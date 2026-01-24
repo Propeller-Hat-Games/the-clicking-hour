@@ -10,6 +10,7 @@ public partial class SettingsManager : Node
     private float _sfxVolume = 1.0f;
     private bool _glitchEnabled = true;
     private bool _globalEffectsEnabled = true;
+    private bool _hasSeenOnboarding = false;
 
     public float MasterVolume
     {
@@ -50,6 +51,16 @@ public partial class SettingsManager : Node
         }
     }
 
+    public bool HasSeenOnboarding
+    {
+        get => _hasSeenOnboarding;
+        set
+        {
+            _hasSeenOnboarding = value;
+            SaveSettings();
+        }
+    }
+
     [Signal]
     public delegate void SettingsChangedEventHandler();
 
@@ -73,6 +84,7 @@ public partial class SettingsManager : Node
         config.SetValue("audio", "sfx_volume", _sfxVolume);
         config.SetValue("effects", "glitch_enabled", _glitchEnabled);
         config.SetValue("effects", "global_effects_enabled", _globalEffectsEnabled);
+        config.SetValue("gameplay", "has_seen_onboarding", _hasSeenOnboarding);
         config.Save("user://settings.cfg");
     }
 
@@ -86,6 +98,7 @@ public partial class SettingsManager : Node
             _sfxVolume = (float)config.GetValue("audio", "sfx_volume", 1.0f);
             _glitchEnabled = (bool)config.GetValue("effects", "glitch_enabled", true);
             _globalEffectsEnabled = (bool)config.GetValue("effects", "global_effects_enabled", true);
+            _hasSeenOnboarding = (bool)config.GetValue("gameplay", "has_seen_onboarding", false);
         }
     }
 }
