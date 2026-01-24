@@ -97,6 +97,12 @@ public partial class GameManager : Node2D
 			var gameOverInstance = gameOverScene.Instantiate<GameOver>();
 			AddChild(gameOverInstance);
 			gameOverInstance.SetWavesSurvived(wavesSurvived, entitiesKilled, glassPassed);
+
+			// 🎵 Play menu music on game over
+			if (musicManager != null)
+			{
+				_ = musicManager.PlayMenuMusic(1.5f);
+			}
 		}
 	}
 
@@ -403,9 +409,8 @@ public partial class GameManager : Node2D
 			trash.ZIndex = 100;
 		}
 		
-		// 🎵 Créer le MusicManager
-		musicManager = new MusicManager();
-		AddChild(musicManager);
+		// 🎵 Utiliser le MusicManager Autoload
+		musicManager = GetNode<MusicManager>("/root/MusicManager");
 		
 		var glassScene = GD.Load<PackedScene>("res://scenes/glass.tscn");
 		var glassInstance = glassScene.Instantiate<Glass>();

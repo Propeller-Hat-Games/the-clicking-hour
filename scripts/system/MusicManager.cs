@@ -45,6 +45,12 @@ public partial class MusicManager : Node
 
 	public async Task PlayMenuMusic(float fadeDuration = 1.5f)
 	{
+		if (_player.Stream == _menuMusic && _player.Playing)
+		{
+			await FadeVolume(_baseVolumeDb, fadeDuration);
+			return;
+		}
+
 		_player.Stream = _menuMusic;
 		_player.VolumeDb = -80f;
 		_player.Play(0f);
