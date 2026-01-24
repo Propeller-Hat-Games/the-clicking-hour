@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://crqnun1n00n82"]
+
+[ext_resource type="Script" uid="uid://1kyrveab5a30" path="res://scripts/environment/Neon.cs" id="1_3ee1g"]
+[ext_resource type="Texture2D" uid="uid://doly53lbprmk8" path="res://assets/sprites/environment/neon_off.png" id="1_ojm2t"]
+[ext_resource type="Texture2D" uid="uid://dlihm1fc1mcn1" path="res://assets/sprites/environment/neon_on.png" id="3_mum1e"]
+
+[node name="Neon" type="Node2D" node_paths=PackedStringArray("NeonOnSprite", "NeonOffSprite")]
+scale = Vector2(3, 3)
+script = ExtResource("1_3ee1g")
+NeonOnSprite = NodePath("On")
+NeonOffSprite = NodePath("Off")
+
+[node name="Off" type="Sprite2D" parent="."]
+texture = ExtResource("1_ojm2t")
+
+[node name="On" type="Sprite2D" parent="."]
+texture = ExtResource("3_mum1e")
