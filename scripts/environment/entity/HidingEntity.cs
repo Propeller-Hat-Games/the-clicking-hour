@@ -34,6 +34,7 @@ public partial class HidingEntity : Entity
 			// Se cacher dans le sol
 			currentState = EntityState.Hiding;
 			hideTimer = 0f;
+			SfxManager.Instance?.PlayEntityDigSound();
 			
 			if (sprite != null)
 			{
@@ -99,7 +100,14 @@ public partial class HidingEntity : Entity
 
 		if (currentState == EntityState.Hiding)
 		{
+			float prevTimer = hideTimer;
 			hideTimer += (float)delta;
+			
+			// Si on commence à remonter (début de la phase d'émergence)
+			if (prevTimer < HIDE_DURATION - 0.3f && hideTimer >= HIDE_DURATION - 0.3f)
+			{
+				SfxManager.Instance?.PlayEntityEmergenceSound();
+			}
 			
 			if (hideTimer >= HIDE_DURATION)
 			{
