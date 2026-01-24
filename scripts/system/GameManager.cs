@@ -47,6 +47,9 @@ public partial class GameManager : Node2D
 	private CanvasLayer vhsLayer;
 	public bool IsNightMode => isNightMode;
 
+	private Texture2D cursorNormal;
+	private Texture2D cursorNight;
+
 	[Export]
 	private Sprite2D unboarding;
 	[Export]
@@ -232,6 +235,8 @@ public partial class GameManager : Node2D
 			if (nightModeRect != null) nightModeRect.Visible = false;
 			GD.Print("☀️ Day Mode.");
 		}
+		
+		UpdateCursor();
 		
 		// 🎵 Fade in musique pour waves 2+
 		if (musicManager != null && difficulty > 1.0f)
@@ -430,6 +435,10 @@ public partial class GameManager : Node2D
 		glitchEffect = GetNodeOrNull<GlitchEffect>("GlitchEffect");
 		if (glitchEffect == null) GD.PrintErr("GlitchEffect NOT FOUND in GameManager!");
 		else GD.Print("GlitchEffect initialized successfully.");
+
+		cursorNormal = GD.Load<Texture2D>("res://assets/sprites/cursor_normal.png");
+		cursorNight = GD.Load<Texture2D>("res://assets/sprites/cursor_night.png");
+		UpdateCursor();
 
 		SetupVHSEffect();
 		SetupNightModeEffect();
@@ -720,6 +729,19 @@ public partial class GameManager : Node2D
 
 		difficulty += 0.25f;
 		StartWave();
+	}
+
+	private void UpdateCursor()
+	{
+		Texture2D cursorTexture = isNightMode ? cursorNight : cursorNormal;
+		if (cursorTexture != null)
+		{
+			Image img = cursorTexture.GetImage();
+			img.Resize(img.GetWidth() * 3, img.GetHeight() * 3, Image.Interpolation.Nearest);
+			ImageTexture scaledCursor = ImageTexture.CreateFromImage(img);
+			// Hotspot at (10*3, 5*3) = (30, 15) because the visual tip is at (10, 5) in the original 32x32 sprite
+			Input.SetCustomMouseCursor(scaledCursor, Input.CursorShape.Arrow, new Vector2(30, 15));
+		}
 	}
 
 	private void SetupNightModeEffect()
