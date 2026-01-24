@@ -61,9 +61,7 @@ public partial class SfxManager : Node
 		entityDig1 = GD.Load<AudioStream>("res://assets/sounds/EntityDig1.mp3");
 		entityEmergence1 = GD.Load<AudioStream>("res://assets/sounds/EntityEmerge1.mp3");
 
-		takeDamage1 = GD.Load<AudioStream>("res://assets/sounds/TakeDamage1.mp3");
-		takeDamage2 = GD.Load<AudioStream>("res://assets/sounds/TakeDamage2.mp3");
-		takeDamage3 = GD.Load<AudioStream>("res://assets/sounds/TakeDamage3.mp3");
+		takeDamage1 = GD.Load<AudioStream>("res://assets/sounds/TakeDamageBetter.mp3");
 
 		GD.Print("SfxManager initialisé !");
 	}
