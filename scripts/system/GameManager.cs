@@ -410,7 +410,7 @@ public partial class GameManager : Node2D
 		if (mainMenu != null)
 		{
 			mainMenu.GameStarted += StartGame;
-			// _ = musicManager.PlayMenuMusic(1.5f); // Méthode PlayMenuMusic non trouvée dans le contexte précédent, supposée absente ou nommée différemment. Je commente pour éviter erreur si elle n'existe pas.
+			_ = musicManager.PlayMenuMusic(1.5f);
 		}
 		else 
 		{
