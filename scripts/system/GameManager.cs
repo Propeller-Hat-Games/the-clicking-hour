@@ -36,6 +36,10 @@ public partial class GameManager : Node2D
 	
 	// 🎵 Le MusicManager
 	private MusicManager musicManager;
+	
+	// 🔦 Mode Nuit
+	private ColorRect nightModeRect;
+	private bool isNightMode = false;
 
 	public GlassType GetRandomGlassType()
 	{
@@ -183,6 +187,23 @@ public partial class GameManager : Node2D
 		if (musicManager != null && difficulty > 1.0f)
 		{
 			await musicManager.FadeInNextTrack(1.5f);
+		}
+		
+		// 🌑 Calcul de la probabilité de Nuit (30% de chance dès la vague 3, et pas deux fois de suite)
+		// wavesSurvived commence à 0. Vague 1 = 0, Vague 2 = 1, Vague 3 = 2.
+		bool canBeNight = wavesSurvived >= 2 && !isNightMode;
+		
+		if (canBeNight && random.NextDouble() < 0.3)
+		{
+			isNightMode = true;
+			if (nightModeRect != null) nightModeRect.Visible = true;
+			GD.Print("🌙 Night Mode ACTIVATED!");
+		}
+		else
+		{
+			isNightMode = false;
+			if (nightModeRect != null) nightModeRect.Visible = false;
+			GD.Print("☀️ Day Mode.");
 		}
 		
 		isSpawning = true;
@@ -369,6 +390,7 @@ public partial class GameManager : Node2D
 		else GD.Print("GlitchEffect initialized successfully.");
 
 		SetupVHSEffect();
+		SetupNightModeEffect();
 		
 		heartScene = GD.Load<PackedScene>("res://scenes/heart.tscn");
 
@@ -421,6 +443,17 @@ public partial class GameManager : Node2D
 		}
 		
 		StartHeartAnimationLoop();
+	}
+
+	public override void _Process(double delta)
+	{
+		if (isNightMode && nightModeRect != null && nightModeRect.Visible)
+		{
+			Vector2 mousePos = GetViewport().GetMousePosition();
+			// Pas besoin d'inverser Y finalement, ou alors cela dépend des paramètres d'importation.
+			// Si c'est inversé, essayons sans l'inversion.
+			(nightModeRect.Material as ShaderMaterial).SetShaderParameter("mouse_position", mousePos);
+		}
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -597,6 +630,32 @@ public partial class GameManager : Node2D
 
 		difficulty += 0.15f;
 		StartWave();
+	}
+
+	private void SetupNightModeEffect()
+	{
+		var canvasLayer = new CanvasLayer();
+		canvasLayer.Layer = 5; // En dessous du VHS (layer 10) mais au dessus du jeu
+		AddChild(canvasLayer);
+
+		nightModeRect = new ColorRect();
+		nightModeRect.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+		nightModeRect.MouseFilter = Control.MouseFilterEnum.Ignore;
+		nightModeRect.Visible = false; // Caché par défaut
+		
+		var shader = GD.Load<Shader>("res://assets/shaders/flashlight.gdshader");
+		if (shader != null)
+		{
+			var material = new ShaderMaterial();
+			material.Shader = shader;
+			nightModeRect.Material = material;
+			canvasLayer.AddChild(nightModeRect);
+			GD.Print("🔦 Night Mode loaded.");
+		}
+		else
+		{
+			GD.PrintErr("❌ Failed to load Flashlight shader.");
+		}
 	}
 
 	private void SetupVHSEffect()
