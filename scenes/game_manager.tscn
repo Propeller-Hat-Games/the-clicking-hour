@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/environment/animated_background.tscn" id="8_jdad8"]
 [ext_resource type="PackedScene" path="res://scenes/ui/glitch_effect.tscn" id="9_glitch"]
 [ext_resource type="PackedScene" path="res://scenes/environment/wall.tscn" id="10_frtjd"]
-[ext_resource type="Texture2D" uid="uid://cbeqimunxqwg6" path="res://assets/sprites/environment/background/frontground.png" id="11_0rse5"]
+[ext_resource type="Texture2D" uid="uid://c50o746oq4yab" path="res://assets/sprites/environment/background/frontground.png" id="11_0rse5"]
 [ext_resource type="PackedScene" uid="uid://mhapi4tkbht" path="res://scenes/environment/floor.tscn" id="11_aonbx"]
 
 [node name="GameManager" type="Node2D"]
