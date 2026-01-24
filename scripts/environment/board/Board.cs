@@ -13,13 +13,20 @@ public partial class Board : Sprite2D
 	
 	[Export]
 	public int amountOfSlots {get;set;}= 1;
+
+	[ExportGroup("Floating Animation")]
+	[Export] public float floatAmplitude = 5f;
+	[Export] public float floatFrequency = 2.0f;
 	
 	private Sprite2D[] slotSprites;
 	private Label[] slotLabels;
+	private Vector2 initialPosition;
+	private double time = 0;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		initialPosition = Position;
 		slotSprites = new Sprite2D[] {
 			GetNode<Sprite2D>("LeftSlot"),
 			GetNode<Sprite2D>("MiddleSlot"),
@@ -38,7 +45,8 @@ public partial class Board : Sprite2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+		time += delta;
+		Position = initialPosition + new Vector2(0, (float)Math.Sin(time * floatFrequency) * floatAmplitude);
 	}
 
 	private async void Flash(CanvasItem item, bool appearing)
