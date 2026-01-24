@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://bhoi4skfxyuti"]
+
+[ext_resource type="Texture2D" uid="uid://djdwuegeq0tay" path="res://assets/sprites/environment/background/wall_party.png" id="1_gwhjf"]
+[ext_resource type="Script" uid="uid://dsgxj5se1or6u" path="res://scripts/environment/Wall.cs" id="1_yimtk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yimtk"]
+atlas = ExtResource("1_gwhjf")
+region = Rect2(0, 0, 68, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvnxd"]
+atlas = ExtResource("1_gwhjf")
+region = Rect2(0, 200, 68, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3byp"]
+atlas = ExtResource("1_gwhjf")
+region = Rect2(0, 400, 68, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pruak"]
+atlas = ExtResource("1_gwhjf")
+region = Rect2(0, 600, 68, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mvppj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yimtk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvnxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i3byp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pruak")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Wall" type="Node2D"]
+script = ExtResource("1_yimtk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-204, 0)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_mvppj")
+centered = false
