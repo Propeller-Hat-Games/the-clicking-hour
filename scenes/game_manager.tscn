@@ -35,7 +35,7 @@ z_index = 100
 position = Vector2(174, 591)
 
 [node name="Trash" parent="." instance=ExtResource("7_q8mjp")]
-position = Vector2(63, 603)
+position = Vector2(70, 567)
 
 [node name="AnimatedBackground" parent="." instance=ExtResource("8_jdad8")]
 
