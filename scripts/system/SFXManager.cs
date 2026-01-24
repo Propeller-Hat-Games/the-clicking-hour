@@ -74,9 +74,13 @@ public partial class SfxManager : Node
 			return;
 		}
 
+		var settings = GetNodeOrNull<SettingsManager>("/root/SettingsManager");
+		float volumeLinear = settings?.SfxVolume ?? 1.0f;
+
 		var player = new AudioStreamPlayer();
 		AddChild(player);
 		player.Stream = sound;
+		player.VolumeDb = Mathf.LinearToDb(volumeLinear);
 		player.Play();
 
 		// Supprimer le player quand le son est fini

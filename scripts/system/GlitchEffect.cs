@@ -27,6 +27,9 @@ public partial class GlitchEffect : CanvasLayer
 
     public void TriggerGlitch(float duration = 0.5f, float intensity = 0.05f)
     {
+        var settings = GetNode<SettingsManager>("/root/SettingsManager");
+        if (settings != null && !settings.GlitchEnabled) return;
+
         GD.Print($"TriggerGlitch called: duration={duration}, intensity={intensity}");
         if (tween != null && tween.IsRunning())
         {
@@ -58,6 +61,9 @@ public partial class GlitchEffect : CanvasLayer
 
     public void TriggerChromaticAberration(float duration = 0.5f, float intensity = 0.005f) // Reduced default from 0.01f
     {
+        var settings = GetNode<SettingsManager>("/root/SettingsManager");
+        if (settings != null && !settings.GlitchEnabled) return;
+
         if (tween != null && tween.IsRunning())
         {
             tween.Kill();

@@ -64,15 +64,21 @@ public partial class SoundManager : Node
 
 	private AudioStreamPlayer GetAvailablePlayer()
 	{
+		var settings = GetNodeOrNull<SettingsManager>("/root/SettingsManager");
+		float volumeLinear = settings?.SfxVolume ?? 1.0f;
+		float volumeDb = Mathf.LinearToDb(volumeLinear);
+
 		// Trouver un lecteur qui ne joue pas
 		foreach (var player in audioPlayers)
 		{
 			if (!player.Playing)
 			{
+				player.VolumeDb = volumeDb;
 				return player;
 			}
 		}
 		// Si tous jouent, prendre le premier
+		audioPlayers[0].VolumeDb = volumeDb;
 		return audioPlayers[0];
 	}
 

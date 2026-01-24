@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdkbrq21ysjr4"]
+[gd_scene load_steps=7 format=3 uid="uid://cdkbrq21ysjr4"]
 
 [ext_resource type="Script" uid="uid://dbuy0jnnubs3s" path="res://scripts/system/MainMenu.cs" id="1_l6cm7"]
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_1g8jr"]
 [ext_resource type="PackedScene" uid="uid://ci1fmmjv0sef6" path="res://scenes/ui/credit_menu.tscn" id="2_credit"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ekxnf"]
+[ext_resource type="PackedScene" path="res://scenes/ui/options_menu.tscn" id="3_options"]
 [ext_resource type="Texture2D" uid="uid://0xth6aixgqqk" path="res://assets/sprites/title.png" id="5_x2yvf"]
 
 [node name="MainMenu" type="Control"]
@@ -11,6 +12,7 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_l6cm7")
 CreditMenuScene = ExtResource("2_credit")
+OptionsMenuScene = ExtResource("3_options")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -68,6 +70,7 @@ offset_bottom = 160.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_ekxnf")
+theme_override_constants/separation = 12
 
 [node name="Title" type="TextureRect" parent="CanvasLayer/Window/VDiv"]
 custom_minimum_size = Vector2(237, 201)
@@ -76,29 +79,43 @@ texture = ExtResource("5_x2yvf")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HDiv" type="HBoxContainer" parent="CanvasLayer/Window/VDiv"]
+[node name="Grid" type="GridContainer" parent="CanvasLayer/Window/VDiv"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = ExtResource("2_ekxnf")
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 12
+columns = 2
 
-[node name="PlayButton" type="Button" parent="CanvasLayer/Window/VDiv/HDiv"]
+[node name="PlayButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
 text = "Jouer"
 
-[node name="CreditsButton" type="Button" parent="CanvasLayer/Window/VDiv/HDiv"]
+[node name="OptionsButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
+theme = ExtResource("2_ekxnf")
+text = "Options"
+
+[node name="CreditsButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
 text = "Crédits"
 
-[node name="QuitButton" type="Button" parent="CanvasLayer/Window/VDiv/HDiv"]
+[node name="QuitButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
 text = "Quitter"
 
-[connection signal="pressed" from="CanvasLayer/Window/VDiv/HDiv/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/Window/VDiv/HDiv/CreditsButton" to="." method="_on_credits_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/Window/VDiv/HDiv/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Window/VDiv/Grid/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Window/VDiv/Grid/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Window/VDiv/Grid/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Window/VDiv/Grid/QuitButton" to="." method="_on_quit_button_pressed"]

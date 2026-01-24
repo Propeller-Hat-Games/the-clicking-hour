@@ -8,7 +8,11 @@ public partial class MainMenu : Control {
 	[Export]
 	public PackedScene CreditMenuScene { get; set; }
 
+	[Export]
+	public PackedScene OptionsMenuScene { get; set; }
+
 	private Control _creditMenuInstance;
+	private Control _optionsMenuInstance;
 
 	public override void _Ready()
 	{
@@ -42,6 +46,29 @@ public partial class MainMenu : Control {
 		if (_creditMenuInstance != null) {
 			_creditMenuInstance.QueueFree();
 			_creditMenuInstance = null;
+		}
+	}
+
+	public void _on_options_button_pressed() {
+		if (OptionsMenuScene != null) {
+			var optionsMenu = OptionsMenuScene.Instantiate<OptionsMenu>();
+			_optionsMenuInstance = optionsMenu;
+			AddChild(_optionsMenuInstance);
+			optionsMenu.CloseRequested += _on_options_menu_closed;
+		} else {
+			// Fallback if scene is not exported
+			var scene = GD.Load<PackedScene>("res://scenes/ui/options_menu.tscn");
+			var optionsMenu = scene.Instantiate<OptionsMenu>();
+			_optionsMenuInstance = optionsMenu;
+			AddChild(_optionsMenuInstance);
+			optionsMenu.CloseRequested += _on_options_menu_closed;
+		}
+	}
+
+	private void _on_options_menu_closed() {
+		if (_optionsMenuInstance != null) {
+			_optionsMenuInstance.QueueFree();
+			_optionsMenuInstance = null;
 		}
 	}
 

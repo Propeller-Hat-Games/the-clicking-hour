@@ -39,7 +39,11 @@ public partial class GameManager : Node2D
 	
 	// 🔦 Mode Nuit
 	private ColorRect nightModeRect;
+	private CanvasLayer nightModeLayer;
 	private bool isNightMode = false;
+
+	// 📺 VHS
+	private CanvasLayer vhsLayer;
 
 	public GlassType GetRandomGlassType()
 	{
@@ -412,6 +416,10 @@ public partial class GameManager : Node2D
 		// 🎵 Utiliser le MusicManager Autoload
 		musicManager = GetNode<MusicManager>("/root/MusicManager");
 		
+		var settings = GetNode<SettingsManager>("/root/SettingsManager");
+		settings.SettingsChanged += UpdateEffectsVisibility;
+		UpdateEffectsVisibility();
+
 		var glassScene = GD.Load<PackedScene>("res://scenes/glass.tscn");
 		var glassInstance = glassScene.Instantiate<Glass>();
 
@@ -593,6 +601,16 @@ public partial class GameManager : Node2D
 		}
 	}
 
+	private void UpdateEffectsVisibility()
+	{
+		var settings = GetNode<SettingsManager>("/root/SettingsManager");
+		if (settings == null) return;
+
+		bool enabled = settings.GlobalEffectsEnabled;
+		if (vhsLayer != null) vhsLayer.Visible = enabled;
+		if (nightModeLayer != null) nightModeLayer.Visible = enabled;
+	}
+
 	private async void EndWave()
 	{
 		isSpawning = false;
@@ -641,9 +659,9 @@ public partial class GameManager : Node2D
 
 	private void SetupNightModeEffect()
 	{
-		var canvasLayer = new CanvasLayer();
-		canvasLayer.Layer = 5; // En dessous du VHS (layer 10) mais au dessus du jeu
-		AddChild(canvasLayer);
+		nightModeLayer = new CanvasLayer();
+		nightModeLayer.Layer = 5; // En dessous du VHS (layer 10) mais au dessus du jeu
+		AddChild(nightModeLayer);
 
 		nightModeRect = new ColorRect();
 		nightModeRect.SetAnchorsPreset(Control.LayoutPreset.FullRect);
@@ -656,7 +674,7 @@ public partial class GameManager : Node2D
 			var material = new ShaderMaterial();
 			material.Shader = shader;
 			nightModeRect.Material = material;
-			canvasLayer.AddChild(nightModeRect);
+			nightModeLayer.AddChild(nightModeRect);
 			GD.Print("🔦 Night Mode loaded.");
 		}
 		else
@@ -667,9 +685,9 @@ public partial class GameManager : Node2D
 
 	private void SetupVHSEffect()
 	{
-		var canvasLayer = new CanvasLayer();
-		canvasLayer.Layer = 10; // Ensure it's on top of everything
-		AddChild(canvasLayer);
+		vhsLayer = new CanvasLayer();
+		vhsLayer.Layer = 10; // Ensure it's on top of everything
+		AddChild(vhsLayer);
 
 		var colorRect = new ColorRect();
 		colorRect.SetAnchorsPreset(Control.LayoutPreset.FullRect);
@@ -681,7 +699,7 @@ public partial class GameManager : Node2D
 			var material = new ShaderMaterial();
 			material.Shader = shader;
 			colorRect.Material = material;
-			canvasLayer.AddChild(colorRect);
+			vhsLayer.AddChild(colorRect);
 			GD.Print("📺 VHS Filter applied successfully.");
 		}
 		else
