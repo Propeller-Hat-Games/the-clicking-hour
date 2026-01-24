@@ -38,4 +38,10 @@ public partial class Glass : Node2D {
 		// Logic moved to Entity.cs for frame-syncing
 		AppearOffset = 120f;
 	}
+
+	public void Disappear()
+	{
+		var tween = CreateTween();
+		tween.TweenProperty(this, "modulate:a", 0.0f, 0.5f);
+	}
 }

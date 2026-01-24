@@ -15,11 +15,13 @@ public partial class Door : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
-		if (body is Entity entity)
+		if (body is Entity entity && entity.IsAlive())
 		{
 			GD.Print("Une entité est entrée dans la porte.");
 			EmitSignal(SignalName.EntityEnteredDoor, entity);
-			entity.QueueFree();
+			// On ne QueueFree pas ici car le GameManager peut en avoir besoin pour finir la vague
+			// ou pour jouer l'animation de disparition.
+			// L'entité sera nettoyée par le GameManager ou par sa propre logique.
 		}
 	}
 }

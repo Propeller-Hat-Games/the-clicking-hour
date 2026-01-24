@@ -527,12 +527,17 @@ public partial class GameManager : Node2D
 					{
 						EndWave();
 					}
+					else
+					{
+						entity.QueueFree();
+					}
 				}
 				else
 				{
 					GD.Print("Already have enough of this type! -1 Life");
 					UpdateLife(-1);
 					glitchEffect?.TriggerGlitch(0.5f, 0.15f);
+					entity.QueueFree();
 				}
 			}
 			else
@@ -540,6 +545,7 @@ public partial class GameManager : Node2D
 				GD.Print($"Wrong entity entered (Type: {type})! -1 Life");
 				UpdateLife(-1);
 				glitchEffect?.TriggerGlitch(0.8f, 0.2f);
+				entity.QueueFree();
 			}
 		}
 	}
@@ -559,14 +565,16 @@ public partial class GameManager : Node2D
 			_ = musicManager.FadeOutAndSwitchTrack(1.5f);
 		}
 		
+		List<Task> disappearTasks = new List<Task>();
 		foreach (var entity in activeEntities)
 		{
-			if (IsInstanceValid(entity))
+			if (IsInstanceValid(entity) && entity.IsAlive())
 			{
-				entity.QueueFree();
+				disappearTasks.Add(entity.Disappear());
 			}
 		}
 		activeEntities.Clear();
+		await Task.WhenAll(disappearTasks);
 
 		wavesSurvived++;
 		GD.Print($"Wave {wavesSurvived} Finished!");

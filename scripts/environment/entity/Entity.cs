@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public enum EntityState
 {
@@ -256,6 +257,28 @@ public abstract partial class Entity : CharacterBody2D
 		
 		tween.SetParallel(false);
 		tween.Chain().TweenCallback(Callable.From(QueueFree));
+	}
+
+	public async Task Disappear()
+	{
+		isAlive = false;
+		CollisionLayer = 0;
+		CollisionMask = 0;
+		Velocity = Vector2.Zero;
+		SetPhysicsProcess(false);
+
+		if (glassInstance != null)
+		{
+			glassInstance.Disappear();
+		}
+
+		if (sprite != null && sprite.SpriteFrames.HasAnimation("disapear"))
+		{
+			sprite.Play("disapear");
+			await ToSignal(sprite, "animation_finished");
+		}
+		
+		QueueFree();
 	}
 
 	public Glass GetGlass()
