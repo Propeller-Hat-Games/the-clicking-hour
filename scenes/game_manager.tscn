@@ -45,7 +45,7 @@ texture = ExtResource("11_0rse5")
 centered = false
 
 [node name="Door" parent="." instance=ExtResource("6_eaq8r")]
-position = Vector2(1062, 382)
+position = Vector2(1062, 379)
 scale = Vector2(1, 1)
 
 [node name="Floor" parent="." instance=ExtResource("11_aonbx")]
