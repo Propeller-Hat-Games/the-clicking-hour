@@ -42,7 +42,7 @@ public partial class GameManager : Node2D
 	// 🔦 Mode Nuit
 	private ColorRect nightModeRect;
 	private CanvasLayer nightModeLayer;
-	private bool isNightMode = true;
+	private bool isNightMode = false;
 
 	private CanvasLayer vhsLayer;
 	public bool IsNightMode => isNightMode;
