@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://xvhpdf7qoa4b"]
 
-[ext_resource type="Script" uid="uid://cx874y6efj4qr" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="Script" uid="uid://d1wuo203q2duk" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/ui/main_menu.tscn" id="2_glms7"]
 [ext_resource type="PackedScene" uid="uid://ca31yr40ycoys" path="res://scenes/spawn_area.tscn" id="4_spawn"]
 [ext_resource type="PackedScene" uid="uid://dv81us2tealma" path="res://scenes/environment/board.tscn" id="5_board"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bsuxqfkp8jlbh" path="res://scenes/environment/animated_background.tscn" id="8_jdad8"]
 [ext_resource type="PackedScene" path="res://scenes/ui/glitch_effect.tscn" id="9_glitch"]
 [ext_resource type="PackedScene" uid="uid://bhoi4skfxyuti" path="res://scenes/environment/wall.tscn" id="10_frtjd"]
-[ext_resource type="Texture2D" uid="uid://c50o746oq4yab" path="res://assets/sprites/environment/background/frontground.png" id="11_0rse5"]
+[ext_resource type="Texture2D" uid="uid://ct082vik5unry" path="res://assets/sprites/environment/background/frontground.png" id="11_0rse5"]
 [ext_resource type="PackedScene" uid="uid://mhapi4tkbht" path="res://scenes/environment/floor.tscn" id="11_aonbx"]
 [ext_resource type="PackedScene" uid="uid://ba4p5yeipj4bk" path="res://scenes/ui/unboarding.tscn" id="12_aonbx"]
 [ext_resource type="PackedScene" uid="uid://dwa5g75hy7mms" path="res://scenes/ui/settings_button.tscn" id="13_lcbjr"]
@@ -18,6 +18,7 @@
 [node name="GameManager" type="Node2D" node_paths=PackedStringArray("unboarding")]
 script = ExtResource("1_hwd4i")
 unboarding = NodePath("Unboarding")
+pauseMenuScene = ExtResource("2_glms7")
 
 [node name="MainMenu" parent="." instance=ExtResource("2_glms7")]
 
