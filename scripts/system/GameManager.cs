@@ -13,6 +13,7 @@ public partial class GameManager : Node2D
 
 	private List<Entity> activeEntities = new List<Entity>();
 	private bool isDoorOpen;
+	private Door door;
 
 	private int quota;
 	private int currentQuota;
@@ -124,12 +125,14 @@ public partial class GameManager : Node2D
 	{
 		isDoorOpen = false;
 		SfxManager.Instance?.PlayDoorCloseSound();
+		door?.Close();
 	}
 
 	public void OpenDoor()
 	{
 		isDoorOpen = true;
 		SfxManager.Instance?.PlayDoorOpenSound();
+		door?.Open();
 	}
 
 	public List<int> GetRequiredGlassTypes()
@@ -390,7 +393,7 @@ public partial class GameManager : Node2D
 			GD.Print($"- {sprite.Name}");
 		}
 
-		var door = GetTree().GetFirstNodeInGroup("Door") as Door;
+		door = GetTree().GetFirstNodeInGroup("Door") as Door;
 		if (door != null)
 		{
 			door.EntityEnteredDoor += OnEntityEnteredDoor;
