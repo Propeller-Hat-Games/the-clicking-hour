@@ -37,6 +37,7 @@ public partial class GameManager : Node2D
 	
 	// 🎵 Le MusicManager
 	private MusicManager musicManager;
+	private SettingsManager settingsManager;
 	
 	// 🔦 Mode Nuit
 	private ColorRect nightModeRect;
@@ -445,8 +446,8 @@ public partial class GameManager : Node2D
 		// 🎵 Utiliser le MusicManager Autoload
 		musicManager = GetNode<MusicManager>("/root/MusicManager");
 		
-		var settings = GetNode<SettingsManager>("/root/SettingsManager");
-		settings.SettingsChanged += UpdateEffectsVisibility;
+		settingsManager = GetNode<SettingsManager>("/root/SettingsManager");
+		settingsManager.SettingsChanged += UpdateEffectsVisibility;
 		UpdateEffectsVisibility();
 
 		var glassScene = GD.Load<PackedScene>("res://scenes/glass.tscn");
@@ -493,6 +494,14 @@ public partial class GameManager : Node2D
 		}
 		
 		StartHeartAnimationLoop();
+	}
+
+	public override void _ExitTree()
+	{
+		if (settingsManager != null)
+		{
+			settingsManager.SettingsChanged -= UpdateEffectsVisibility;
+		}
 	}
 
 	private void OnSettingsButtonPressed()
@@ -659,10 +668,9 @@ public partial class GameManager : Node2D
 
 	private void UpdateEffectsVisibility()
 	{
-		var settings = GetNode<SettingsManager>("/root/SettingsManager");
-		if (settings == null) return;
+		if (!IsInstanceValid(this) || settingsManager == null) return;
 
-		bool enabled = settings.GlobalEffectsEnabled;
+		bool enabled = settingsManager.GlobalEffectsEnabled;
 		if (vhsLayer != null) vhsLayer.Visible = enabled;
 		if (nightModeLayer != null) nightModeLayer.Visible = enabled;
 	}
