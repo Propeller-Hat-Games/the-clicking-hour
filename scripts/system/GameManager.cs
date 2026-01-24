@@ -186,7 +186,7 @@ public partial class GameManager : Node2D
 		// 🎵 Fade in musique pour waves 2+
 		if (musicManager != null && difficulty > 1.0f)
 		{
-			await musicManager.FadeInNextTrack(1.5f);
+			await musicManager.FadeInNextTrack(1.5f, isNightMode);  // ← PASSE isNightMode ici !
 		}
 		
 		// 🌑 Calcul de la probabilité de Nuit (30% de chance dès la vague 3, et pas deux fois de suite)
