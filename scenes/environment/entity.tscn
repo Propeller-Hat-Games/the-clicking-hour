@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://de8a82s41jlab"]
+[gd_scene load_steps=82 format=3 uid="uid://de8a82s41jlab"]
 
 [ext_resource type="Script" uid="uid://bnurmthuvt78j" path="res://scripts/environment/entity/SimpleEntity.cs" id="1_lxsru"]
 [ext_resource type="Texture2D" uid="uid://ca1ty0ceafbba" path="res://assets/sprites/environment/entity/entity_dig_jump.png" id="3_ecdnh"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d3nck7wjxuvdh" path="res://assets/sprites/environment/entity/entity_normal_jump.png" id="5_vholj"]
 [ext_resource type="Texture2D" uid="uid://b7fivyb5m74ee" path="res://assets/sprites/environment/entity/entity_disapear.png" id="5_yeioj"]
 [ext_resource type="Texture2D" uid="uid://d1htuaujqqyn6" path="res://assets/sprites/environment/entity/entity_normal_walk_arm_dish.png" id="6_gmka6"]
+[ext_resource type="Texture2D" uid="uid://cmjg2llry7sac" path="res://assets/sprites/environment/entity/entity_normal_hurt.png" id="6_kdcua"]
 [ext_resource type="Texture2D" uid="uid://cco2swxilx5h1" path="res://assets/sprites/environment/entity/entity_tp_jump.png" id="7_yeioj"]
 [ext_resource type="Texture2D" uid="uid://cu5hgnxigbc8m" path="res://assets/sprites/environment/entity/entity_tp_walk_arm_dish.png" id="8_kdcua"]
 
@@ -117,6 +118,10 @@ region = Rect2(0, 250, 30, 50)
 [sub_resource type="AtlasTexture" id="AtlasTexture_noay6"]
 atlas = ExtResource("5_yeioj")
 region = Rect2(0, 300, 30, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pltp1"]
+atlas = ExtResource("6_kdcua")
+region = Rect2(0, 0, 30, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a53x7"]
 atlas = ExtResource("5_vholj")
@@ -378,6 +383,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_pltp1")
+}],
+"loop": true,
+"name": &"normal_hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_a53x7")
 }, {
 "duration": 1.0,
@@ -532,8 +545,7 @@ glassScene = ExtResource("3_glass")
 position = Vector2(0, -75)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_lxsru")
-animation = &"disapear"
-frame_progress = 0.27648193
+animation = &"normal_hurt"
 
 [node name="Feet" type="CollisionShape2D" parent="."]
 light_mask = 1025

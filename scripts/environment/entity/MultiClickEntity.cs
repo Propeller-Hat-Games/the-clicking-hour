@@ -3,6 +3,9 @@ using Godot;
 // Entité qui nécessite entre 3 et 5 clics
 public partial class MultiClickEntity : Entity
 {
+	private float stunTimer = 0f;
+	private const float STUN_DURATION = 0.5f;
+
 	protected override void InitializeEntity()
 	{
 		animPrefix = "normal";
@@ -22,6 +25,20 @@ public partial class MultiClickEntity : Entity
 		else
 		{
 			SfxManager.Instance?.PlayClickSound();
+			currentState = EntityState.Stunned;
+			stunTimer = STUN_DURATION;
+		}
+	}
+
+	protected override void ProcessEntity(double delta)
+	{
+		if (currentState == EntityState.Stunned)
+		{
+			stunTimer -= (float)delta;
+			if (stunTimer <= 0)
+			{
+				currentState = EntityState.Walking;
+			}
 		}
 	}
 }

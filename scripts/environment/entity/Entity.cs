@@ -6,6 +6,7 @@ public enum EntityState
 {
 	Walking, 
 	Hiding,
+	Stunned,
 }
 
 public abstract partial class Entity : CharacterBody2D
@@ -128,6 +129,9 @@ public abstract partial class Entity : CharacterBody2D
 				Velocity = walkDirection * walkSpeed;
 				MoveAndSlide();
 				break;
+			case EntityState.Stunned:
+				Velocity = Vector2.Zero;
+				break;
 		}
 	}
 	
@@ -167,6 +171,18 @@ public abstract partial class Entity : CharacterBody2D
 			if (walkDirection.X != 0)
 			{
 				sprite.FlipH = walkDirection.X < 0;
+			}
+			UpdateGlassPosition();
+		}
+		else if (currentState == EntityState.Stunned)
+		{
+			string animName = $"{animPrefix}_hurt";
+			if (sprite.SpriteFrames.HasAnimation(animName))
+			{
+				if (sprite.Animation != animName)
+				{
+					sprite.Play(animName);
+				}
 			}
 			UpdateGlassPosition();
 		}

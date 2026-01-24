@@ -427,7 +427,7 @@ public partial class GameManager : Node2D
 		entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/teleport_entity.tscn"));
 
 		maxEntities = 5; 
-		difficulty = 1.0f;
+		difficulty = 2.0f;
 		life = 3;
 		glitchEffect?.SetDesaturation(0.0f);
 		
