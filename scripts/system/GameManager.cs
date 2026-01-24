@@ -183,11 +183,7 @@ public partial class GameManager : Node2D
 		Affichecoeur();
 		GD.Print($"Starting wave! Difficulty: {difficulty}. Condition Glasses: {glassCount}. Quota needed: {quota}");
 		
-		// 🎵 Fade in musique pour waves 2+
-		if (musicManager != null && difficulty > 1.0f)
-		{
-			await musicManager.FadeInNextTrack(1.5f, isNightMode);  // ← PASSE isNightMode ici !
-		}
+
 		
 		// 🌑 Calcul de la probabilité de Nuit (30% de chance dès la vague 3, et pas deux fois de suite)
 		// wavesSurvived commence à 0. Vague 1 = 0, Vague 2 = 1, Vague 3 = 2.
@@ -206,6 +202,12 @@ public partial class GameManager : Node2D
 			GD.Print("☀️ Day Mode.");
 		}
 		
+		// 🎵 Fade in musique pour waves 2+
+		if (musicManager != null && difficulty > 1.0f)
+		{
+			await musicManager.FadeInNextTrack(1.5f, isNightMode);  // ← PASSE isNightMode ici !
+		}
+
 		isSpawning = true;
 		OpenDoor();
 		

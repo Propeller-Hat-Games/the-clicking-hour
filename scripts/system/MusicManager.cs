@@ -14,9 +14,6 @@ public partial class MusicManager : Node
 	private bool _isTransitioning = false;
 	private float _baseVolumeDb = 0f;
 	private Random _rng = new();
-	
-	// 🌙 Night Mode
-	private bool _useNightMode = false;
 
 	public override void _Ready()
 	{
@@ -58,9 +55,6 @@ public partial class MusicManager : Node
 	{
 		await FadeVolume(-80f, fadeDuration);
 		_player.Stop();
-		
-		// Utiliser la playlist normale par défaut
-		_useNightMode = false;
 		var playlist = new List<AudioStream>(_normalPlaylist);
 		ShufflePlaylist(playlist);
 		
