@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://dwa5g75hy7mms"]
+
+[ext_resource type="Texture2D" uid="uid://db5potqkttgry" path="res://assets/sprites/cog.png" id="1_oubv5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ab84w"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oubv5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uksen"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tln3d"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="SettingsButton" type="Button"]
+offset_left = -30.0
+offset_top = -30.0
+offset_bottom = 2.0
+scale = Vector2(2, 2)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ab84w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_oubv5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_uksen")
+theme_override_styles/focus = SubResource("StyleBoxFlat_tln3d")
+icon = ExtResource("1_oubv5")

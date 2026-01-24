@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://xvhpdf7qoa4b"]
+[gd_scene load_steps=14 format=3 uid="uid://xvhpdf7qoa4b"]
 
 [ext_resource type="Script" uid="uid://cx874y6efj4qr" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/ui/main_menu.tscn" id="2_glms7"]
@@ -12,10 +12,13 @@
 [ext_resource type="Texture2D" uid="uid://c50o746oq4yab" path="res://assets/sprites/environment/background/frontground.png" id="11_0rse5"]
 [ext_resource type="PackedScene" uid="uid://mhapi4tkbht" path="res://scenes/environment/floor.tscn" id="11_aonbx"]
 [ext_resource type="PackedScene" uid="uid://ba4p5yeipj4bk" path="res://scenes/ui/unboarding.tscn" id="12_aonbx"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="14_pause"]
+[ext_resource type="PackedScene" uid="uid://dwa5g75hy7mms" path="res://scenes/ui/settings_button.tscn" id="13_lcbjr"]
 
 [node name="GameManager" type="Node2D" node_paths=PackedStringArray("unboarding")]
 script = ExtResource("1_hwd4i")
 unboarding = NodePath("Unboarding")
+pauseMenuScene = ExtResource("14_pause")
 
 [node name="MainMenu" parent="." instance=ExtResource("2_glms7")]
 
@@ -57,3 +60,10 @@ scale = Vector2(3, 3)
 [node name="Unboarding" parent="." instance=ExtResource("12_aonbx")]
 position = Vector2(569, 327)
 centered = true
+
+[node name="SettingsButton" parent="." instance=ExtResource("13_lcbjr")]
+z_index = 6
+offset_left = 1060.0
+offset_top = 570.0
+offset_right = 1090.0
+offset_bottom = 602.0

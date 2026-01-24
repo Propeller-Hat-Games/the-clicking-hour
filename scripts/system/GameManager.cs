@@ -29,6 +29,7 @@ public partial class GameManager : Node2D
 	private SpawnArea spawnArea;
 	private MainMenu mainMenu;
 	private GlitchEffect glitchEffect;
+	private bool _gameStarted = false;
 
 	private PackedScene heartScene;
 	private Node2D heartContainer;
@@ -46,6 +47,8 @@ public partial class GameManager : Node2D
 
 	[Export]
 	private Sprite2D unboarding;
+	[Export]
+	private PackedScene pauseMenuScene;
 	private bool isFirstWaveOfSession = true;
 	private TaskCompletionSource<bool> unboardingClosedTcs;
 
@@ -245,7 +248,7 @@ public partial class GameManager : Node2D
 			delay = Math.Max(0.5f, delay);
 			
 			if (!IsInsideTree()) return;
-			await ToSignal(GetTree().CreateTimer(delay), "timeout");
+			await ToSignal(GetTree().CreateTimer(delay, false), "timeout");
 			
 			if (!IsInstanceValid(this) || !IsInsideTree()) return;
 		}
@@ -482,8 +485,26 @@ public partial class GameManager : Node2D
 		{
 			StartGameDirectly();
 		}
+
+		var settingsButton = GetNodeOrNull<Button>("SettingsButton");
+		if (settingsButton != null)
+		{
+			settingsButton.Pressed += OnSettingsButtonPressed;
+		}
 		
 		StartHeartAnimationLoop();
+	}
+
+	private void OnSettingsButtonPressed()
+	{
+		if (!_gameStarted) return;
+		
+		if (pauseMenuScene != null)
+		{
+			var pauseMenu = pauseMenuScene.Instantiate<Control>();
+			AddChild(pauseMenu);
+			GetTree().Paused = true;
+		}
 	}
 
 	public override void _Process(double delta)
@@ -563,6 +584,7 @@ public partial class GameManager : Node2D
 	
 	private void StartGame()
 	{
+		_gameStarted = true;
 		if (mainMenu != null && IsInstanceValid(mainMenu))
 		{
 			mainMenu.QueueFree();
@@ -579,6 +601,7 @@ public partial class GameManager : Node2D
 
 	private void StartGameDirectly()
 	{
+		_gameStarted = true;
 		// 🎵 Démarre la musique de jeu
 		if (musicManager != null)
 		{
@@ -680,7 +703,7 @@ public partial class GameManager : Node2D
 		transitionInstance.SetCompletedWave(wavesSurvived);
 		
 		// Wait 7 seconds (transition + jingle)
-		await ToSignal(GetTree().CreateTimer(5.0f), "timeout");
+		await ToSignal(GetTree().CreateTimer(5.0f, false), "timeout");
 		transitionInstance.CloseWindow();
 		
 		if (!IsInstanceValid(this) || !IsInsideTree()) return;
