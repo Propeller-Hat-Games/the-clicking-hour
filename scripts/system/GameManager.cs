@@ -57,10 +57,20 @@ public partial class GameManager : Node2D
 	private bool isFirstWaveOfSession = true;
 	private TaskCompletionSource<bool> unboardingClosedTcs;
 
+	private bool hardcore = true;
+
 	public GlassType GetRandomGlassType()
 	{
 		var values = Enum.GetValues(typeof(GlassType));
-		return (GlassType)values.GetValue(random.Next(values.Length));
+		if (!hardcore)
+		{
+			return (GlassType)values.GetValue(4*random.Next(4));
+		}
+		if (random.Next(100) == 1)
+		{
+			return (GlassType)values.GetValue(16);
+		}
+		return (GlassType)values.GetValue(random.Next(values.Length-1));
 	}
 
 	private int GetGlassCountForDifficulty(float diff)
@@ -81,6 +91,10 @@ public partial class GameManager : Node2D
 
 	public void UpdateLife(int amount)
 	{
+		if(life == 3 && amount > 0)
+		{
+			return;
+		}
 		life += amount;
 		GD.Print($"Life updated: {life}");
 		// 🔊 JOUER LE SON DE DÉGÂTS SI ON PERD DE LA VIE
@@ -134,13 +148,19 @@ public partial class GameManager : Node2D
 		
 		var allTypes = Enum.GetValues(typeof(GlassType));
 		var tempTypes = new List<int>();
-		foreach (var type in allTypes)
+		if(hardcore){
+			foreach (var type in allTypes)
+				{
+					tempTypes.Add((int)type);
+				}
+		}
+		else
 		{
-			tempTypes.Add((int)type);
+			tempTypes = [0,4,8,12];
 		}
 
 		while (requiredGlassTypes.Count < count && tempTypes.Count > 0)
-		{
+		{	
 			int index = random.Next(tempTypes.Count);
 			requiredGlassTypes.Add(tempTypes[index]);
 			tempTypes.RemoveAt(index);
@@ -481,9 +501,18 @@ public partial class GameManager : Node2D
 		entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/multi_click_entity.tscn"));
 		entityScenes.Add(GD.Load<PackedScene>("res://scenes/environment/teleport_entity.tscn"));
 
-		maxEntities = 5; 
-		difficulty = 1.0f;
-		life = 3;
+		maxEntities = 5;
+		if (hardcore)
+		{
+			difficulty = 2.0f;
+			life = 1;
+		}
+		else
+		{
+			difficulty = 1.0f;
+			life = 3;
+		}
+		UpdateLife(0);
 		glitchEffect?.SetDesaturation(0.0f);
 		
 		mainMenu = GetNodeOrNull<MainMenu>("MainMenu");
@@ -638,6 +667,13 @@ public partial class GameManager : Node2D
 		if (glass != null)
 		{
 			GlassType type = glass.GetGlassType();
+			var test = Enum.GetValues(typeof(GlassType));
+			if (type == (GlassType)test.GetValue(16))
+			{
+				GD.Print("Special type! +1 Life");
+				UpdateLife(+1);
+				return;
+			}
 			int typeIdx = requiredGlassTypes.IndexOf((int)type);
 			if (typeIdx != -1)
 			{
@@ -727,7 +763,14 @@ public partial class GameManager : Node2D
 		if (!IsInstanceValid(this) || !IsInsideTree()) return;
 		if (CheckGameOver()) return;
 
-		difficulty += 0.25f;
+		if (hardcore)
+		{
+			difficulty += 0.33f;
+		}
+		else
+		{
+			difficulty += 0.25f;
+		}
 		StartWave();
 	}
 

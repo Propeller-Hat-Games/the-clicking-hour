@@ -3,10 +3,23 @@ using System;
 
 public enum GlassType
 {
-	Yellow,
-	Red,
-	Green,
-	Blue
+	GrandVert,
+	GrandBleu,
+	GrandRouge,
+	GrandJaune,
+	VinRouge,
+	VinJaune,
+	VinVert,
+	VinBleu,
+	MoyenJaune,
+	MoyenRouge,
+	MoyenVert,
+	MoyenBleu,
+	PetitBleu,
+	PetitVert,
+	PetitJaune,
+	PetitRouge,
+	Special
 }
 
 public partial class Glass : Node2D {
@@ -24,7 +37,7 @@ public partial class Glass : Node2D {
 		{
 			if (sprites[i] != null)
 			{
-				sprites[i].Visible = (i == (int)type);
+				sprites[i].Visible = i == ((int)type);
 			}
 		}
 	}
