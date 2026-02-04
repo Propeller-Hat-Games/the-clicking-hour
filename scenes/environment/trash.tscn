@@ -1,9 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsd1a26c5ck53"]
+[gd_scene format=3 uid="uid://dsd1a26c5ck53"]
 
-[ext_resource type="Texture2D" uid="uid://dka5shpv2kbhn" path="res://assets/sprites/environment/background/bin_background.png" id="1_was78"]
+[ext_resource type="Texture2D" uid="uid://bfjc68wmcj587" path="res://assets/sprites/environment/background/bin_background.png" id="1_was78"]
 
-[node name="Trash" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Trash" type="Sprite2D" unique_id=1542731769]
 scale = Vector2(3, 3)
 texture = ExtResource("1_was78")

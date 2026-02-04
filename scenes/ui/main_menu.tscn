@@ -1,22 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://cdkbrq21ysjr4"]
+[gd_scene format=3 uid="uid://cdkbrq21ysjr4"]
 
-[ext_resource type="Script" uid="uid://dbuy0jnnubs3s" path="res://scripts/system/MainMenu.cs" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://dbuy0jnnubs3s" path="res://scripts/menus/MainMenu.cs" id="1_l6cm7"]
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_1g8jr"]
-[ext_resource type="PackedScene" uid="uid://ci1fmmjv0sef6" path="res://scenes/ui/credit_menu.tscn" id="2_credit"]
+[ext_resource type="PackedScene" uid="uid://6ejxl705e67l" path="res://scenes/ui/credit_menu.tscn" id="2_credit"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ekxnf"]
-[ext_resource type="PackedScene" path="res://scenes/ui/options_menu.tscn" id="3_options"]
+[ext_resource type="PackedScene" uid="uid://bj3mb4owktbgt" path="res://scenes/ui/options_menu.tscn" id="3_options"]
 [ext_resource type="Texture2D" uid="uid://0xth6aixgqqk" path="res://assets/sprites/title.png" id="5_x2yvf"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=1221100265]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_l6cm7")
 CreditMenuScene = ExtResource("2_credit")
 OptionsMenuScene = ExtResource("3_options")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=940124022]
 
-[node name="Window" type="Control" parent="CanvasLayer"]
+[node name="Window" type="Control" parent="CanvasLayer" unique_id=150637527]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -26,7 +26,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BackgroundBorder" type="TextureRect" parent="CanvasLayer/Window"]
+[node name="BackgroundBorder" type="TextureRect" parent="CanvasLayer/Window" unique_id=1579012225]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -41,7 +41,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_1g8jr")
 
-[node name="Background" type="ColorRect" parent="CanvasLayer/Window"]
+[node name="Background" type="ColorRect" parent="CanvasLayer/Window" unique_id=234638562]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -56,7 +56,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0034003255, 0.0011342621, 0.043252215, 1)
 
-[node name="VDiv" type="VBoxContainer" parent="CanvasLayer/Window"]
+[node name="VDiv" type="VBoxContainer" parent="CanvasLayer/Window" unique_id=1212989965]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -72,14 +72,14 @@ grow_vertical = 2
 theme = ExtResource("2_ekxnf")
 theme_override_constants/separation = 12
 
-[node name="Title" type="TextureRect" parent="CanvasLayer/Window/VDiv"]
+[node name="Title" type="TextureRect" parent="CanvasLayer/Window/VDiv" unique_id=1870708946]
 custom_minimum_size = Vector2(237, 201)
 layout_mode = 2
 texture = ExtResource("5_x2yvf")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Grid" type="GridContainer" parent="CanvasLayer/Window/VDiv"]
+[node name="Grid" type="GridContainer" parent="CanvasLayer/Window/VDiv" unique_id=1690951654]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -87,28 +87,28 @@ theme_override_constants/h_separation = 24
 theme_override_constants/v_separation = 12
 columns = 2
 
-[node name="PlayButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid"]
+[node name="PlayButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid" unique_id=1431217923]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
 text = "Jouer"
 
-[node name="OptionsButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid"]
+[node name="OptionsButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid" unique_id=1119652955]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
 text = "Options"
 
-[node name="CreditsButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid"]
+[node name="CreditsButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid" unique_id=1468393310]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
 text = "Crédits"
 
-[node name="QuitButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid"]
+[node name="QuitButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid" unique_id=1135243225]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3

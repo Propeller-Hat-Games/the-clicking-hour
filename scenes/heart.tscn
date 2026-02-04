@@ -1,9 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cv3k8lepywjd2"]
+[gd_scene format=3 uid="uid://cv3k8lepywjd2"]
 
-[ext_resource type="Texture2D" uid="uid://evcmsagi1u3y" path="res://assets/sprites/environment/entity/base_heart.png" id="1_texture"]
-[ext_resource type="Script" uid="uid://4qcloqloh3vd" path="res://scripts/system/Heart.cs" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://c5duw0ov0beib" path="res://assets/sprites/environment/entity/base_heart.png" id="1_texture"]
 
-[node name="Heart" type="Sprite2D"]
+[node name="Heart" type="Sprite2D" unique_id=514997194]
 scale = Vector2(3, 3)
 texture = ExtResource("1_texture")
-script = ExtResource("2_script")

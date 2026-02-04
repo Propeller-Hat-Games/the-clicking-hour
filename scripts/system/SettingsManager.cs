@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Manages application settings, persistence, and global state (like volume and effects).
+/// </summary>
 public partial class SettingsManager : Node
 {
     private static SettingsManager _instance;
@@ -64,6 +67,9 @@ public partial class SettingsManager : Node
     [Signal]
     public delegate void SettingsChangedEventHandler();
 
+    /// <summary>
+    /// Initializes the settings manager, loads saved settings, and applies initial volumes.
+    /// </summary>
     public override void _Ready()
     {
         _instance = this;
@@ -71,12 +77,18 @@ public partial class SettingsManager : Node
         ApplyMasterVolume();
     }
 
+    /// <summary>
+    /// Applies the current master volume setting to the AudioServer.
+    /// </summary>
     private void ApplyMasterVolume()
     {
         int masterBusIndex = AudioServer.GetBusIndex("Master");
         AudioServer.SetBusVolumeDb(masterBusIndex, Mathf.LinearToDb(_masterVolume));
     }
 
+    /// <summary>
+    /// Persists current settings to a configuration file.
+    /// </summary>
     public void SaveSettings()
     {
         using var config = new ConfigFile();
@@ -88,6 +100,9 @@ public partial class SettingsManager : Node
         config.Save("user://settings.cfg");
     }
 
+    /// <summary>
+    /// Loads settings from the configuration file if it exists.
+    /// </summary>
     private void LoadSettings()
     {
         using var config = new ConfigFile();

@@ -1,8 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://xvhpdf7qoa4b"]
+[gd_scene format=3 uid="uid://xvhpdf7qoa4b"]
 
-[ext_resource type="Script" uid="uid://d1wuo203q2duk" path="res://scripts/system/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="Script" uid="uid://d1wuo203q2duk" path="res://scripts/system/game/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://bk8cwxtfujhoj" path="res://scenes/ui/pause_menu.tscn" id="2_5xtl8"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/ui/main_menu.tscn" id="2_glms7"]
+[ext_resource type="PackedScene" uid="uid://cv3k8lepywjd2" path="res://scenes/heart.tscn" id="3_c7a3q"]
+[ext_resource type="Texture2D" uid="uid://obyspecgt76m" path="res://assets/sprites/cursor_normal.png" id="3_pc0jn"]
+[ext_resource type="Texture2D" uid="uid://c2onhjwtgrjjb" path="res://assets/sprites/cursor_night.png" id="4_c7a3q"]
 [ext_resource type="PackedScene" uid="uid://ca31yr40ycoys" path="res://scenes/spawn_area.tscn" id="4_spawn"]
 [ext_resource type="PackedScene" uid="uid://dv81us2tealma" path="res://scenes/environment/board.tscn" id="5_board"]
 [ext_resource type="PackedScene" uid="uid://hhcrdfkwjpej" path="res://scenes/environment/door.tscn" id="6_eaq8r"]
@@ -15,60 +18,84 @@
 [ext_resource type="PackedScene" uid="uid://ba4p5yeipj4bk" path="res://scenes/ui/unboarding.tscn" id="12_aonbx"]
 [ext_resource type="PackedScene" uid="uid://dwa5g75hy7mms" path="res://scenes/ui/settings_button.tscn" id="13_lcbjr"]
 [ext_resource type="PackedScene" uid="uid://crqnun1n00n82" path="res://scenes/environment/neon.tscn" id="14_30v7y"]
+[ext_resource type="PackedScene" uid="uid://cax1bv236pwwl" path="res://scenes/glass.tscn" id="16_cjvif"]
 
-[node name="GameManager" type="Node2D" node_paths=PackedStringArray("unboarding")]
+[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("board", "door", "mainMenu", "trash", "glitchEffect", "settingsButton", "HeartContainer", "Glitch", "Spawn", "Unboarding", "background")]
 script = ExtResource("1_hwd4i")
-unboarding = NodePath("Unboarding")
+board = NodePath("Board")
+door = NodePath("Door")
+mainMenu = NodePath("MainMenu")
+trash = NodePath("Trash")
+glitchEffect = NodePath("GlitchEffect")
+settingsButton = NodePath("SettingsButton")
 pauseMenuScene = ExtResource("2_5xtl8")
+HeartContainer = NodePath("HeartContainer")
+HeartScene = ExtResource("3_c7a3q")
+Glitch = NodePath("GlitchEffect")
+CursorNormal = ExtResource("3_pc0jn")
+CursorNight = ExtResource("4_c7a3q")
+Spawn = NodePath("SpawnArea")
+Unboarding = NodePath("Unboarding")
+background = NodePath("AnimatedBackground")
 
-[node name="MainMenu" parent="." instance=ExtResource("2_glms7")]
+[node name="MainMenu" parent="." unique_id=707367836 instance=ExtResource("2_glms7")]
 
-[node name="SpawnArea" parent="." instance=ExtResource("4_spawn")]
+[node name="SpawnArea" parent="." unique_id=1158450922 instance=ExtResource("4_spawn")]
 position = Vector2(324, 405)
 
-[node name="Board" parent="." instance=ExtResource("5_board")]
+[node name="Board" parent="." unique_id=1183887835 instance=ExtResource("5_board")]
 visible = false
-position = Vector2(888, 99)
+position = Vector2(840, 99)
 
-[node name="HeartContainer" type="Node2D" parent="."]
+[node name="HeartContainer" type="Node2D" parent="." unique_id=359288903]
 z_index = 100
 position = Vector2(174, 591)
 
-[node name="Trash" parent="." instance=ExtResource("7_q8mjp")]
-position = Vector2(70, 567)
+[node name="AnimatedBackground" parent="." unique_id=1058313637 instance=ExtResource("8_jdad8")]
 
-[node name="AnimatedBackground" parent="." instance=ExtResource("8_jdad8")]
+[node name="GlitchEffect" parent="." unique_id=182762972 instance=ExtResource("9_glitch")]
 
-[node name="GlitchEffect" parent="." instance=ExtResource("9_glitch")]
-
-[node name="Wall" parent="." instance=ExtResource("10_frtjd")]
+[node name="Wall" parent="." unique_id=722171110 instance=ExtResource("10_frtjd")]
 position = Vector2(1152, 0)
 
-[node name="Frontground" type="Sprite2D" parent="."]
+[node name="Frontground" type="Sprite2D" parent="." unique_id=323663241]
 z_index = 5
 scale = Vector2(3, 3)
 texture = ExtResource("11_0rse5")
 centered = false
 
-[node name="Door" parent="." instance=ExtResource("6_eaq8r")]
+[node name="Trash" parent="." unique_id=1522606090 instance=ExtResource("7_q8mjp")]
+z_index = 15
+position = Vector2(70, 567)
+
+[node name="Door" parent="." unique_id=356877507 instance=ExtResource("6_eaq8r")]
 position = Vector2(1062, 379)
 scale = Vector2(1, 1)
 
-[node name="Floor" parent="." instance=ExtResource("11_aonbx")]
+[node name="Floor" parent="." unique_id=34198623 instance=ExtResource("11_aonbx")]
 position = Vector2(0, 192)
 scale = Vector2(3, 3)
 
-[node name="Unboarding" parent="." instance=ExtResource("12_aonbx")]
+[node name="Unboarding" parent="." unique_id=86015135 instance=ExtResource("12_aonbx")]
+visible = false
 position = Vector2(569, 327)
 centered = true
 
-[node name="SettingsButton" parent="." instance=ExtResource("13_lcbjr")]
+[node name="SettingsButton" parent="." unique_id=426236331 instance=ExtResource("13_lcbjr")]
 z_index = 6
 offset_left = 1060.0
 offset_top = 570.0
 offset_right = 1090.0
 offset_bottom = 602.0
 
-[node name="Neon" parent="." instance=ExtResource("14_30v7y")]
+[node name="Neon" parent="." unique_id=443645288 instance=ExtResource("14_30v7y")]
 z_index = 7
 position = Vector2(1081, 171)
+
+[node name="Glass" parent="." unique_id=612983208 node_paths=PackedStringArray("Sprites") instance=ExtResource("16_cjvif")]
+visible = false
+Sprites = {
+"blue": NodePath("GlassPetitBleu"),
+"green": NodePath("GlassGrandVert"),
+"red": NodePath("GlassVinRouge")
+}

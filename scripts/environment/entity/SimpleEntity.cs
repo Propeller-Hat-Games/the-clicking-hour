@@ -1,20 +1,17 @@
 using Godot;
 
-// Entité simple qui nécessite 1 seul clic
+/// <summary>
+/// Simple entity that dies in one click.
+/// </summary>
 public partial class SimpleEntity : Entity
 {
-	protected override void InitializeEntity()
-	{
-		clicksRemaining = 1;
-	}
-	
-	protected override void OnClicked()
-	{
-		clicksRemaining--;
-		
-		if (clicksRemaining <= 0)
-		{
-			Die();
-		}
-	}
+    /// <summary>
+    /// Initializes simple entity specific properties.
+    /// </summary>
+    protected override void InitializeEntity() { }
+
+    /// <summary>
+    /// Handles the click event for a simple entity.
+    /// </summary>
+    protected override void OnClicked() { }
 }

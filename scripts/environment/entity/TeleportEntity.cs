@@ -1,62 +1,54 @@
 using Godot;
+using System;
+using System.Threading.Tasks;
 
-// Entité qui se téléporte en arrière quand cliquée
-// Nécessite 3 clics au total
+/// <summary>
+/// Entity that teleports to a random location in its spawn area when clicked.
+/// Requires 3 clicks to defeat.
+/// </summary>
 public partial class TeleportEntity : Entity
 {
-	
-	protected override void InitializeEntity()
-	{
-		animPrefix = "tp";
-		clicksRemaining = 3;
-	}
-	
-	protected override void OnClicked()
-	{
-		clicksRemaining--;
-		GD.Print($"TeleportEntity cliquée, clics restants: {clicksRemaining}");
-		
-		if (clicksRemaining <= 0)
-		{
-			Die();
-		}
-		else
-		{
-			// Se téléporter
-			Teleport();
-			SfxManager.Instance?.PlayClickSound();
-		}
-	}
+    /// <summary>
+    /// Initializes the entity with 'tp' animation prefix and 3 hearts.
+    /// </summary>
+    protected override void InitializeEntity()
+    {
+        AnimPrefix = "tp";
+        Hearts = 3;
+    }
 
-	private void Teleport()
-	{
-		// Téléporter vers une position aléatoire dans la zone d'apparition
-		var parent = GetParent();
-		if (parent is SpawnArea spawnArea)
-		{
-			Vector2 size = spawnArea.AreaSize();
-			float randomX = (float)GD.RandRange(-size.X / 2, size.X / 2);
-			float randomY = (float)GD.RandRange(-size.Y / 2, size.Y / 2);
-			
-			Position = new Vector2(randomX, randomY);
-			
-			// Recalculer la direction vers la porte
-			var door = GetTree().GetFirstNodeInGroup("Door") as Node2D;
-			if (door != null)
-			{
-				walkDirection = (door.GlobalPosition - GlobalPosition).Normalized();
-			}
-			
-			 GD.Print($"TeleportEntity téléportée aléatoirement à {Position}");
-		}
-		
-		// Effet visuel de téléportation (optionnel)
-		if (sprite != null)
-		{
-			// Flash visuel
-			Tween tween = CreateTween();
-			tween.TweenProperty(sprite, "modulate:a", 0.3f, 0.1);
-			tween.TweenProperty(sprite, "modulate:a", 1.0f, 0.1);
-		}
-	}
+    /// <summary>
+    /// Handles the click event by teleporting the entity to a random location within the spawn area.
+    /// </summary>
+    protected override async void OnClicked()
+    {
+        if (CurrentState != EntityState.Walking || IsDisappearing) return;
+
+        CurrentState = EntityState.Hiding; // Use Hiding state to disable movement/animation updates
+
+        // Disappear animation (Jump)
+        string anim = $"{AnimPrefix}_jump";
+        PlaySyncedAnimation(anim, false, 0.2f);
+
+        await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
+        if (IsDisappearing) return;
+
+        // Teleport to random position in spawn area
+        var parent = GetParent();
+        if (parent is SpawnArea spawnArea && spawnArea.Area.Shape is RectangleShape2D rectShape)
+        {
+            Vector2 size = rectShape.Size;
+            float randomX = (float)GD.RandRange(-size.X / 2, size.X / 2);
+            float randomY = (float)GD.RandRange(-size.Y / 2, size.Y / 2);
+
+            Position = new Vector2(randomX, randomY);
+        }
+
+        // Re-appear animation (Inverse Jump)
+        PlaySyncedAnimation(anim, true, 0.2f);
+        await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
+        if (IsDisappearing) return;
+
+        CurrentState = EntityState.Walking;
+    }
 }

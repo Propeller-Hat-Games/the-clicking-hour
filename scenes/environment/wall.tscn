@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bhoi4skfxyuti"]
 
-[ext_resource type="Texture2D" uid="uid://djdwuegeq0tay" path="res://assets/sprites/environment/background/wall_party.png" id="1_gwhjf"]
+[ext_resource type="Texture2D" uid="uid://byg78yiycjkad" path="res://assets/sprites/environment/background/wall_party.png" id="1_gwhjf"]
 [ext_resource type="Script" uid="uid://dsgxj5se1or6u" path="res://scripts/environment/Wall.cs" id="1_yimtk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yimtk"]

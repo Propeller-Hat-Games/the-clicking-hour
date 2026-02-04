@@ -4,332 +4,419 @@ using System.Threading.Tasks;
 
 public enum EntityState
 {
-	Walking, 
-	Hiding,
-	Stunned,
+    Walking,
+    Hiding,
+    Stunned,
 }
 
+/// <summary>
+/// Base class for all interactive entities in the game.
+/// Handles movement, animation, and life cycle.
+/// </summary>
 public abstract partial class Entity : CharacterBody2D
 {
-	[Export]
-	public float walkSpeed = 300f;
-	
-	[Export]
-	protected float spawnDelay = 1f;
+    [Export]
+    public float walkSpeed { get; set; } = 300f;
 
-	[Export]
-	protected PackedScene glassScene;
-	
-	protected EntityState currentState = EntityState.Walking;
-	protected AnimatedSprite2D sprite;
-	protected Vector2 walkDirection = Vector2.Right;
-	protected int clicksRemaining;
-	protected bool isAlive = true;
-	protected float spawnTimer = 0f;
-	protected string animPrefix = "normal";
-	protected Glass glassInstance;
+    [Export]
+    protected float spawnDelay { get; set; } = 1f;
 
-	public override void _Ready()
-	{
-		sprite = GetNodeOrNull<AnimatedSprite2D>("Sprite2D");
-		InitializeEntity();
+    [Export]
+    protected Sprite2D glass { get; set; }
 
-		if (glassScene != null)
-		{
-			glassInstance = glassScene.Instantiate<Glass>();
-			AddChild(glassInstance);
-			UpdateGlassPosition();
-			glassInstance.Appear();
-			
-			var gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
-			if (gameManager != null)
-			{
-				glassInstance.SetGlassType(gameManager.GetRandomGlassType());
-			}
-		}
-		
-		var clickArea = GetNodeOrNull<Area2D>("ClickArea");
-		// La gestion du clic est maintenant centralisée dans le GameManager
-		/*
-		if (clickArea != null)
-		{
-			clickArea.InputPickable = true;
-			clickArea.InputEvent += OnClickAreaInputEvent;
-		}
-		*/
+    public string GlassType { get; set; } = "";
 
-		CallDeferred(nameof(SetDirectionTowardsDoor));
-	}
-	
-	public bool IsAlive() => isAlive;
+    [Export]
+    protected AnimatedSprite2D sprite { get; set; }
 
-	public void TryClick()
-	{
-		if (isAlive)
-		{
-			OnClicked();
-		}
-	}
+    [Export]
+    private Area2D clickArea { get; set; }
 
-	private void SetDirectionTowardsDoor()
-	{
-		if (!IsInsideTree()) return;
-		var door = GetTree().GetFirstNodeInGroup("Door") as Node2D;
-		if (door != null)
-		{
-			walkDirection = (door.GlobalPosition - GlobalPosition).Normalized();
-		}
-	}
-	
-	protected abstract void InitializeEntity();
-	
-	protected abstract void OnClicked();
-	
-	/*
-	private void OnClickAreaInputEvent(Node viewport, InputEvent @event, long shapeIdx)
-	{
-		if (@event is InputEventMouseButton mouseEvent && 
-			mouseEvent.Pressed && 
-			mouseEvent.ButtonIndex == MouseButton.Left &&
-			isAlive)
-		{
-			OnClicked();
-		}
-	}
-	
-	public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
-	{
-		if (@event is InputEventMouseButton mouseEvent && 
-			mouseEvent.Pressed && 
-			mouseEvent.ButtonIndex == MouseButton.Left &&
-			isAlive)
-		{
-			OnClicked();
-		}
-	}
-	*/
+    protected EntityState CurrentState { get; set; } = EntityState.Walking;
+    protected Vector2 WalkDirection { get; set; } = Vector2.Right;
+    protected int Hearts { get; set; } = 1;
+    public bool IsAlive => Hearts > 0;
+    protected bool IsDisappearing { get; set; } = false;
+    protected string AnimPrefix { get; set; } = "normal";
+    public bool HeadingToDoor { get; set; } = true;
 
-	public override void _PhysicsProcess(double delta)
-	{
-		if (!isAlive) return;
+    private float _spawnTimer = 0f;
+    private Vector2 _glassInitialPos;
+    private Node2D _door;
+    private SfxManager _sfxManager;
+    private Node2D _trash;
 
-		UpdateAnimation();
+    /// <summary>
+    /// Initializes the entity, sets up references and initial state.
+    /// </summary>
+    public override void _Ready()
+    {
+        _sfxManager = GetNode<SfxManager>("/root/SfxManager");
+        _door = GetTree().GetFirstNodeInGroup("Door") as Node2D;
+        
+        // Cache Trash node efficiently
+        _trash = GetTree().GetFirstNodeInGroup("Trash") as Node2D;
+        if (_trash == null)
+        {
+            _trash = GetTree().Root.FindChild("Trash", true, false) as Node2D;
+        }
 
-		if (spawnTimer < spawnDelay)
-		{
-			spawnTimer += (float)delta;
-			return;
-		}
-		
-		ProcessEntity(delta);
-		
-		switch (currentState)
-		{
-			case EntityState.Walking:
-				Velocity = walkDirection * walkSpeed;
-				MoveAndSlide();
-				break;
-			case EntityState.Stunned:
-				Velocity = Vector2.Zero;
-				break;
-		}
-	}
-	
-	protected virtual void ProcessEntity(double delta) { }
-	
-	protected virtual void UpdateAnimation()
-	{
-		if (sprite == null) return;
+        InitializeEntity();
+        UpdateAnimation();
 
-		if (spawnTimer < spawnDelay)
-		{
-			string jumpAnim = $"{animPrefix}_jump";
-			if (sprite.SpriteFrames.HasAnimation(jumpAnim))
-			{
-				if (sprite.Animation != jumpAnim) sprite.Play(jumpAnim);
-				
-				float progress = Math.Min(spawnTimer / spawnDelay, 1.0f);
-				int frameCount = sprite.SpriteFrames.GetFrameCount(jumpAnim);
-				sprite.Frame = (int)((1f - progress) * (frameCount - 1));
-				sprite.Pause();
-				UpdateGlassPosition();
-			}
-			return;
-		}
+        if (glass != null)
+        {
+            _glassInitialPos = glass.Position;
+            AnimateGlassSpawn();
+        }
+    }
 
-		if (currentState == EntityState.Walking)
-		{
-			string animName = $"{animPrefix}_walk";
-			if (sprite.SpriteFrames.HasAnimation(animName))
-			{
-				if (sprite.Animation != animName)
-				{
-					sprite.Play(animName);
-				}
-			}
-			
-			if (walkDirection.X != 0)
-			{
-				sprite.FlipH = walkDirection.X < 0;
-			}
-			UpdateGlassPosition();
-		}
-		else if (currentState == EntityState.Stunned)
-		{
-			string animName = $"{animPrefix}_hurt";
-			if (sprite.SpriteFrames.HasAnimation(animName))
-			{
-				if (sprite.Animation != animName)
-				{
-					sprite.Play(animName);
-				}
-			}
-			UpdateGlassPosition();
-		}
-	}
+    /// <summary>
+    /// Initializes specific entity properties. Must be implemented by subclasses.
+    /// </summary>
+    protected abstract void InitializeEntity();
 
-	protected void UpdateGlassPosition()
-	{
-		if (glassInstance == null || sprite == null || sprite.SpriteFrames == null) return;
+    /// <summary>
+    /// Called when the entity is clicked. Must be implemented by subclasses.
+    /// </summary>
+    protected abstract void OnClicked();
 
-		string anim = sprite.Animation;
-		if (string.IsNullOrEmpty(anim) || !sprite.SpriteFrames.HasAnimation(anim)) return;
+    /// <summary>
+    /// Updates the glass sprite texture and type.
+    /// </summary>
+    public void UpdateGlassType(string type, Sprite2D spriteTemplate)
+    {
+        GlassType = type;
+        if (glass != null && spriteTemplate != null)
+        {
+            glass.Texture = spriteTemplate.Texture;
+        }
+    }
 
-		// On utilise toujours la frame 0 comme référence pour la taille de base
-		var baseTexture = sprite.SpriteFrames.GetFrameTexture(anim, 0);
-		if (baseTexture == null) return;
+    /// <summary>
+    /// Animates the glass bobbing while the entity is walking.
+    /// </summary>
+    /// <param name="delta">Time since last frame.</param>
+    private void AnimateGlassWalking(double delta)
+    {
+        if (glass == null) return;
 
-		float spriteHeight = baseTexture.GetSize().Y * sprite.Scale.Y;
-		float baseHalfHeight = spriteHeight / 2.0f;
-		
-		// Synchronize AppearOffset with frames: reach top (0) at frame 10
-		if (anim.EndsWith("_jump"))
-		{
-			int frameCount = sprite.SpriteFrames.GetFrameCount(anim);
-			int topFrame = 10;
-			
-			if (sprite.Frame >= topFrame)
-			{
-				float progress = (float)(sprite.Frame - topFrame) / (frameCount - 1 - topFrame);
-				glassInstance.AppearOffset = progress * 120.0f;
-			}
-			else
-			{
-				glassInstance.AppearOffset = 0f;
-			}
-		}
-		else
-		{
-			glassInstance.AppearOffset = 0f;
-		}
+        if (CurrentState == EntityState.Walking && sprite != null)
+        {
+            // Sync glass bobbing with walking frames: 2 pixels offset on every other frame
+            float yOffset = (sprite.Frame % 2 != 0) ? -1.0f : 1.0f;
+            glass.Position = _glassInitialPos + new Vector2(0, yOffset);
+        }
+        else
+        {
+            glass.Position = glass.Position.Lerp(_glassInitialPos, (float)delta * 10.0f);
+        }
+    }
 
-		float frameOffset = (sprite.Frame % 2 == 0) ? 1.0f : 0.0f;
-		
-		// Correction spécifique pour l'animation de creusement où le sprite est visuellement différent
-		float animCorrection = 0f;
-		// On applique l'offset seulement si on est caché ou en train d'apparaitre (pas quand on marche)
-		if (anim.StartsWith("dig") && (currentState == EntityState.Hiding || spawnTimer < spawnDelay))
-		{
-			animCorrection = -35.0f;
-		}
-		
-		glassInstance.Position = new Vector2(0, sprite.Position.Y - baseHalfHeight + glassInstance.AppearOffset + frameOffset + animCorrection);
-	}
+    /// <summary>
+    /// Animates the glass spawning effect.
+    /// </summary>
+    private void AnimateGlassSpawn()
+    {
+        if (glass == null) return;
 
-	protected void Die()
-	{
-		isAlive = false;
-		currentState = EntityState.Hiding;
-		
-		// 🔊 JOUER LE SON DE MORT
-		SfxManager.Instance?.PlayDeathSound();
-		
-		var gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
-		if (gameManager != null)
-		{
-			gameManager.AddKill();
-		}
+        glass.Position = _glassInitialPos + new Vector2(0, 50);
+        glass.Modulate = new Color(glass.Modulate, 1.0f);
 
-		CollisionLayer = 0;
-		CollisionMask = 0;
-		
-		var clickArea = GetNodeOrNull<Area2D>("ClickArea");
-		if (clickArea != null)
-		{
-			clickArea.Monitoring = false;
-			clickArea.Monitorable = false;
-			clickArea.InputPickable = false;
-		}
+        float duration = spawnDelay;
 
-		Node2D trash = GetTree().GetFirstNodeInGroup("Trash") as Node2D;
-		if (trash == null)
-		{
-			trash = GetTree().Root.FindChild("Trash", true, false) as Node2D;
-		}
+        if (sprite != null && sprite.SpriteFrames != null)
+        {
+            string animName = $"{AnimPrefix}_jump";
+            if (sprite.SpriteFrames.HasAnimation(animName))
+            {
+                int frameCount = sprite.SpriteFrames.GetFrameCount(animName);
+                // The animation plays backwards from last frame to 0
+                // We want to be at the top when we reach frame 10
+                if (frameCount > 10)
+                {
+                    float totalIntervals = (float)(frameCount - 1);
+                    float stepsToTarget = totalIntervals - 10.0f;
+                    duration = spawnDelay * (stepsToTarget / totalIntervals);
+                }
+            }
+        }
 
-		Vector2 targetPos = new Vector2(64, 602);
-		if (trash != null)
-		{
-			targetPos = trash.GlobalPosition;
-		}
+        var tween = CreateTween();
+        tween.TweenProperty(glass, "position", _glassInitialPos, duration)
+            .SetTrans(Tween.TransitionType.Quad)
+            .SetEase(Tween.EaseType.Out);
+    }
 
-		var tween = CreateTween();
-		tween.SetParallel(true);
-		tween.TweenProperty(this, "global_position", targetPos, 0.5f)
-			 .SetTrans(Tween.TransitionType.Quad)
-			 .SetEase(Tween.EaseType.In);
-		tween.TweenProperty(this, "scale", Vector2.Zero, 0.5f);
-		
-		tween.SetParallel(false);
-		tween.Chain().TweenCallback(Callable.From(QueueFree));
-	}
+    /// <summary>
+    /// Animates the glass disappearance when the entity leaves or is removed.
+    /// </summary>
+    private void AnimateGlassDisappearance()
+    {
+        if (glass == null) return;
 
-	public async Task Disappear()
-	{
-		isAlive = false;
-		CollisionLayer = 0;
-		CollisionMask = 0;
-		Velocity = Vector2.Zero;
-		SetPhysicsProcess(false);
+        var tween = CreateTween();
+        tween.SetParallel(true);
+        tween.TweenProperty(glass, "position", _glassInitialPos + new Vector2(0, 50), 0.5f)
+            .SetTrans(Tween.TransitionType.Linear);
+        tween.TweenProperty(glass, "modulate:a", 0.0f, 0.5f)
+            .SetTrans(Tween.TransitionType.Linear);
+    }
 
-		if (glassInstance != null)
-		{
-			glassInstance.Disappear();
-		}
+    /// <summary>
+    /// Handles a click attempt on this entity.
+    /// </summary>
+    /// <param name="game">The current game manager instance.</param>
+    public void TryClick(GameManager game)
+    {
+        if (Hearts > 0)
+        {
+            Hearts--;
+            _sfxManager.PlayClickSound();
+            if (Hearts <= 0)
+            {
+                Die();
+                game.EntitiesKilled++;
+            }
+            else
+            {
+                OnClicked();
+            }
+        }
+    }
 
-		if (sprite != null && sprite.SpriteFrames.HasAnimation("disapear"))
-		{
-			sprite.Play("disapear");
-			await ToSignal(sprite, "animation_finished");
-		}
-		
-		QueueFree();
-	}
+    /// <summary>
+    /// Handles physics processing, movement, and animation updates.
+    /// </summary>
+    /// <param name="delta">Time since last frame.</param>
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Hearts <= 0) return;
 
-	public Glass GetGlass()
-	{
-		foreach(var child in GetChildren())
-		{
-			if (child is Glass glass)
-			{
-				return glass;
-			}
-		}
-		return null;
-	}
+        UpdateAnimation();
 
-	public void SetWalkDirection(Vector2 direction)
-	{
-		walkDirection = direction.Normalized();
-	}
+        if (_spawnTimer < spawnDelay)
+        {
+            _spawnTimer += (float)delta;
+            return;
+        }
 
-	public void SetSpeed(float speed)
-	{
-		walkSpeed = speed;
-	}
+        ProcessEntity(delta);
+        AnimateGlassWalking(delta);
 
-	public float GetSpeed()
-	{
-		return walkSpeed;
-	}
+        switch (CurrentState)
+        {
+            case EntityState.Walking:
+                if (_door != null && HeadingToDoor)
+                {
+                    // Aim BEYOND the door to ensure we cross it and hit the trigger area
+                    // The door is at the right of the screen (around 1062), so we add 1000 to X
+                    Vector2 targetPos = _door.GlobalPosition;
+                    if (targetPos.X > 500) targetPos.X += 1000;
+                    else targetPos.X -= 1000;
+
+                    WalkDirection = (targetPos - GlobalPosition).Normalized();
+                }
+                Velocity = WalkDirection * walkSpeed;
+                MoveAndSlide();
+                break;
+            case EntityState.Stunned:
+                Velocity = Vector2.Zero;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Disables interactions and collisions when the entity enters the door.
+    /// </summary>
+    public void SetEnteredDoor()
+    {
+        HeadingToDoor = false;
+
+        // Disable clicking and collisions safely
+        SetDeferred(PropertyName.CollisionLayer, 0);
+        SetDeferred(PropertyName.CollisionMask, 0);
+        if (clickArea != null)
+        {
+            clickArea.SetDeferred(Area2D.PropertyName.Monitoring, false);
+            clickArea.SetDeferred(Area2D.PropertyName.Monitorable, false);
+            clickArea.InputPickable = false;
+        }
+    }
+
+    /// <summary>
+    /// Custom entity processing logic. To be overridden by subclasses.
+    /// </summary>
+    /// <param name="delta">Time since last frame.</param>
+    protected virtual void ProcessEntity(double delta) { }
+
+    /// <summary>
+    /// Updates the entity's animation based on state and timers.
+    /// </summary>
+    protected virtual void UpdateAnimation()
+    {
+        if (sprite == null) return;
+
+        if (_spawnTimer < spawnDelay)
+        {
+            // Play jump animation backwards for spawning (emerging)
+            PlaySyncedAnimation($"{AnimPrefix}_jump", true, spawnDelay);
+            return;
+        }
+
+        if (CurrentState == EntityState.Walking)
+        {
+            PlaySyncedAnimation($"{AnimPrefix}_walk");
+
+            if (WalkDirection.X != 0)
+            {
+                sprite.FlipH = WalkDirection.X < 0;
+            }
+        }
+        else if (CurrentState == EntityState.Stunned)
+        {
+            PlaySyncedAnimation($"{AnimPrefix}_hurt");
+        }
+    }
+
+    /// <summary>
+    /// Plays an animation with speed synchronization.
+    /// </summary>
+    /// <param name="animName">The name of the animation to play.</param>
+    /// <param name="backwards">Whether to play the animation backwards.</param>
+    /// <param name="duration">Total duration for the animation to play.</param>
+    protected void PlaySyncedAnimation(string animName, bool backwards = false, float duration = -1f)
+    {
+        if (sprite == null || !sprite.SpriteFrames.HasAnimation(animName)) return;
+        if (IsDisappearing && animName != "disapear") return;
+
+        float speed = 1.0f;
+        if (duration > 0)
+        {
+            float animDuration = (float)(sprite.SpriteFrames.GetFrameCount(animName) / sprite.SpriteFrames.GetAnimationSpeed(animName));
+            speed = animDuration / duration;
+        }
+
+        float finalSpeed = backwards ? -speed : speed;
+
+        // Only play if not already playing that animation, OR if we need to enforce speed/direction
+        if (sprite.Animation != animName)
+        {
+            sprite.Play(animName, finalSpeed, backwards);
+        }
+        else if (!Mathf.IsEqualApprox(sprite.GetPlayingSpeed(), finalSpeed))
+        {
+            // If speed changed, update it. Play() handles this without resetting frame if anim is same.
+            sprite.Play(animName, finalSpeed, backwards);
+        }
+    }
+
+    /// <summary>
+    /// Handles the entity's death, playing sound and animating it towards the trash.
+    /// </summary>
+    protected void Die()
+    {
+        CurrentState = EntityState.Hiding;
+
+        _sfxManager.PlayDeathSound();
+
+        SetDeferred(PropertyName.CollisionLayer, 0);
+        SetDeferred(PropertyName.CollisionMask, 0);
+
+        if (clickArea != null)
+        {
+            clickArea.SetDeferred(Area2D.PropertyName.Monitoring, false);
+            clickArea.SetDeferred(Area2D.PropertyName.Monitorable, false);
+            clickArea.InputPickable = false;
+        }
+
+        Vector2 targetPos = new Vector2(64, 602);
+        if (_trash != null)
+        {
+            targetPos = _trash.GlobalPosition;
+        }
+
+        var tween = CreateTween();
+        tween.SetParallel(true);
+        tween.TweenProperty(this, "global_position", targetPos, 0.5f)
+             .SetTrans(Tween.TransitionType.Quad)
+             .SetEase(Tween.EaseType.In);
+        tween.TweenProperty(this, "scale", Vector2.Zero, 0.5f);
+
+        tween.SetParallel(false);
+        tween.Chain().TweenCallback(Callable.From(QueueFree));
+    }
+
+    /// <summary>
+    /// Asynchronously handles the entity's disappearance animation.
+    /// </summary>
+    public async Task Disappear()
+    {
+        if (IsDisappearing) return;
+        IsDisappearing = true;
+
+        SetDeferred(PropertyName.CollisionLayer, 0);
+        SetDeferred(PropertyName.CollisionMask, 0);
+        Velocity = Vector2.Zero;
+        SetPhysicsProcess(false);
+
+        AnimateGlassDisappearance();
+
+        if (sprite != null && sprite.SpriteFrames.HasAnimation("disapear"))
+        {
+            sprite.Play("disapear");
+
+            // Local function to wrap SignalAwaiter into a Task
+            async Task WaitForAnimation()
+            {
+                try
+                {
+                    await ToSignal(sprite, AnimatedSprite2D.SignalName.AnimationFinished);
+                }
+                catch (ObjectDisposedException) { }
+            }
+
+            // Safer wait: wait for signal OR a timeout
+            await Task.WhenAny(
+                WaitForAnimation(),
+                Task.Delay(1000)
+            );
+        }
+
+        QueueFree();
+    }
+
+    /// <summary>
+    /// Returns the type of glass carried by this entity.
+    /// </summary>
+    public string GetGlassType()
+    {
+        return GlassType;
+    }
+
+    /// <summary>
+    /// Sets the walking direction for this entity.
+    /// </summary>
+    /// <param name="direction">Normalized direction vector.</param>
+    public void SetWalkDirection(Vector2 direction)
+    {
+        WalkDirection = direction.Normalized();
+    }
+
+    /// <summary>
+    /// Sets the movement speed of the entity.
+    /// </summary>
+    /// <param name="speed">Speed in pixels per second.</param>
+    public void SetSpeed(float speed)
+    {
+        walkSpeed = speed;
+    }
+
+    /// <summary>
+    /// Gets the current movement speed of the entity.
+    /// </summary>
+    public float GetSpeed()
+    {
+        return walkSpeed;
+    }
 }

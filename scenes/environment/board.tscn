@@ -1,42 +1,34 @@
 [gd_scene format=3 uid="uid://dv81us2tealma"]
 
 [ext_resource type="Texture2D" uid="uid://bmidff1r0picd" path="res://assets/sprites/environment/entity/base_pannel.png" id="1_8tprs"]
-[ext_resource type="Script" uid="uid://06c2gcei85rn" path="res://scripts/environment/board/Board.cs" id="2_psm7c"]
-[ext_resource type="Texture2D" uid="uid://cph57qbc8a4kh" path="res://assets/sprites/environment/entity/glass_moyen_jaune.png" id="3_cytxg"]
-[ext_resource type="Texture2D" uid="uid://dnse2xctc42o4" path="res://assets/sprites/environment/entity/glass_moyen_rouge.png" id="4_qiwir"]
-[ext_resource type="Texture2D" uid="uid://bw6sb365lggli" path="res://assets/sprites/environment/entity/glass_moyen_vert.png" id="5_n2tnm"]
-[ext_resource type="Texture2D" uid="uid://78oxvyv1kle0" path="res://assets/sprites/environment/entity/glass_moyen_bleu.png" id="6_3eswg"]
-[ext_resource type="Texture2D" uid="uid://b6v0b2kkf3i5s" path="res://assets/sprites/environment/entity/glass_grand_vert.png" id="7_ktnn0"]
+[ext_resource type="Script" uid="uid://06c2gcei85rn" path="res://scripts/ui/Board.cs" id="2_psm7c"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="7_ygvyx"]
-[ext_resource type="Texture2D" uid="uid://bimx81dp3u837" path="res://assets/sprites/environment/entity/glass_grand_bleu.png" id="8_onoj0"]
-[ext_resource type="Texture2D" uid="uid://boi7inveupemp" path="res://assets/sprites/environment/entity/glass_grand_rouge.png" id="9_fbjcx"]
-[ext_resource type="Texture2D" uid="uid://5f6lwja7m1pj" path="res://assets/sprites/environment/entity/glass_grand_jaune.png" id="10_doxss"]
-[ext_resource type="Texture2D" uid="uid://dxq1ao0lglay6" path="res://assets/sprites/environment/entity/glass_petit_bleu.png" id="11_0cl5v"]
-[ext_resource type="Texture2D" uid="uid://jp2qe6hax3sh" path="res://assets/sprites/environment/entity/glass_petit_vert.png" id="12_vp1yu"]
-[ext_resource type="Texture2D" uid="uid://bturuoj63frlm" path="res://assets/sprites/environment/entity/glass_petit_jaune.png" id="13_ir1e4"]
-[ext_resource type="Texture2D" uid="uid://bbog81fnxqqhd" path="res://assets/sprites/environment/entity/glass_petit_rouge.png" id="14_t5e2q"]
-[ext_resource type="Texture2D" uid="uid://dt28ewittji75" path="res://assets/sprites/environment/entity/glass_vin_rouge.png" id="15_bjvqi"]
-[ext_resource type="Texture2D" uid="uid://b85gpkh8x6s3v" path="res://assets/sprites/environment/entity/glass_vin_jaune.png" id="16_cfjcb"]
-[ext_resource type="Texture2D" uid="uid://dgpt2dypv80wu" path="res://assets/sprites/environment/entity/glass_vin_vert.png" id="17_8nx61"]
-[ext_resource type="Texture2D" uid="uid://jefnrlfp8rbq" path="res://assets/sprites/environment/entity/glass_vin_bleu.png" id="18_b5cqe"]
 
-[node name="Board" type="Sprite2D" unique_id=186680299]
+[node name="Board" type="Sprite2D" unique_id=186680299 node_paths=PackedStringArray("LeftSlot", "MiddleSlot", "RightSlot", "LeftNb", "MiddleNb", "RightNb")]
 scale = Vector2(3, 3)
 texture = ExtResource("1_8tprs")
 script = ExtResource("2_psm7c")
-sprites = [ExtResource("4_qiwir"), ExtResource("3_cytxg"), ExtResource("5_n2tnm"), ExtResource("6_3eswg"), ExtResource("7_ktnn0"), ExtResource("8_onoj0"), ExtResource("9_fbjcx"), ExtResource("10_doxss"), ExtResource("11_0cl5v"), ExtResource("12_vp1yu"), ExtResource("13_ir1e4"), ExtResource("14_t5e2q"), ExtResource("16_cfjcb"), ExtResource("15_bjvqi"), ExtResource("17_8nx61"), ExtResource("18_b5cqe")]
-amountOfSlots = 2
+LeftSlot = NodePath("LeftSlot")
+MiddleSlot = NodePath("MiddleSlot")
+RightSlot = NodePath("RightSlot")
+LeftNb = NodePath("LeftNb")
+MiddleNb = NodePath("MiddleNb")
+RightNb = NodePath("RightNb")
 
 [node name="LeftSlot" type="Sprite2D" parent="." unique_id=802037853]
+visible = false
 position = Vector2(-34, -4)
 
 [node name="MiddleSlot" type="Sprite2D" parent="." unique_id=671763657]
+visible = false
 position = Vector2(0, -4)
 
 [node name="RightSlot" type="Sprite2D" parent="." unique_id=1904042163]
+visible = false
 position = Vector2(34, -4)
 
 [node name="LeftNb" type="Label" parent="." unique_id=2104562144]
+visible = false
 offset_left = -35.333332
 offset_top = 10.0
 offset_right = -20.333332
@@ -47,6 +39,7 @@ text = "10"
 horizontal_alignment = 1
 
 [node name="MiddleNb" type="Label" parent="." unique_id=2111229571]
+visible = false
 offset_left = -1.3333315
 offset_top = 10.0
 offset_right = 13.666669
@@ -57,6 +50,7 @@ text = "10"
 horizontal_alignment = 1
 
 [node name="RightNb" type="Label" parent="." unique_id=1630020982]
+visible = false
 offset_left = 33.000008
 offset_top = 10.0
 offset_right = 48.000008

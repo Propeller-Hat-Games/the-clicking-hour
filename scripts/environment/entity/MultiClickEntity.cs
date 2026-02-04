@@ -1,44 +1,44 @@
 using Godot;
 
-// Entité qui nécessite entre 3 et 5 clics
+/// <summary>
+/// Entity that requires multiple clicks to defeat (3 to 5).
+/// Gets stunned briefly when clicked.
+/// </summary>
 public partial class MultiClickEntity : Entity
 {
-	private float stunTimer = 0f;
-	private const float STUN_DURATION = 0.5f;
+    private float StunTimer { get; set; } = 0f;
+    private const float STUN_DURATION = 0.5f;
 
-	protected override void InitializeEntity()
-	{
-		animPrefix = "normal";
-		clicksRemaining = (int)GD.RandRange(3, 5);
-		GD.Print($"MultiClickEntity créée avec {clicksRemaining} clics requis");
-	}
-	
-	protected override void OnClicked()
-	{
-		clicksRemaining--;
-		GD.Print($"MultiClickEntity cliquée, clics restants: {clicksRemaining}");
-		
-		if (clicksRemaining <= 0)
-		{
-			Die();
-		}
-		else
-		{
-			SfxManager.Instance?.PlayClickSound();
-			currentState = EntityState.Stunned;
-			stunTimer = STUN_DURATION;
-		}
-	}
+    /// <summary>
+    /// Initializes the entity with a random number of hearts between 3 and 5.
+    /// </summary>
+    protected override void InitializeEntity()
+    {
+        Hearts = (int)GD.RandRange(3, 5);
+    }
 
-	protected override void ProcessEntity(double delta)
-	{
-		if (currentState == EntityState.Stunned)
-		{
-			stunTimer -= (float)delta;
-			if (stunTimer <= 0)
-			{
-				currentState = EntityState.Walking;
-			}
-		}
-	}
+    /// <summary>
+    /// Sets the entity state to stunned when clicked.
+    /// </summary>
+    protected override void OnClicked()
+    {
+        CurrentState = EntityState.Stunned;
+        StunTimer = STUN_DURATION;
+    }
+
+    /// <summary>
+    /// Processes the stun timer and returns the entity to walking state when finished.
+    /// </summary>
+    /// <param name="delta">Time since last frame.</param>
+    protected override void ProcessEntity(double delta)
+    {
+        if (CurrentState == EntityState.Stunned)
+        {
+            StunTimer -= (float)delta;
+            if (StunTimer <= 0)
+            {
+                CurrentState = EntityState.Walking;
+            }
+        }
+    }
 }

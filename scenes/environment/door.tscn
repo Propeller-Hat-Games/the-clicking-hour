@@ -1,12 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://hhcrdfkwjpej"]
+[gd_scene format=3 uid="uid://hhcrdfkwjpej"]
 
-[ext_resource type="Script" uid="uid://c3ejhakvb3u0q" path="res://scripts/environment/door/Door.cs" id="2_hs68i"]
-[ext_resource type="Texture2D" uid="uid://bo38dgng2krik" path="res://assets/sprites/environment/background/door_close.png" id="2_vddq2"]
+[ext_resource type="Script" uid="uid://c3ejhakvb3u0q" path="res://scripts/environment/Door.cs" id="2_hs68i"]
+[ext_resource type="Texture2D" uid="uid://x271dbuy7pl2" path="res://assets/sprites/environment/background/door_close.png" id="2_vddq2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s3m4j"]
 size = Vector2(20, 148.08667)
 
 [node name="Door" type="Area2D"]
+collision_mask = 3
 scale = Vector2(0.1, 0.1)
 script = ExtResource("2_hs68i")
 

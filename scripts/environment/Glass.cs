@@ -1,60 +1,32 @@
 using Godot;
 using System;
+using Godot.Collections;
+using System.Collections.Generic;
 
-public enum GlassType
+/// <summary>
+/// Manages a collection of glass sprites.
+/// </summary>
+public partial class Glass : Node2D
 {
-	GrandVert,
-	GrandBleu,
-	GrandRouge,
-	GrandJaune,
-	VinRouge,
-	VinJaune,
-	VinVert,
-	VinBleu,
-	MoyenJaune,
-	MoyenRouge,
-	MoyenVert,
-	MoyenBleu,
-	PetitBleu,
-	PetitVert,
-	PetitJaune,
-	PetitRouge,
-	Special
-}
+    [Export]
+    public Godot.Collections.Dictionary<string, Sprite2D> Sprites { get; set; } = new();
 
-public partial class Glass : Node2D {
-	[Export] private Godot.Collections.Array<Sprite2D> sprites = new();
-	private GlassType currentType;
+    /// <summary>
+    /// Returns the dictionary of glass sprites.
+    /// </summary>
+    public Godot.Collections.Dictionary<string, Sprite2D> GetSprites()
+    {
+        return Sprites;
+    }
 
-	public Godot.Collections.Array<Sprite2D> GetSprites() {
-		return sprites;
-	}
-
-	public void SetGlassType(GlassType type)
-	{
-		currentType = type;
-		for (int i = 0; i < sprites.Count; i++)
-		{
-			if (sprites[i] != null)
-			{
-				sprites[i].Visible = i == ((int)type);
-			}
-		}
-	}
-	
-	public GlassType GetGlassType() => currentType;
-
-	public float AppearOffset { get; set; } = 0f;
-
-	public void Appear()
-	{
-		// Logic moved to Entity.cs for frame-syncing
-		AppearOffset = 120f;
-	}
-
-	public void Disappear()
-	{
-		var tween = CreateTween();
-		tween.TweenProperty(this, "modulate:a", 0.0f, 0.5f);
-	}
+    /// <summary>
+    /// Returns a random glass key from the available sprites.
+    /// </summary>
+    public string GetRandomGlass()
+    {
+        var keys = new List<string>(Sprites.Keys);
+        if (keys.Count == 0) return null;
+        int randomIndex = GD.RandRange(0, keys.Count - 1);
+        return keys[randomIndex];
+    }
 }

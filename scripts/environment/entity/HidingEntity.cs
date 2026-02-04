@@ -1,119 +1,65 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
-// Entité qui se cache dans le sol quand cliquée, ressort après 3 secondes
-// Nécessite 3 clics au total
+/// <summary>
+/// Entity that hides in the ground when clicked and re-emerges after a duration.
+/// Requires multiple clicks to defeat.
+/// </summary>
 public partial class HidingEntity : Entity
 {
-	private float hideTimer = 0f;
-	private const float HIDE_DURATION = 3f;
-	private Vector2 originalPosition;
-	private float hideDepth = 120f; // Distance vers le bas quand cachée
-	
-	protected override void InitializeEntity()
-	{
-		clicksRemaining = 3;
-		originalPosition = Position;
-		animPrefix = "dig";
-	}
-	
-	protected override void OnClicked()
-	{
-		if (currentState == EntityState.Hiding || spawnTimer < spawnDelay)
-			return; // Ne peut pas cliquer quand cachée ou en train d'apparaître
-			
-		clicksRemaining--;
-		GD.Print($"HidingEntity cliquée, clics restants: {clicksRemaining}");
-		
-		if (clicksRemaining <= 0)
-		{
-			Die();
-		}
-		else
-		{
-			// Se cacher dans le sol
-			currentState = EntityState.Hiding;
-			hideTimer = 0f;
-			SfxManager.Instance?.PlayEntityDigSound();
-			
-			if (sprite != null)
-			{
-				sprite.Play($"{animPrefix}_jump");
-			}
-		}
-	}
-	
-	protected override void UpdateAnimation()
-	{
-		if (sprite == null) return;
-		
-		// L'animation d'apparition initiale est gérée par la classe de base Entity.cs
-		if (spawnTimer < spawnDelay)
-		{
-			base.UpdateAnimation();
-			return;
-		}
+    private const float HIDE_DURATION = 3f;
+    private const float DIG_ANIM_DURATION = 0.3f;
 
-		if (currentState == EntityState.Walking)
-		{
-			base.UpdateAnimation();
-		}
-		else if (currentState == EntityState.Hiding)
-		{
-			string animName = $"{animPrefix}_jump";
-			if (sprite.SpriteFrames.HasAnimation(animName))
-			{
-				if (sprite.Animation != animName) sprite.Play(animName);
+    /// <summary>
+    /// Initializes the entity with 'dig' animation prefix and 3 hearts.
+    /// </summary>
+    protected override void InitializeEntity()
+    {
+        AnimPrefix = "dig";
+        Hearts = 3;
+    }
 
-				// Animation de descente/montée via les frames
-				if (hideTimer < 0.3f)
-				{
-					// Descendre : jouer l'animation normalement
-					float progress = hideTimer / 0.3f;
-					int frameCount = sprite.SpriteFrames.GetFrameCount(animName);
-					sprite.Frame = (int)(progress * (frameCount - 1));
-					sprite.Pause();
-				}
-				else if (hideTimer >= HIDE_DURATION - 0.3f && hideTimer < HIDE_DURATION)
-				{
-					// Remonter : jouer l'animation à l'envers
-					float progress = (hideTimer - (HIDE_DURATION - 0.3f)) / 0.3f;
-					int frameCount = sprite.SpriteFrames.GetFrameCount(animName);
-					sprite.Frame = (int)((1f - progress) * (frameCount - 1));
-					sprite.Pause();
-				}
-				else
-				{
-					// Reste caché à la dernière frame
-					int frameCount = sprite.SpriteFrames.GetFrameCount(animName);
-					sprite.Frame = frameCount - 1;
-					sprite.Pause();
-				}
-				UpdateGlassPosition();
-			}
-		}
-	}
+    /// <summary>
+    /// Handles the click event by hiding the entity in the ground and re-emerging after a delay.
+    /// </summary>
+    protected override async void OnClicked()
+    {
+        if (CurrentState == EntityState.Hiding || IsDisappearing)
+            return; // Cannot click while hidden or appearing
 
-	protected override void ProcessEntity(double delta)
-	{
-		if (!isAlive || spawnTimer < spawnDelay) return;
+        CurrentState = EntityState.Hiding;
 
-		if (currentState == EntityState.Hiding)
-		{
-			float prevTimer = hideTimer;
-			hideTimer += (float)delta;
-			
-			// Si on commence à remonter (début de la phase d'émergence)
-			if (prevTimer < HIDE_DURATION - 0.3f && hideTimer >= HIDE_DURATION - 0.3f)
-			{
-				SfxManager.Instance?.PlayEntityEmergenceSound();
-			}
-			
-			if (hideTimer >= HIDE_DURATION)
-			{
-				// Revenir à l'état Walking
-				currentState = EntityState.Walking;
-			}
-		}
-	}
+        // Hide in ground (Jump animation played normally = go down)
+        string animName = $"{AnimPrefix}_jump";
+        PlaySyncedAnimation(animName, false, DIG_ANIM_DURATION);
+
+        await ToSignal(GetTree().CreateTimer(DIG_ANIM_DURATION), SceneTreeTimer.SignalName.Timeout);
+        if (IsDisappearing) return;
+
+        // Stay hidden
+        await ToSignal(GetTree().CreateTimer(HIDE_DURATION - (2 * DIG_ANIM_DURATION)), SceneTreeTimer.SignalName.Timeout);
+        if (IsDisappearing) return;
+
+        // Emerge (Jump animation played backwards = go up)
+        GetNode<SfxManager>("/root/SfxManager").PlayEntityEmergenceSound();
+        PlaySyncedAnimation(animName, true, DIG_ANIM_DURATION);
+
+        await ToSignal(GetTree().CreateTimer(DIG_ANIM_DURATION), SceneTreeTimer.SignalName.Timeout);
+        if (IsDisappearing) return;
+
+        CurrentState = EntityState.Walking;
+    }
+
+    /// <summary>
+    /// Updates the entity's animation, preventing base updates while hidden.
+    /// </summary>
+    protected override void UpdateAnimation()
+    {
+        // If hidden, prevent base UpdateAnimation from interfering
+        if (CurrentState != EntityState.Hiding)
+        {
+            base.UpdateAnimation();
+        }
+    }
 }

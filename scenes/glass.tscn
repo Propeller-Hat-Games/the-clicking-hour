@@ -19,9 +19,13 @@
 [ext_resource type="Texture2D" uid="uid://78oxvyv1kle0" path="res://assets/sprites/environment/entity/glass_moyen_bleu.png" id="17_pg7yq"]
 [ext_resource type="Texture2D" uid="uid://nxsajfv6gteg" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
 
-[node name="Glass" type="Node2D" unique_id=612983208 node_paths=PackedStringArray("sprites")]
+[node name="Glass" type="Node2D" unique_id=612983208 node_paths=PackedStringArray("Sprites")]
 script = ExtResource("1_gtrt1")
-sprites = [NodePath("GlassMoyenRouge"), NodePath("GlassMoyenJaune"), NodePath("GlassMoyenVert"), NodePath("GlassMoyenBleu"), NodePath("GlassGrandVert"), NodePath("GlassGrandBleu"), NodePath("GlassGrandRouge"), NodePath("GlassGrandJaune"), NodePath("GlassPetitBleu"), NodePath("GlassPetitVert"), NodePath("GlassPetitJaune"), NodePath("GlassPetitRouge"), NodePath("GlassVinJaune"), NodePath("GlassVinRouge"), NodePath("GlassVinVert"), NodePath("GlassVinBleu"), NodePath("GlassSpecial")]
+Sprites = {
+"blue": NodePath("GlassPetitBleu"),
+"green": NodePath("GlassGrandVert"),
+"red": NodePath("GlassVinRouge")
+}
 
 [node name="GlassVinJaune" type="Sprite2D" parent="." unique_id=528045575]
 scale = Vector2(3, 3)

@@ -1,8 +1,7 @@
-[gd_scene load_steps=82 format=3 uid="uid://de8a82s41jlab"]
+[gd_scene format=3 uid="uid://de8a82s41jlab"]
 
 [ext_resource type="Script" uid="uid://bnurmthuvt78j" path="res://scripts/environment/entity/SimpleEntity.cs" id="1_lxsru"]
 [ext_resource type="Texture2D" uid="uid://bsa0kpudjh2x3" path="res://assets/sprites/environment/entity/entity_dig_jump.png" id="3_ecdnh"]
-[ext_resource type="PackedScene" uid="uid://cax1bv236pwwl" path="res://scenes/glass.tscn" id="3_glass"]
 [ext_resource type="Texture2D" uid="uid://ywk2e6p08vkv" path="res://assets/sprites/environment/entity/entity_dig_walk_arm_dish.png" id="4_jfllw"]
 [ext_resource type="Texture2D" uid="uid://xvd134umlrgv" path="res://assets/sprites/environment/entity/entity_normal_jump.png" id="5_vholj"]
 [ext_resource type="Texture2D" uid="uid://ivpyx6vt8xef" path="res://assets/sprites/environment/entity/entity_disapear.png" id="5_yeioj"]
@@ -334,7 +333,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_72dgv")
 }],
-"loop": true,
+"loop": false,
 "name": &"dig_jump",
 "speed": 5.0
 }, {
@@ -438,7 +437,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_w5upw")
 }],
-"loop": true,
+"loop": false,
 "name": &"normal_jump",
 "speed": 5.0
 }, {
@@ -508,7 +507,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_46cdc")
 }],
-"loop": true,
+"loop": false,
 "name": &"tp_jump",
 "speed": 5.0
 }, {
@@ -536,24 +535,32 @@ radius = 21.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lxsru"]
 size = Vector2(52, 108)
 
-[node name="Entity" type="CharacterBody2D"]
+[node name="Entity" type="CharacterBody2D" unique_id=1357488417 node_paths=PackedStringArray("glass", "sprite", "clickArea")]
+collision_layer = 2
+collision_mask = 1
 script = ExtResource("1_lxsru")
 walkSpeed = 25.0
-glassScene = ExtResource("3_glass")
+glass = NodePath("Glass")
+sprite = NodePath("Sprite2D")
+clickArea = NodePath("ClickArea")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=355789460]
 position = Vector2(0, -75)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_lxsru")
 animation = &"normal_hurt"
 
-[node name="Feet" type="CollisionShape2D" parent="."]
+[node name="Feet" type="CollisionShape2D" parent="." unique_id=564654909]
 light_mask = 1025
 shape = SubResource("CircleShape2D_ecdnh")
 
-[node name="ClickArea" type="Area2D" parent="."]
+[node name="ClickArea" type="Area2D" parent="." unique_id=1281909627]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=736491272]
 light_mask = 7
 position = Vector2(-1, -56)
 shape = SubResource("RectangleShape2D_lxsru")
+
+[node name="Glass" type="Sprite2D" parent="." unique_id=792088691]
+position = Vector2(0, -150)
+scale = Vector2(3, 3)

@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Shader" path="res://assets/shaders/glitch.gdshader" id="1_shader"]
-[ext_resource type="Script" path="res://scripts/system/GlitchEffect.cs" id="2_script"]
+[ext_resource type="Shader" uid="uid://hwco11aifgug" path="res://assets/shaders/glitch.gdshader" id="1_shader"]
+[ext_resource type="Script" uid="uid://vio0h2dxyokb" path="res://scripts/ui/GlitchEffect.cs" id="2_script"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1"]
 shader = ExtResource("1_shader")
