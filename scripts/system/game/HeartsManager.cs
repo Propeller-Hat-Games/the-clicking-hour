@@ -47,18 +47,25 @@ public partial class GameManager
     {
         while (IsInsideTree())
         {
+            // If the game is paused, wait until it's unpaused before starting a new wave
+            if (GetTree().Paused)
+            {
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                continue;
+            }
+
             var currentHearts = new List<Node2D>(_heartNodes);
             foreach (var heart in currentHearts)
             {
                 if (IsInstanceValid(heart))
                 {
-                    using Tween tween = CreateTween();
+                    Tween tween = CreateTween();
                     // Jump up
-                    tween.TweenProperty(heart, "position:y", heart.Position.Y - 15, 0.15f)
+                    tween.TweenProperty(heart, "position:y", -15f, 0.15f)
                         .SetTrans(Tween.TransitionType.Sine)
                         .SetEase(Tween.EaseType.Out);
                     // Fall down
-                    tween.TweenProperty(heart, "position:y", heart.Position.Y, 0.4f)
+                    tween.TweenProperty(heart, "position:y", 0f, 0.4f)
                         .SetTrans(Tween.TransitionType.Bounce)
                         .SetEase(Tween.EaseType.Out);
                 }
@@ -66,6 +73,9 @@ public partial class GameManager
                 // Delay between each heart
                 if (!IsInsideTree()) return;
                 await ToSignal(GetTree().CreateTimer(0.2f), Timer.SignalName.Timeout);
+
+                // If paused during the sequence, we might want to wait here too if needed, 
+                // but standard timers and tweens already stop when paused.
             }
             
             // Wait before next wave of animation
