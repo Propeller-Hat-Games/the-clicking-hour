@@ -14,6 +14,12 @@ public partial class GameManager
     /// </summary>
     public void LoadConditionsManager()
     {
+        if (board == null)
+        {
+            GD.PrintErr("[CONDITIONS] Board export is not assigned in GameManager!");
+            return;
+        }
+
         board.ZIndex = 100;
 
         LoadGlass();
@@ -24,6 +30,7 @@ public partial class GameManager
     /// </summary>
     public void UpdateBoard()
     {
+        if (board == null) return;
         board.UpdateBoard(_requiredGlassTypes.Count, GetGlassSprites(_requiredGlassTypes), _requiredGlassCounts);
     }
 
@@ -57,7 +64,7 @@ public partial class GameManager
         }
 
         UpdateBoard();
-        board.Visible = true;
+        if (board != null) board.Visible = true;
     }
 
     /// <summary>

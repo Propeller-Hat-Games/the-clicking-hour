@@ -99,13 +99,8 @@ offset_bottom = 602.0
 z_index = 7
 position = Vector2(1081, 171)
 
-[node name="Glass" parent="." unique_id=612983208 node_paths=PackedStringArray("Sprites") instance=ExtResource("16_cjvif")]
+[node name="Glass" parent="." unique_id=612983208 instance=ExtResource("16_cjvif")]
 visible = false
-Sprites = {
-"blue": NodePath("GlassPetitBleu"),
-"green": NodePath("GlassGrandVert"),
-"red": NodePath("GlassVinRouge")
-}
 
 [node name="Wall Left" type="StaticBody2D" parent="." unique_id=1420222297]
 z_index = 10

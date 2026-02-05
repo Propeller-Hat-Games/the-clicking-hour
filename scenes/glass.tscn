@@ -2,95 +2,36 @@
 
 [ext_resource type="Script" uid="uid://cew0nkf3ugbby" path="res://scripts/environment/Glass.cs" id="1_gtrt1"]
 [ext_resource type="Texture2D" uid="uid://b85gpkh8x6s3v" path="res://assets/sprites/environment/entity/glass_vin_jaune.png" id="2_na6tc"]
-[ext_resource type="Texture2D" uid="uid://dgpt2dypv80wu" path="res://assets/sprites/environment/entity/glass_vin_vert.png" id="3_kntkg"]
 [ext_resource type="Texture2D" uid="uid://dt28ewittji75" path="res://assets/sprites/environment/entity/glass_vin_rouge.png" id="4_5kt1v"]
-[ext_resource type="Texture2D" uid="uid://jefnrlfp8rbq" path="res://assets/sprites/environment/entity/glass_vin_bleu.png" id="5_oktmh"]
-[ext_resource type="Texture2D" uid="uid://5f6lwja7m1pj" path="res://assets/sprites/environment/entity/glass_grand_jaune.png" id="6_s2k8y"]
-[ext_resource type="Texture2D" uid="uid://boi7inveupemp" path="res://assets/sprites/environment/entity/glass_grand_rouge.png" id="7_qrc6r"]
 [ext_resource type="Texture2D" uid="uid://b6v0b2kkf3i5s" path="res://assets/sprites/environment/entity/glass_grand_vert.png" id="8_0ruws"]
-[ext_resource type="Texture2D" uid="uid://bimx81dp3u837" path="res://assets/sprites/environment/entity/glass_grand_bleu.png" id="9_85qhx"]
-[ext_resource type="Texture2D" uid="uid://bturuoj63frlm" path="res://assets/sprites/environment/entity/glass_petit_jaune.png" id="10_dlxoq"]
-[ext_resource type="Texture2D" uid="uid://bbog81fnxqqhd" path="res://assets/sprites/environment/entity/glass_petit_rouge.png" id="11_sl8r3"]
-[ext_resource type="Texture2D" uid="uid://jp2qe6hax3sh" path="res://assets/sprites/environment/entity/glass_petit_vert.png" id="12_3j5ht"]
 [ext_resource type="Texture2D" uid="uid://dxq1ao0lglay6" path="res://assets/sprites/environment/entity/glass_petit_bleu.png" id="13_6bqtk"]
-[ext_resource type="Texture2D" uid="uid://cph57qbc8a4kh" path="res://assets/sprites/environment/entity/glass_moyen_jaune.png" id="14_e0lra"]
-[ext_resource type="Texture2D" uid="uid://dnse2xctc42o4" path="res://assets/sprites/environment/entity/glass_moyen_rouge.png" id="15_7dmxn"]
-[ext_resource type="Texture2D" uid="uid://bw6sb365lggli" path="res://assets/sprites/environment/entity/glass_moyen_vert.png" id="16_ouckf"]
-[ext_resource type="Texture2D" uid="uid://78oxvyv1kle0" path="res://assets/sprites/environment/entity/glass_moyen_bleu.png" id="17_pg7yq"]
 [ext_resource type="Texture2D" uid="uid://nxsajfv6gteg" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
 
 [node name="Glass" type="Node2D" unique_id=612983208 node_paths=PackedStringArray("Sprites")]
 script = ExtResource("1_gtrt1")
 Sprites = {
-"blue": NodePath("GlassPetitBleu"),
-"green": NodePath("GlassGrandVert"),
-"red": NodePath("GlassVinRouge")
+"blue": NodePath("Blue"),
+"green": NodePath("Green"),
+"red": NodePath("Red"),
+"yellow": NodePath("Yellow")
 }
 
-[node name="GlassVinJaune" type="Sprite2D" parent="." unique_id=528045575]
+[node name="Yellow" type="Sprite2D" parent="." unique_id=528045575]
 scale = Vector2(3, 3)
 texture = ExtResource("2_na6tc")
 
-[node name="GlassVinVert" type="Sprite2D" parent="." unique_id=1078095324]
-scale = Vector2(3, 3)
-texture = ExtResource("3_kntkg")
-
-[node name="GlassVinRouge" type="Sprite2D" parent="." unique_id=1158552911]
+[node name="Red" type="Sprite2D" parent="." unique_id=1158552911]
 scale = Vector2(3, 3)
 texture = ExtResource("4_5kt1v")
 
-[node name="GlassVinBleu" type="Sprite2D" parent="." unique_id=935285624]
-scale = Vector2(3, 3)
-texture = ExtResource("5_oktmh")
-
-[node name="GlassGrandVert" type="Sprite2D" parent="." unique_id=1736684548]
+[node name="Green" type="Sprite2D" parent="." unique_id=1736684548]
 scale = Vector2(3, 3)
 texture = ExtResource("8_0ruws")
 
-[node name="GlassGrandJaune" type="Sprite2D" parent="." unique_id=246750523]
-scale = Vector2(3, 3)
-texture = ExtResource("6_s2k8y")
-
-[node name="GlassGrandRouge" type="Sprite2D" parent="." unique_id=660432637]
-scale = Vector2(3, 3)
-texture = ExtResource("7_qrc6r")
-
-[node name="GlassGrandBleu" type="Sprite2D" parent="." unique_id=1880139635]
-scale = Vector2(3, 3)
-texture = ExtResource("9_85qhx")
-
-[node name="GlassPetitJaune" type="Sprite2D" parent="." unique_id=451873899]
-scale = Vector2(3, 3)
-texture = ExtResource("10_dlxoq")
-
-[node name="GlassPetitRouge" type="Sprite2D" parent="." unique_id=1855523230]
-scale = Vector2(3, 3)
-texture = ExtResource("11_sl8r3")
-
-[node name="GlassPetitVert" type="Sprite2D" parent="." unique_id=235670769]
-scale = Vector2(3, 3)
-texture = ExtResource("12_3j5ht")
-
-[node name="GlassPetitBleu" type="Sprite2D" parent="." unique_id=1592679913]
+[node name="Blue" type="Sprite2D" parent="." unique_id=1592679913]
 scale = Vector2(3, 3)
 texture = ExtResource("13_6bqtk")
 
-[node name="GlassMoyenJaune" type="Sprite2D" parent="." unique_id=351433253]
-scale = Vector2(3, 3)
-texture = ExtResource("14_e0lra")
-
-[node name="GlassMoyenRouge" type="Sprite2D" parent="." unique_id=944049592]
-scale = Vector2(3, 3)
-texture = ExtResource("15_7dmxn")
-
-[node name="GlassMoyenVert" type="Sprite2D" parent="." unique_id=1426540969]
-scale = Vector2(3, 3)
-texture = ExtResource("16_ouckf")
-
-[node name="GlassMoyenBleu" type="Sprite2D" parent="." unique_id=2085815690]
-scale = Vector2(3, 3)
-texture = ExtResource("17_pg7yq")
-
-[node name="GlassSpecial" type="Sprite2D" parent="." unique_id=41615253]
+[node name="Special" type="Sprite2D" parent="." unique_id=41615253]
 scale = Vector2(3, 3)
 texture = ExtResource("18_kntkg")

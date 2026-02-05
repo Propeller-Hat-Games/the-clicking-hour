@@ -20,7 +20,14 @@ public partial class GameManager
         GD.Print("[GLASS] Loaded sprites:");
         foreach (var key in _everySprites.Keys)
         {
-            GD.Print($"        - {key}");
+            if (_everySprites[key] == null)
+            {
+                GD.PrintErr($"        - {key}: Sprite2D is NULL! Please check the Glass node in the scene.");
+            }
+            else
+            {
+                GD.Print($"        - {key}");
+            }
         }
     }
 
