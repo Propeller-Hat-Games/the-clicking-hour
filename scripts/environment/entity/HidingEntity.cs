@@ -34,6 +34,15 @@ public partial class HidingEntity : Entity
         string animName = $"{AnimPrefix}_jump";
         PlaySyncedAnimation(animName, false, DIG_ANIM_DURATION);
 
+        // Animate glass down
+        if (glass != null)
+        {
+            var tween = CreateTween();
+            tween.TweenProperty(glass, "position", _glassInitialPos + new Vector2(0, 75), DIG_ANIM_DURATION)
+                .SetTrans(Tween.TransitionType.Quart)
+                .SetEase(Tween.EaseType.In);
+        }
+
         await ToSignal(GetTree().CreateTimer(DIG_ANIM_DURATION), SceneTreeTimer.SignalName.Timeout);
         if (IsDisappearing) return;
 
@@ -44,6 +53,15 @@ public partial class HidingEntity : Entity
         // Emerge (Jump animation played backwards = go up)
         GetNode<SfxManager>("/root/SfxManager").PlayEntityEmergenceSound();
         PlaySyncedAnimation(animName, true, DIG_ANIM_DURATION);
+
+        // Animate glass up
+        if (glass != null)
+        {
+            var tween = CreateTween();
+            tween.TweenProperty(glass, "position", _glassInitialPos, DIG_ANIM_DURATION)
+                .SetTrans(Tween.TransitionType.Quart)
+                .SetEase(Tween.EaseType.Out);
+        }
 
         await ToSignal(GetTree().CreateTimer(DIG_ANIM_DURATION), SceneTreeTimer.SignalName.Timeout);
         if (IsDisappearing) return;

@@ -41,7 +41,7 @@ public abstract partial class Entity : CharacterBody2D
     public bool HeadingToDoor { get; set; } = true;
 
     private float _spawnTimer = 0f;
-    private Vector2 _glassInitialPos;
+    protected Vector2 _glassInitialPos;
     private Node2D _door;
     private SfxManager _sfxManager;
     private Node2D _trash;
@@ -110,7 +110,7 @@ public abstract partial class Entity : CharacterBody2D
             float yOffset = (sprite.Frame % 2 != 0) ? -1.0f : 1.0f;
             glass.Position = _glassInitialPos + new Vector2(0, yOffset);
         }
-        else
+        else if (CurrentState != EntityState.Hiding)
         {
             glass.Position = glass.Position.Lerp(_glassInitialPos, (float)delta * 10.0f);
         }
@@ -134,20 +134,12 @@ public abstract partial class Entity : CharacterBody2D
             if (sprite.SpriteFrames.HasAnimation(animName))
             {
                 int frameCount = sprite.SpriteFrames.GetFrameCount(animName);
-                // The animation plays backwards from last frame to 0
-                // We want to be at the top when we reach frame 10
-                if (frameCount > 10)
-                {
-                    float totalIntervals = (float)(frameCount - 1);
-                    float stepsToTarget = totalIntervals - 10.0f;
-                    duration = spawnDelay * (stepsToTarget / totalIntervals);
-                }
             }
         }
 
         var tween = CreateTween();
         tween.TweenProperty(glass, "position", _glassInitialPos, duration)
-            .SetTrans(Tween.TransitionType.Quad)
+            .SetTrans(Tween.TransitionType.Quart)
             .SetEase(Tween.EaseType.Out);
     }
 

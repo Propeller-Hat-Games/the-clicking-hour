@@ -28,9 +28,19 @@ public partial class TeleportEntity : Entity
 
         // Disappear animation (Jump)
         string anim = $"{AnimPrefix}_jump";
-        PlaySyncedAnimation(anim, false, 0.2f);
+        float animDuration = 0.2f;
+        PlaySyncedAnimation(anim, false, animDuration);
 
-        await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
+        // Animate glass down
+        if (glass != null)
+        {
+            var tween = CreateTween();
+            tween.TweenProperty(glass, "position", _glassInitialPos + new Vector2(0, 50), animDuration)
+                .SetTrans(Tween.TransitionType.Quad)
+                .SetEase(Tween.EaseType.Out);
+        }
+
+        await ToSignal(GetTree().CreateTimer(animDuration), SceneTreeTimer.SignalName.Timeout);
         if (IsDisappearing) return;
 
         // Teleport to random position in spawn area
@@ -40,8 +50,18 @@ public partial class TeleportEntity : Entity
         }
 
         // Re-appear animation (Inverse Jump)
-        PlaySyncedAnimation(anim, true, 0.2f);
-        await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
+        PlaySyncedAnimation(anim, true, animDuration);
+
+        // Animate glass up
+        if (glass != null)
+        {
+            var tween = CreateTween();
+            tween.TweenProperty(glass, "position", _glassInitialPos, animDuration)
+                .SetTrans(Tween.TransitionType.Quad)
+                .SetEase(Tween.EaseType.Out);
+        }
+
+        await ToSignal(GetTree().CreateTimer(animDuration), SceneTreeTimer.SignalName.Timeout);
         if (IsDisappearing) return;
 
         CurrentState = EntityState.Walking;
