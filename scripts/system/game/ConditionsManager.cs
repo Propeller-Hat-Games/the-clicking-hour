@@ -47,7 +47,13 @@ public partial class GameManager
 
         for (int i = 0; i < glassTypeCount; i++)
         {
-            _requiredGlassTypes.Add(RandomGlassType());
+            string newType;
+            do
+            {
+                newType = RandomGlassType();
+            } while (_requiredGlassTypes.Contains(newType));
+
+            _requiredGlassTypes.Add(newType);
             _requiredGlassCounts.Add(1);
         }
 
