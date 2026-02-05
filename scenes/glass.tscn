@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cew0nkf3ugbby" path="res://scripts/environment/Glass.cs" id="1_gtrt1"]
 [ext_resource type="Texture2D" uid="uid://b85gpkh8x6s3v" path="res://assets/sprites/environment/entity/glass_vin_jaune.png" id="2_na6tc"]
-[ext_resource type="Texture2D" uid="uid://dt28ewittji75" path="res://assets/sprites/environment/entity/glass_vin_rouge.png" id="4_5kt1v"]
+[ext_resource type="Texture2D" uid="uid://dnse2xctc42o4" path="res://assets/sprites/environment/entity/glass_moyen_rouge.png" id="3_2h05u"]
 [ext_resource type="Texture2D" uid="uid://b6v0b2kkf3i5s" path="res://assets/sprites/environment/entity/glass_grand_vert.png" id="8_0ruws"]
 [ext_resource type="Texture2D" uid="uid://dxq1ao0lglay6" path="res://assets/sprites/environment/entity/glass_petit_bleu.png" id="13_6bqtk"]
-[ext_resource type="Texture2D" uid="uid://nxsajfv6gteg" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
+[ext_resource type="Texture2D" uid="uid://crgfrkuykqkay" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
 
 [node name="Glass" type="Node2D" unique_id=612983208 node_paths=PackedStringArray("Sprites")]
 script = ExtResource("1_gtrt1")
@@ -22,7 +22,7 @@ texture = ExtResource("2_na6tc")
 
 [node name="Red" type="Sprite2D" parent="." unique_id=1158552911]
 scale = Vector2(3, 3)
-texture = ExtResource("4_5kt1v")
+texture = ExtResource("3_2h05u")
 
 [node name="Green" type="Sprite2D" parent="." unique_id=1736684548]
 scale = Vector2(3, 3)
