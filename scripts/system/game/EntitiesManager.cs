@@ -36,8 +36,9 @@ public partial class GameManager
         if (CurrentWave < 5) return _entityScenes[0];
         int p = Rng.Next(100);
         
-        if (p >= 50) return _entityScenes[1];
-        else if (p >= 25) return _entityScenes[2];
+        if (p <= 75) return _entityScenes[0];
+        if (p <= 85) return _entityScenes[1];
+        else if (p <= 95) return _entityScenes[2];
         return _entityScenes[3];
     }
 
