@@ -18,6 +18,38 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mdnfb"]
+content_margin_left = 24.0
+content_margin_top = 18.0
+content_margin_right = 24.0
+content_margin_bottom = 18.0
+bg_color = Color(0.13725491, 0.043137256, 0.24313726, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gx6pb"]
+content_margin_left = 24.0
+content_margin_top = 18.0
+content_margin_right = 24.0
+content_margin_bottom = 18.0
+bg_color = Color(0.13725491, 0.043137256, 0.24313726, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cstew"]
 bg_color = Color(0.26241136, 0.10702383, 0.43722227, 1)
 
@@ -26,10 +58,15 @@ default_font = ExtResource("1_cstew")
 Button/font_sizes/font_size = 32
 Button/styles/focus = SubResource("StyleBoxFlat_normal")
 Button/styles/hover = SubResource("StyleBoxFlat_normal")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_mdnfb")
 Button/styles/normal = SubResource("StyleBoxFlat_normal")
 Button/styles/pressed = SubResource("StyleBoxFlat_normal")
 CheckBox/constants/h_separation = 24
 CheckBox/font_sizes/font_size = 24
+CheckBox/styles/hover = SubResource("StyleBoxFlat_gx6pb")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxFlat_mdnfb")
+CheckBox/styles/normal = SubResource("StyleBoxFlat_normal")
+CheckBox/styles/pressed = SubResource("StyleBoxFlat_normal")
 GridContainer/constants/h_separation = 24
 GridContainer/constants/v_separation = 12
 HBoxContainer/constants/separation = 32
