@@ -12,21 +12,49 @@ public partial class SpawnArea : Area2D
     public CollisionShape2D Area;
     
     private List<Entity> _activeEntities = new List<Entity>();
-    private Random _rng = new Random();
 
     /// <summary>
     /// Generates a random position within the defined rectangular spawn area.
     /// </summary>
     /// <returns>A Vector2 representing a random position.</returns>
-    private Vector2 RandomPosition()
+    public Vector2 GetRandomPosition()
     {
-        if (Area == null || Area.Shape is not RectangleShape2D rectShape) return Vector2.Zero;
+        if (Area?.Shape is not RectangleShape2D rectShape) return Vector2.Zero;
 
         Vector2 size = rectShape.Size;
-        float x = (float)(_rng.NextDouble() * size.X - size.X / 2);
-        float y = (float)(_rng.NextDouble() * size.Y - size.Y / 2);
+        float x = (float)GD.RandRange(-size.X / 2.0, size.X / 2.0);
+        float y = (float)GD.RandRange(-size.Y / 2.0, size.Y / 2.0);
         
-        return new Vector2(x, y);
+        return Area.Position + new Vector2(x, y);
+    }
+
+    /// <summary>
+    /// Checks if a position is valid (not too close to other active entities).
+    /// </summary>
+    public bool IsPositionValid(Vector2 position, float minDistanceSquared, Entity ignoreEntity = null)
+    {
+        foreach (var entity in _activeEntities)
+        {
+            if (!IsInstanceValid(entity) || entity == ignoreEntity) continue;
+            if (position.DistanceSquaredTo(entity.Position) < minDistanceSquared) 
+                return false;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Returns a valid random position within the spawn area, considering other active entities.
+    /// </summary>
+    public Vector2 GetValidRandomPosition(float minDist = 250f, int maxAttempts = 50, Entity ignoreEntity = null)
+    {
+        Vector2 pos = Vector2.Zero;
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            pos = GetRandomPosition();
+            float threshold = minDist * (1.0f - (float)i / maxAttempts);
+            if (IsPositionValid(pos, threshold * threshold, ignoreEntity)) break;
+        }
+        return pos;
     }
 
     /// <summary>
@@ -37,13 +65,17 @@ public partial class SpawnArea : Area2D
     {
         PackedScene randomScene = game.GetRandomEntity();
         Entity entity = randomScene.Instantiate<Entity>();
+        
+        // Calculate speed first
         entity.SetSpeed(entity.GetSpeed() * (game.CurrentWave / 3 + 1));
+        
+        // Find a valid random position
+        entity.Position = GetValidRandomPosition();
         AddChild(entity);
         
         string glassType = game.RandomGlassType();
         entity.UpdateGlassType(glassType, game.GetGlassSprite(glassType));
-        entity.Position = RandomPosition();
-        
+
         entity.TreeExited += () => OnEntityTreeExited(entity);
         _activeEntities.Add(entity);
     }

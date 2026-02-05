@@ -34,14 +34,9 @@ public partial class TeleportEntity : Entity
         if (IsDisappearing) return;
 
         // Teleport to random position in spawn area
-        var parent = GetParent();
-        if (parent is SpawnArea spawnArea && spawnArea.Area.Shape is RectangleShape2D rectShape)
+        if (GetParent() is SpawnArea spawnArea)
         {
-            Vector2 size = rectShape.Size;
-            float randomX = (float)GD.RandRange(-size.X / 2, size.X / 2);
-            float randomY = (float)GD.RandRange(-size.Y / 2, size.Y / 2);
-
-            Position = new Vector2(randomX, randomY);
+            Position = spawnArea.GetValidRandomPosition(ignoreEntity: this);
         }
 
         // Re-appear animation (Inverse Jump)
