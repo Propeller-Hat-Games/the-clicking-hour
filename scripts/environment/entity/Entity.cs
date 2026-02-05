@@ -45,6 +45,7 @@ public abstract partial class Entity : CharacterBody2D
     private Node2D _door;
     private SfxManager _sfxManager;
     private Node2D _trash;
+    private float _targetYOffset;
 
     /// <summary>
     /// Initializes the entity, sets up references and initial state.
@@ -53,6 +54,8 @@ public abstract partial class Entity : CharacterBody2D
     {
         _sfxManager = GetNode<SfxManager>("/root/SfxManager");
         _door = GetTree().GetFirstNodeInGroup("Door") as Node2D;
+        _targetYOffset = (float)GD.RandRange(-20.0, 20.0);
+        MotionMode = MotionModeEnum.Floating;
         
         // Cache Trash node efficiently
         _trash = GetTree().GetFirstNodeInGroup("Trash") as Node2D;
@@ -209,11 +212,23 @@ public abstract partial class Entity : CharacterBody2D
             case EntityState.Walking:
                 if (_door != null && HeadingToDoor)
                 {
-                    // Aim BEYOND the door to ensure we cross it and hit the trigger area
-                    // The door is at the right of the screen (around 1062), so we add 1000 to X
-                    Vector2 targetPos = _door.GlobalPosition;
-                    if (targetPos.X > 500) targetPos.X += 1000;
-                    else targetPos.X -= 1000;
+                    Vector2 doorPos = _door.GlobalPosition;
+                    Vector2 targetPos = doorPos;
+                    targetPos.Y += _targetYOffset;
+
+                    // Improved pathfinding to avoid "Wall Left" and "Wall Right" flanking the door
+                    // Entities aim for their "lane" (Y + offset) at a point 150px before the door
+                    float distToDoorX = doorPos.X - GlobalPosition.X;
+                    
+                    if (distToDoorX > 20)
+                    {
+                        targetPos.X = doorPos.X - 20;
+                    }
+                    else
+                    {
+                        // Once close enough and aligned, aim BEYOND the door to ensure crossing it
+                        targetPos.X = doorPos.X + 1000;
+                    }
 
                     WalkDirection = (targetPos - GlobalPosition).Normalized();
                 }
@@ -232,6 +247,7 @@ public abstract partial class Entity : CharacterBody2D
     public void SetEnteredDoor()
     {
         HeadingToDoor = false;
+        ZIndex = -1;
 
         // Disable clicking and collisions safely
         SetDeferred(PropertyName.CollisionLayer, 0);

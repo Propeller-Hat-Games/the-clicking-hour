@@ -20,7 +20,10 @@
 [ext_resource type="PackedScene" uid="uid://crqnun1n00n82" path="res://scenes/environment/neon.tscn" id="14_30v7y"]
 [ext_resource type="PackedScene" uid="uid://cax1bv236pwwl" path="res://scenes/glass.tscn" id="16_cjvif"]
 
-[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("board", "door", "mainMenu", "trash", "glitchEffect", "settingsButton", "HeartContainer", "Glitch", "Spawn", "Unboarding", "background")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c7a3q"]
+size = Vector2(224.63614, 24.255402)
+
+[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("board", "door", "mainMenu", "trash", "glitchEffect", "settingsButton", "HeartContainer", "Glitch", "background", "Spawn", "Unboarding")]
 script = ExtResource("1_hwd4i")
 board = NodePath("Board")
 door = NodePath("Door")
@@ -34,9 +37,9 @@ HeartScene = ExtResource("3_c7a3q")
 Glitch = NodePath("GlitchEffect")
 CursorNormal = ExtResource("3_pc0jn")
 CursorNight = ExtResource("4_c7a3q")
+background = NodePath("AnimatedBackground")
 Spawn = NodePath("SpawnArea")
 Unboarding = NodePath("Unboarding")
-background = NodePath("AnimatedBackground")
 
 [node name="MainMenu" parent="." unique_id=707367836 instance=ExtResource("2_glms7")]
 
@@ -52,10 +55,12 @@ z_index = 100
 position = Vector2(174, 591)
 
 [node name="AnimatedBackground" parent="." unique_id=1058313637 instance=ExtResource("8_jdad8")]
+z_index = -2
 
 [node name="GlitchEffect" parent="." unique_id=182762972 instance=ExtResource("9_glitch")]
 
 [node name="Wall" parent="." unique_id=722171110 instance=ExtResource("10_frtjd")]
+z_index = -1
 position = Vector2(1152, 0)
 
 [node name="Frontground" type="Sprite2D" parent="." unique_id=323663241]
@@ -69,10 +74,12 @@ z_index = 15
 position = Vector2(70, 567)
 
 [node name="Door" parent="." unique_id=356877507 instance=ExtResource("6_eaq8r")]
+z_index = -1
 position = Vector2(1062, 379)
 scale = Vector2(1, 1)
 
 [node name="Floor" parent="." unique_id=34198623 instance=ExtResource("11_aonbx")]
+z_index = -2
 position = Vector2(0, 192)
 scale = Vector2(3, 3)
 
@@ -99,3 +106,26 @@ Sprites = {
 "green": NodePath("GlassGrandVert"),
 "red": NodePath("GlassVinRouge")
 }
+
+[node name="Wall Left" type="StaticBody2D" parent="." unique_id=1420222297]
+z_index = 10
+position = Vector2(987, 251)
+rotation = 0.057752892
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall Left" unique_id=164460399]
+position = Vector2(-2.7911377, -4.809265)
+rotation = 1.0449724
+scale = Vector2(1.0000002, 1.0000002)
+shape = SubResource("RectangleShape2D_c7a3q")
+
+[node name="Wall Right" type="StaticBody2D" parent="." unique_id=1295376176]
+z_index = 10
+position = Vector2(1127.8666, 528.552)
+rotation = 0.056439348
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall Right" unique_id=1218679873]
+position = Vector2(-0.6324463, -1.089386)
+rotation = 1.0449724
+scale = Vector2(1.0000002, 1.0000002)
+shape = SubResource("RectangleShape2D_c7a3q")

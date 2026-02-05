@@ -73,6 +73,7 @@ public partial class SpawnArea : Area2D
         {
             if (IsInstanceValid(entity) && entity.IsAlive)
             {
+                if (!entity.HeadingToDoor) continue;
                 disappearTasks.Add(entity.Disappear());
             }
         }

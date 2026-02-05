@@ -530,14 +530,14 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ecdnh"]
-radius = 21.0
+radius = 24.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lxsru"]
 size = Vector2(52, 108)
 
 [node name="Entity" type="CharacterBody2D" unique_id=1357488417 node_paths=PackedStringArray("glass", "sprite", "clickArea")]
 collision_layer = 2
-collision_mask = 1
+collision_mask = 2
 script = ExtResource("1_lxsru")
 walkSpeed = 25.0
 glass = NodePath("Glass")
@@ -552,6 +552,7 @@ animation = &"normal_hurt"
 
 [node name="Feet" type="CollisionShape2D" parent="." unique_id=564654909]
 light_mask = 1025
+position = Vector2(0, -11)
 shape = SubResource("CircleShape2D_ecdnh")
 
 [node name="ClickArea" type="Area2D" parent="." unique_id=1281909627]

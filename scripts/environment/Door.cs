@@ -8,11 +8,11 @@ using System;
 public partial class Door : Area2D
 {
     [Export]
-    public Texture2D OpenTexture { get; set; }
+    private Texture2D OpenTexture;
     [Export]
-    public Texture2D ClosedTexture { get; set; }
-
-    private Sprite2D _sprite;
+    private Texture2D ClosedTexture;
+    [Export]
+    private Sprite2D Sprite;
 
     [Signal]
     public delegate void EntityEnteredDoorEventHandler(Entity entity);
@@ -24,16 +24,6 @@ public partial class Door : Area2D
     {
         AddToGroup("Door");
         BodyEntered += OnBodyEntered;
-        _sprite = GetNode<Sprite2D>("Sprite");
-
-        if (OpenTexture == null)
-        {
-            OpenTexture = GD.Load<Texture2D>("res://assets/sprites/environment/background/door_open.png");
-        }
-        if (ClosedTexture == null)
-        {
-            ClosedTexture = GD.Load<Texture2D>("res://assets/sprites/environment/background/door_close.png");
-        }
     }
 
     /// <summary>
@@ -42,11 +32,8 @@ public partial class Door : Area2D
     /// <param name="sfx">Reference to the Sound Effects Manager.</param>
     public void Open(SfxManager sfx)
     {
-        if (OpenTexture != null)
-        {
-            _sprite.Texture = OpenTexture;
-            sfx.PlayDoorOpenSound();
-        }
+        Sprite.Texture = OpenTexture;
+        sfx.PlayDoorOpenSound();
     }
 
     /// <summary>
@@ -55,11 +42,8 @@ public partial class Door : Area2D
     /// <param name="sfx">Reference to the Sound Effects Manager.</param>
     public void Close(SfxManager sfx)
     {
-        if (ClosedTexture != null)
-        {
-            _sprite.Texture = ClosedTexture;
-            sfx.PlayDoorCloseSound();
-        }
+        Sprite.Texture = ClosedTexture;
+        sfx.PlayDoorCloseSound();
     }
 
     /// <summary>
