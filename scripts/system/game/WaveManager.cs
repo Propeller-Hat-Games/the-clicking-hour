@@ -142,8 +142,8 @@ public partial class GameManager
             float delay = (float)GD.RandRange(1.5f, 3.0f) / waveModifier;
             delay = Math.Max(0.25f, delay);
             
-            if (!IsInsideTree()) return;
             await ToSignal(GetTree().CreateTimer(delay, false), Timer.SignalName.Timeout);
+            if (!IsInsideTree()) return;
             
             if (!IsInstanceValid(this) || !IsInsideTree()) return;
         }
@@ -162,9 +162,11 @@ public partial class GameManager
         door.Close(SFX);
         Spawn.KillEveryEntities();
         await Musics.FadeOut();
+        if (!IsInsideTree()) return;
 
         // Wait 0.5 seconds
         await ToSignal(GetTree().CreateTimer(0.5f, false), Timer.SignalName.Timeout);
+        if (!IsInsideTree()) return;
 
         SFX.PlayJingleSound();
 
@@ -176,6 +178,8 @@ public partial class GameManager
         
         // Wait 5 seconds (transition + jingle)
         await ToSignal(GetTree().CreateTimer(5.0f, false), Timer.SignalName.Timeout);
+        if (!IsInsideTree()) return;
+
         transitionInstance.CloseWindow();
         
         if (!IsInstanceValid(this) || !IsInsideTree()) return;

@@ -71,16 +71,16 @@ public partial class GameManager
                 }
                 
                 // Delay between each heart
-                if (!IsInsideTree()) return;
                 await ToSignal(GetTree().CreateTimer(0.2f), Timer.SignalName.Timeout);
+                if (!IsInsideTree()) return;
 
                 // If paused during the sequence, we might want to wait here too if needed, 
                 // but standard timers and tweens already stop when paused.
             }
             
             // Wait before next wave of animation
-            if (!IsInsideTree()) return;
             await ToSignal(GetTree().CreateTimer(3.0f), Timer.SignalName.Timeout);
+            if (!IsInsideTree()) return;
         }
     }
 

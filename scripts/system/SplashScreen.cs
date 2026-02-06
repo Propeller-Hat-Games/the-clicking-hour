@@ -39,8 +39,10 @@ public partial class SplashScreen : Control
         _audio.Play();
         
         await FadeSprite(0f, 1f);
+        if (!IsInsideTree()) return;
         
         await ToSignal(GetTree().CreateTimer(WaitDuration), Timer.SignalName.Timeout);
+        if (!IsInsideTree()) return;
         
         // Fade out everything to black
         Tween fadeOutTween = CreateTween().SetParallel();
@@ -49,9 +51,11 @@ public partial class SplashScreen : Control
         fadeOutTween.TweenProperty(_fadeColorRect, "modulate:a", 1f, FadeDuration);
         
         await ToSignal(fadeOutTween, Tween.SignalName.Finished);
+        if (!IsInsideTree()) return;
         
         // Wait one extra frame to be sure black is rendered
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!IsInsideTree()) return;
         
         GetTree().ChangeSceneToFile(MainMenuScenePath);
     }

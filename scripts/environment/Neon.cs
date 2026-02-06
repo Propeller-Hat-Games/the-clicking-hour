@@ -19,16 +19,19 @@ public partial class Neon : Node2D
     /// </summary>
     public override async void _Ready()
     {
-        while (IsInstanceValid(this))
+        while (IsInsideTree())
         {
             NeonOnSprite.Visible = true;
             NeonOffSprite.Visible = false;
             Light.Visible = true;
+            
             await ToSignal(GetTree().CreateTimer(GD.RandRange(1f, 5f), false), Timer.SignalName.Timeout);
+            if (!IsInsideTree()) return;
 
             NeonOnSprite.Visible = false;
             NeonOffSprite.Visible = true;
             Light.Visible = false;
+            
             await ToSignal(GetTree().CreateTimer(GD.RandRange(0.5f, 1.5f), false), Timer.SignalName.Timeout);
         }
     }

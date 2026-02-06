@@ -374,9 +374,11 @@ public abstract partial class Entity : CharacterBody2D
         {
             sprite.Play("disapear");
             await ToSignal(sprite, AnimatedSprite2D.SignalName.AnimationFinished);
+            if (!IsInsideTree()) return;
         }
         
         await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+        if (!IsInsideTree()) return;
         QueueFree();
     }
 

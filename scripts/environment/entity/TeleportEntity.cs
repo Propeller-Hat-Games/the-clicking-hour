@@ -41,7 +41,7 @@ public partial class TeleportEntity : Entity
         }
 
         await ToSignal(GetTree().CreateTimer(animDuration), SceneTreeTimer.SignalName.Timeout);
-        if (IsDisappearing) return;
+        if (!IsInsideTree() || IsDisappearing) return;
 
         // Teleport to random position in spawn area
         if (GetParent() is SpawnArea spawnArea)
@@ -62,7 +62,7 @@ public partial class TeleportEntity : Entity
         }
 
         await ToSignal(GetTree().CreateTimer(animDuration), SceneTreeTimer.SignalName.Timeout);
-        if (IsDisappearing) return;
+        if (!IsInsideTree() || IsDisappearing) return;
 
         CurrentState = EntityState.Walking;
     }

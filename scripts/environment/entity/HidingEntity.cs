@@ -44,11 +44,11 @@ public partial class HidingEntity : Entity
         }
 
         await ToSignal(GetTree().CreateTimer(DIG_ANIM_DURATION), SceneTreeTimer.SignalName.Timeout);
-        if (IsDisappearing) return;
+        if (!IsInsideTree() || IsDisappearing) return;
 
         // Stay hidden
         await ToSignal(GetTree().CreateTimer(HIDE_DURATION - (2 * DIG_ANIM_DURATION)), SceneTreeTimer.SignalName.Timeout);
-        if (IsDisappearing) return;
+        if (!IsInsideTree() || IsDisappearing) return;
 
         // Emerge (Jump animation played backwards = go up)
         GetNode<SfxManager>("/root/SfxManager").PlayEntityEmergenceSound();
@@ -64,7 +64,7 @@ public partial class HidingEntity : Entity
         }
 
         await ToSignal(GetTree().CreateTimer(DIG_ANIM_DURATION), SceneTreeTimer.SignalName.Timeout);
-        if (IsDisappearing) return;
+        if (!IsInsideTree() || IsDisappearing) return;
 
         CurrentState = EntityState.Walking;
     }

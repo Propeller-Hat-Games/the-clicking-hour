@@ -76,7 +76,9 @@ public partial class Board : Sprite2D
 		{
 			if (!IsInstanceValid(item)) return;
 			item.Modulate = new Color(item.Modulate.R, item.Modulate.G, item.Modulate.B, opacity);
+			
 			await ToSignal(GetTree().CreateTimer(0.05f), Timer.SignalName.Timeout);
+			if (!IsInsideTree()) return;
 		}
 
 		if (!IsInstanceValid(item)) return;
