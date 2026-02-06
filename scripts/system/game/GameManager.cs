@@ -94,5 +94,6 @@ public partial class GameManager : Node2D
         var pauseMenu = pauseMenuScene.Instantiate<Control>();
         AddChild(pauseMenu);
         GetTree().Paused = true;
+        Musics.SetPauseEffect(true);
     }
 }

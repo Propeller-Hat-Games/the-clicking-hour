@@ -46,6 +46,7 @@ public partial class PauseMenu : GeneralMenu
     public void _on_resume_button_pressed()
     {
         GetTree().Paused = false;
+        GetNode<MusicManager>("/root/MusicManager").SetPauseEffect(false);
         QueueFree();
     }
 
@@ -81,6 +82,7 @@ public partial class PauseMenu : GeneralMenu
     public void _on_main_menu_button_pressed()
     {
         GetTree().Paused = false;
+        GetNode<MusicManager>("/root/MusicManager").SetPauseEffect(false);
         GetTree().ReloadCurrentScene();
     }
 }
