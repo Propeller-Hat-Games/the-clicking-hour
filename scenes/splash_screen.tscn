@@ -1644,7 +1644,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 24.0
 }]
 
 [node name="splash_screen" type="Control" unique_id=344517842]
