@@ -28,7 +28,7 @@ public partial class GameManager : Node2D
     /// <summary>
     /// Initializes the game manager, sets up dependencies and initial state.
     /// </summary>
-    public override void _Ready() 
+    public override async void _Ready() 
     {
         Settings = GetNode<SettingsManager>("/root/SettingsManager");
         Musics = GetNode<MusicManager>("/root/MusicManager");
@@ -54,7 +54,7 @@ public partial class GameManager : Node2D
 
         settingsButton.Pressed += SettingsButtonPressed;
 
-        Musics.PlayMenuMusic();
+        await Musics.PlayMenuMusic();
         StartHeartAnimationLoop();
     }
 

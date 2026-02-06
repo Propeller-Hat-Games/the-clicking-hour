@@ -127,7 +127,7 @@ public partial class GameManager
         IsNightMode = CurrentWave > 2 && !IsNightMode && Rng.NextDouble() < 0.3;
         UpdateNightMode();
 
-        Musics.PlayGameMusic(IsNightMode);
+        await Musics.PlayGameMusic(IsNightMode);
         
         door.Open(SFX);
         GD.Print($"[WAVE] Wave {CurrentWave} started!");
@@ -160,8 +160,8 @@ public partial class GameManager
         GD.Print($"[WAVE] Wave {CurrentWave} finished!");
         
         door.Close(SFX);
-        Musics.Stop();
-        await Spawn.KillEveryEntities();
+        Spawn.KillEveryEntities();
+        await Musics.FadeOut();
 
         // Wait 0.5 seconds
         await ToSignal(GetTree().CreateTimer(0.5f, false), Timer.SignalName.Timeout);
@@ -189,14 +189,14 @@ public partial class GameManager
     public async Task EndGame()
     {
         IsSpawning = false;
-        Musics.Stop();
         door.Close(SFX);
-        await Spawn.KillEveryEntities();
+        Spawn.KillEveryEntities();
+        await Musics.FadeOut();
 
         var gameOverScene = GD.Load<PackedScene>("res://scenes/ui/game_over.tscn");
         var gameOverInstance = gameOverScene.Instantiate<GameOver>();
         AddChild(gameOverInstance);
         gameOverInstance.SetWavesSurvived(CurrentWave - 1, EntitiesKilled, GlassPassed);
-        Musics.PlayMenuMusic();
+        await Musics.PlayMenuMusic();
     }
 }

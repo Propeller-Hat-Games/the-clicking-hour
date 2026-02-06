@@ -95,9 +95,8 @@ public partial class SpawnArea : Area2D
     /// <summary>
     /// Asynchronously triggers the disappearance and removal of all currently active entities.
     /// </summary>
-    public async Task KillEveryEntities()
+    public void KillEveryEntities()
     {
-        List<Task> disappearTasks = new List<Task>();
         // Create a copy to iterate safely as list might be modified by TreeExited (though usually safe if we just trigger disappear)
         var entitiesSnapshot = new List<Entity>(_activeEntities);
         
@@ -106,16 +105,9 @@ public partial class SpawnArea : Area2D
             if (IsInstanceValid(entity) && entity.IsAlive)
             {
                 if (!entity.HeadingToDoor) continue;
-                disappearTasks.Add(entity.Disappear());
+                entity.Disappear();
             }
         }
         _activeEntities.Clear();
-
-        if (disappearTasks.Count > 0)
-        {
-            await Task.WhenAny(Task.WhenAll(disappearTasks), Task.Delay(2000));
-        }
-        
-        await Task.Yield();
     }
 }

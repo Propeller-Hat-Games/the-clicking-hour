@@ -13,6 +13,10 @@ public partial class MusicManager : AudioStreamPlayer
     private List<AudioStream> _nightPlaylist = new();
     private Random _rng = new();
 
+    private Tween _fadeTween;
+    [Export]
+    private float _fadeDuration = 2.0f;
+
     /// <summary>
     /// Initializes the music manager and preloads audio tracks for menu and game playlists.
     /// </summary>
@@ -37,30 +41,105 @@ public partial class MusicManager : AudioStreamPlayer
     }
 
     /// <summary>
-    /// Plays the main menu music.
+    /// Plays the main menu music with a fade effect.
     /// </summary>
-    public void PlayMenuMusic()
+    public async Task PlayMenuMusic()
     {
-        Stop();
-        Stream = _menuMusic;
-        Play(0f);
-
+        await FadeTo(_menuMusic);
         GD.Print("[MUSIC] MENU");
     }
 
     /// <summary>
-    /// Plays a random track from the game playlist (normal or night mode).
+    /// Plays a random track from the game playlist (normal or night mode) with a fade effect.
     /// </summary>
     /// <param name="isNightMode">If true, plays from the night mode playlist.</param>
-    public void PlayGameMusic(bool isNightMode)
+    public async Task PlayGameMusic(bool isNightMode)
     {
-        Stop();
-
         List<AudioStream> playlist = isNightMode ? _nightPlaylist : _normalPlaylist;
-        Stream = playlist[_rng.Next(playlist.Count)];
-        Play(0f);
+        AudioStream nextStream = playlist[_rng.Next(playlist.Count)];
+        
+        await FadeTo(nextStream);
         
         if (isNightMode) GD.Print("[MUSIC] NIGHT");
         else GD.Print("[MUSIC] NORMAL");
+    }
+
+    /// <summary>
+    /// Smoothly fades out the current music and stops it.
+    /// </summary>
+    /// <param name="duration">Duration of the fade-out. If -1, uses half of _fadeDuration.</param>
+    public async Task FadeOut()
+    {
+        if (!Playing) return;
+
+        if (_fadeTween != null && _fadeTween.IsValid())
+        {
+            _fadeTween.Kill();
+        }
+
+        _fadeTween = CreateTween();
+        _fadeTween.TweenProperty(this, "volume_db", -80f, _fadeDuration)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.In);
+        _fadeTween.TweenCallback(Callable.From(() => {
+            Stop();
+            VolumeDb = 0; // Reset volume for next play if not using FadeTo
+        }));
+
+        GD.Print("[MUSIC] FADE OUT");
+
+        await ToSignal(_fadeTween, Tween.SignalName.Finished);
+    }
+
+    /// <summary>
+    /// Smoothly fades out the current music and fades in the new stream.
+    /// </summary>
+    /// <param name="nextStream">The audio stream to transition to.</param>
+    private async Task FadeTo(AudioStream nextStream)
+    {
+        if (Stream == nextStream && Playing) return;
+
+        if (_fadeTween != null && _fadeTween.IsValid())
+        {
+            _fadeTween.Kill();
+        }
+
+        _fadeTween = CreateTween();
+
+        // Fade out
+        if (Playing)
+        {
+            _fadeTween.TweenProperty(this, "volume_db", -80f, _fadeDuration / 2f)
+                .SetTrans(Tween.TransitionType.Sine)
+                .SetEase(Tween.EaseType.In);
+        }
+        else
+        {
+            VolumeDb = -80f;
+        }
+
+        // Change stream
+        _fadeTween.TweenCallback(Callable.From(() =>
+        {
+            Stream = nextStream;
+            if (nextStream != null)
+            {
+                Play();
+            }
+            else
+            {
+                Stop();
+            }
+        }));
+
+        // Fade in
+        if (nextStream != null)
+        {
+            _fadeTween.TweenProperty(this, "volume_db", 0f, _fadeDuration / 2f)
+                .SetTrans(Tween.TransitionType.Sine)
+                .SetEase(Tween.EaseType.Out);
+        }
+
+        await ToSignal(_fadeTween, Tween.SignalName.Finished);
     }
 }

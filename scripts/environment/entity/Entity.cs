@@ -358,7 +358,7 @@ public abstract partial class Entity : CharacterBody2D
     /// <summary>
     /// Asynchronously handles the entity's disappearance animation.
     /// </summary>
-    public async Task Disappear()
+    public async void Disappear()
     {
         if (IsDisappearing) return;
         IsDisappearing = true;
@@ -373,24 +373,10 @@ public abstract partial class Entity : CharacterBody2D
         if (sprite != null && sprite.SpriteFrames.HasAnimation("disapear"))
         {
             sprite.Play("disapear");
-
-            // Local function to wrap SignalAwaiter into a Task
-            async Task WaitForAnimation()
-            {
-                try
-                {
-                    await ToSignal(sprite, AnimatedSprite2D.SignalName.AnimationFinished);
-                }
-                catch (ObjectDisposedException) { }
-            }
-
-            // Safer wait: wait for signal OR a timeout
-            await Task.WhenAny(
-                WaitForAnimation(),
-                Task.Delay(1000)
-            );
+            await ToSignal(sprite, AnimatedSprite2D.SignalName.AnimationFinished);
         }
-
+        
+        await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
         QueueFree();
     }
 
