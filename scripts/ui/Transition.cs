@@ -3,7 +3,7 @@ using Godot;
 /// <summary>
 /// Handles the transition screen between stages.
 /// </summary>
-public partial class Transition : Control
+public partial class Transition : GeneralMenu
 {
     private Label _titleLabel;
     
@@ -15,19 +15,8 @@ public partial class Transition : Control
     /// </summary>
     public override void _Ready()
     {
+        base._Ready();
         _titleLabel = GetNode<Label>("CanvasLayer/Window/Title");
-        
-        var window = GetNodeOrNull<Control>("CanvasLayer/Window");
-        if (window != null)
-        {
-            var tween = CreateTween().SetLoops();
-            tween.TweenProperty(window, "position:y", window.Position.Y - 20f, 2.0f)
-                 .SetTrans(Tween.TransitionType.Sine)
-                 .SetEase(Tween.EaseType.InOut);
-            tween.TweenProperty(window, "position:y", window.Position.Y, 2.0f)
-                 .SetTrans(Tween.TransitionType.Sine)
-                 .SetEase(Tween.EaseType.InOut);
-        }
     }
 
     /// <summary>
