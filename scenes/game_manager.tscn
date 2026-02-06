@@ -13,46 +13,61 @@
 [ext_resource type="PackedScene" uid="uid://bsuxqfkp8jlbh" path="res://scenes/environment/animated_background.tscn" id="8_jdad8"]
 [ext_resource type="PackedScene" path="res://scenes/ui/glitch_effect.tscn" id="9_glitch"]
 [ext_resource type="PackedScene" uid="uid://bhoi4skfxyuti" path="res://scenes/environment/wall.tscn" id="10_frtjd"]
-[ext_resource type="Texture2D" uid="uid://ct082vik5unry" path="res://assets/sprites/environment/background/frontground.png" id="11_0rse5"]
 [ext_resource type="PackedScene" uid="uid://mhapi4tkbht" path="res://scenes/environment/floor.tscn" id="11_aonbx"]
 [ext_resource type="PackedScene" uid="uid://ba4p5yeipj4bk" path="res://scenes/ui/unboarding.tscn" id="12_aonbx"]
+[ext_resource type="Texture2D" uid="uid://g00k8d4ahgdi" path="res://assets/sprites/environment/background/frontground_taskbar.png" id="12_c7a3q"]
 [ext_resource type="PackedScene" uid="uid://dwa5g75hy7mms" path="res://scenes/ui/settings_button.tscn" id="13_lcbjr"]
 [ext_resource type="PackedScene" uid="uid://crqnun1n00n82" path="res://scenes/environment/neon.tscn" id="14_30v7y"]
 [ext_resource type="PackedScene" uid="uid://cax1bv236pwwl" path="res://scenes/glass.tscn" id="16_cjvif"]
 
+[sub_resource type="Gradient" id="Gradient_c7a3q"]
+offsets = PackedFloat32Array(0, 0.48795182, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4vth2"]
+gradient = SubResource("Gradient_c7a3q")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c7a3q"]
 size = Vector2(224.63614, 24.255402)
 
-[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("board", "door", "mainMenu", "trash", "glitchEffect", "settingsButton", "HeartContainer", "Glitch", "background", "Spawn", "Unboarding")]
+[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("board", "door", "mainMenu", "trash", "glitchEffect", "settingsButton", "HeartContainer", "Glitch", "CursorLight", "background", "BlackCanvas", "Spawn", "Unboarding")]
 script = ExtResource("1_hwd4i")
-board = NodePath("Board")
+board = NodePath("NoLights/Board")
 door = NodePath("Door")
 mainMenu = NodePath("MainMenu")
-trash = NodePath("Trash")
+trash = NodePath("NoLights/Trash")
 glitchEffect = NodePath("GlitchEffect")
-settingsButton = NodePath("SettingsButton")
+settingsButton = NodePath("NoLights/SettingsButton")
 pauseMenuScene = ExtResource("2_5xtl8")
-HeartContainer = NodePath("HeartContainer")
+HeartContainer = NodePath("NoLights/HeartContainer")
 HeartScene = ExtResource("3_c7a3q")
 Glitch = NodePath("GlitchEffect")
 CursorNormal = ExtResource("3_pc0jn")
 CursorNight = ExtResource("4_c7a3q")
+CursorLight = NodePath("CursorLight")
 background = NodePath("AnimatedBackground")
+BlackCanvas = NodePath("BlackCanvas")
 Spawn = NodePath("SpawnArea")
-Unboarding = NodePath("Unboarding")
+Unboarding = NodePath("NoLights/Unboarding")
+
+[node name="CursorLight" type="PointLight2D" parent="." unique_id=502268563]
+visible = false
+position = Vector2(152, 312)
+scale = Vector2(5, 5)
+energy = 0.75
+texture = SubResource("GradientTexture2D_4vth2")
+
+[node name="BlackCanvas" type="CanvasModulate" parent="." unique_id=1098730367]
+visible = false
+color = Color(0.039215688, 0.039215688, 0.039215688, 1)
 
 [node name="MainMenu" parent="." unique_id=707367836 instance=ExtResource("2_glms7")]
 
 [node name="SpawnArea" parent="." unique_id=1158450922 instance=ExtResource("4_spawn")]
 position = Vector2(324, 405)
-
-[node name="Board" parent="." unique_id=1183887835 instance=ExtResource("5_board")]
-visible = false
-position = Vector2(840, 99)
-
-[node name="HeartContainer" type="Node2D" parent="." unique_id=359288903]
-z_index = 100
-position = Vector2(174, 591)
 
 [node name="AnimatedBackground" parent="." unique_id=1058313637 instance=ExtResource("8_jdad8")]
 z_index = -2
@@ -62,16 +77,6 @@ z_index = -2
 [node name="Wall" parent="." unique_id=722171110 instance=ExtResource("10_frtjd")]
 z_index = -1
 position = Vector2(1152, 0)
-
-[node name="Frontground" type="Sprite2D" parent="." unique_id=323663241]
-z_index = 5
-scale = Vector2(3, 3)
-texture = ExtResource("11_0rse5")
-centered = false
-
-[node name="Trash" parent="." unique_id=1522606090 instance=ExtResource("7_q8mjp")]
-z_index = 15
-position = Vector2(70, 567)
 
 [node name="Door" parent="." unique_id=356877507 instance=ExtResource("6_eaq8r")]
 z_index = -1
@@ -83,24 +88,18 @@ z_index = -2
 position = Vector2(0, 192)
 scale = Vector2(3, 3)
 
-[node name="Unboarding" parent="." unique_id=86015135 instance=ExtResource("12_aonbx")]
-visible = false
-position = Vector2(569, 327)
-centered = true
-
-[node name="SettingsButton" parent="." unique_id=426236331 instance=ExtResource("13_lcbjr")]
-z_index = 6
-offset_left = 1060.0
-offset_top = 570.0
-offset_right = 1090.0
-offset_bottom = 602.0
-
 [node name="Neon" parent="." unique_id=443645288 instance=ExtResource("14_30v7y")]
 z_index = 7
 position = Vector2(1081, 171)
 
-[node name="Glass" parent="." unique_id=612983208 instance=ExtResource("16_cjvif")]
+[node name="Glass" parent="." unique_id=612983208 node_paths=PackedStringArray("Sprites") instance=ExtResource("16_cjvif")]
 visible = false
+Sprites = {
+"blue": NodePath("Blue"),
+"green": NodePath("Green"),
+"red": NodePath("Red"),
+"yellow": NodePath("Yellow")
+}
 
 [node name="Wall Left" type="StaticBody2D" parent="." unique_id=1420222297]
 z_index = 10
@@ -124,3 +123,36 @@ position = Vector2(-0.6324463, -1.089386)
 rotation = 1.0449724
 scale = Vector2(1.0000002, 1.0000002)
 shape = SubResource("RectangleShape2D_c7a3q")
+
+[node name="NoLights" type="CanvasLayer" parent="." unique_id=432013375]
+
+[node name="Unboarding" parent="NoLights" unique_id=86015135 instance=ExtResource("12_aonbx")]
+visible = false
+z_index = 200
+position = Vector2(569, 327)
+centered = true
+
+[node name="Board" parent="NoLights" unique_id=1183887835 instance=ExtResource("5_board")]
+visible = false
+position = Vector2(840, 99)
+
+[node name="Trash" parent="NoLights" unique_id=1522606090 instance=ExtResource("7_q8mjp")]
+z_index = 15
+position = Vector2(70, 567)
+
+[node name="SettingsButton" parent="NoLights" unique_id=426236331 instance=ExtResource("13_lcbjr")]
+z_index = 110
+offset_left = 1060.0
+offset_top = 570.0
+offset_right = 1090.0
+offset_bottom = 602.0
+
+[node name="HeartContainer" type="Node2D" parent="NoLights" unique_id=359288903]
+z_index = 100
+position = Vector2(174, 591)
+
+[node name="Frontground" type="Sprite2D" parent="NoLights" unique_id=323663241]
+z_index = 5
+scale = Vector2(3, 3)
+texture = ExtResource("12_c7a3q")
+centered = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dwa5g75hy7mms"]
+[gd_scene format=3 uid="uid://dwa5g75hy7mms"]
 
 [ext_resource type="Texture2D" uid="uid://db5potqkttgry" path="res://assets/sprites/cog.png" id="1_oubv5"]
 
@@ -14,7 +14,7 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tln3d"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="SettingsButton" type="Button"]
+[node name="SettingsButton" type="Button" unique_id=553429719]
 offset_left = -30.0
 offset_top = -30.0
 offset_bottom = 2.0

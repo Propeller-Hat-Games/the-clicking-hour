@@ -9,23 +9,21 @@ public partial class GameManager
     private Texture2D CursorNormal;
     [Export]
     private Texture2D CursorNight;
+    [Export]
+    private PointLight2D CursorLight;
 
     private CanvasLayer _vhsLayer;
-    private CanvasLayer _nightModeLayer;
-    private ColorRect _nightModeRect;
     [Export]
     private AnimatedBackground background;
+    [Export]
+    private CanvasModulate BlackCanvas;
 
     /// <summary>
-    /// Updates the night mode shader with current mouse position if active.
+    /// Updates the cursor light position to follow the mouse.
     /// </summary>
     public override void _Process(double delta)
     {
-        if (IsNightMode && _nightModeRect != null)
-        {
-            Vector2 mousePos = GetViewport().GetMousePosition();
-            (_nightModeRect.Material as ShaderMaterial).SetShaderParameter("mouse_position", mousePos);
-        }
+        CursorLight.Position = GetViewport().GetMousePosition();
     }
 
     /// <summary>
@@ -34,8 +32,8 @@ public partial class GameManager
     public void LoadVFX()
     {
         SetupVHSEffect();
-        SetupNightModeEffect();
         UpdateCursor();
+        UpdateNightMode();
     }
 
     /// <summary>
@@ -60,35 +58,12 @@ public partial class GameManager
     }
 
     /// <summary>
-    /// Sets up the flashlight/night mode screen overlay effect.
-    /// </summary>
-    private void SetupNightModeEffect()
-    {
-        _nightModeLayer = new CanvasLayer();
-        _nightModeLayer.Layer = 5; // Under VHS (layer 10) but above game
-        AddChild(_nightModeLayer);
-
-        _nightModeRect = new ColorRect();
-        _nightModeRect.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-        _nightModeRect.MouseFilter = Control.MouseFilterEnum.Ignore;
-        _nightModeRect.Visible = false; // Hidden by default
-        
-        var shader = GD.Load<Shader>("res://assets/shaders/flashlight.gdshader");
-        var material = new ShaderMaterial();
-        material.Shader = shader;
-        _nightModeRect.Material = material;
-        _nightModeLayer.AddChild(_nightModeRect);
-        GD.Print("[VFX] Night Mode loaded!");
-    }
-
-    /// <summary>
     /// Updates the visibility of global effects based on user settings.
     /// </summary>
     public void UpdateEffectsVisibility()
     {
         bool enabled = Settings.GlobalEffectsEnabled;
         if (_vhsLayer != null) _vhsLayer.Visible = enabled;
-        if (_nightModeLayer != null) _nightModeLayer.Visible = enabled;
     }
 
     /// <summary>
@@ -96,14 +71,19 @@ public partial class GameManager
     /// </summary>
     public void UpdateNightMode()
     {
-        if (_nightModeRect != null)
-        {
-            _nightModeRect.Visible = IsNightMode;
-        }
         UpdateCursor();
         if (background != null)
         {
             background.UpdateAnimatedSprite(IsNightMode);
+        }
+        BlackCanvas.Visible = IsNightMode;
+        CursorLight.Visible = IsNightMode;
+        foreach (Node node in GetTree().GetNodesInGroup("Lights"))
+        {
+            if (node is PointLight2D light)
+            {
+                light.Energy = (float) (IsNightMode ? 1 : 0.5);
+            }
         }
     }
 

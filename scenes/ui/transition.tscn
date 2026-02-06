@@ -14,6 +14,7 @@ grow_vertical = 2
 script = ExtResource("1_script")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
 
 [node name="Window" type="Control" parent="CanvasLayer"]
 layout_mode = 3

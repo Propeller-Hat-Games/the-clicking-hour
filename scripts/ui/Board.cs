@@ -19,16 +19,29 @@ public partial class Board : Sprite2D
 	private Label MiddleNb;
 	[Export]
 	private Label RightNb;
+	[Export]
+	private PointLight2D Light;
 
 	private int AmountLeft { get; set; } = 0;
 	private int AmountMiddle { get; set; } = 0;
 	private int AmountRight { get; set; } = 0;
 
 	/// <summary>
-	/// Initializes the board and starts a floating animation.
+	/// Initializes the board, registers the light, and starts a floating animation.
 	/// </summary>
 	public override void _Ready()
 	{
+		if (Light != null)
+		{
+			Light.AddToGroup("Lights");
+		}
+
+		// Initial state: hide all slots and labels
+		Sprite2D[] slots = { LeftSlot, MiddleSlot, RightSlot };
+		Label[] labels = { LeftNb, MiddleNb, RightNb };
+		foreach (var slot in slots) if (slot != null) slot.Visible = false;
+		foreach (var label in labels) if (label != null) label.Visible = false;
+
 		// Setup floating animation with Tween
 		Tween tween = CreateTween().SetLoops();
 		tween.TweenProperty(this, "position:y", Position.Y - 5f, 2.0f)
@@ -123,6 +136,12 @@ public partial class Board : Sprite2D
 						Flash(labels[i], false);
 					}
 				}
+			}
+			else
+			{
+				// Hide unused slots and labels
+				if (slots[i] != null) slots[i].Visible = false;
+				if (labels[i] != null) labels[i].Visible = false;
 			}
 		}
 

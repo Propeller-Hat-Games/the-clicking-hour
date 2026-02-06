@@ -12,6 +12,7 @@ shader_parameter/frequency = 10.0
 shader_parameter/desaturation = 0.0
 
 [node name="GlitchEffect" type="CanvasLayer"]
+layer = 110
 script = ExtResource("2_script")
 
 [node name="ColorRect" type="ColorRect" parent="."]

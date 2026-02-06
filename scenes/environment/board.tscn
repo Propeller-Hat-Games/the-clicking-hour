@@ -2,9 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://bmidff1r0picd" path="res://assets/sprites/environment/entity/base_pannel.png" id="1_8tprs"]
 [ext_resource type="Script" uid="uid://06c2gcei85rn" path="res://scripts/ui/Board.cs" id="2_psm7c"]
+[ext_resource type="Texture2D" uid="uid://bpg5np1d3oymi" path="res://assets/sprites/environment/background/pannel_light.png" id="4_hotih"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="7_ygvyx"]
 
-[node name="Board" type="Sprite2D" unique_id=186680299 node_paths=PackedStringArray("LeftSlot", "MiddleSlot", "RightSlot", "LeftNb", "MiddleNb", "RightNb")]
+[node name="Board" type="Sprite2D" unique_id=186680299 node_paths=PackedStringArray("LeftSlot", "MiddleSlot", "RightSlot", "LeftNb", "MiddleNb", "RightNb", "Light")]
 scale = Vector2(3, 3)
 texture = ExtResource("1_8tprs")
 script = ExtResource("2_psm7c")
@@ -14,6 +15,7 @@ RightSlot = NodePath("RightSlot")
 LeftNb = NodePath("LeftNb")
 MiddleNb = NodePath("MiddleNb")
 RightNb = NodePath("RightNb")
+Light = NodePath("PointLight2D")
 
 [node name="LeftSlot" type="Sprite2D" parent="." unique_id=802037853]
 visible = false
@@ -59,3 +61,8 @@ theme = ExtResource("7_ygvyx")
 theme_override_font_sizes/font_size = 16
 text = "10"
 horizontal_alignment = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=123302925]
+scale = Vector2(1.0020833, 0.5511198)
+color = Color(0.7647059, 0.14117648, 0.32941177, 1)
+texture = ExtResource("4_hotih")

@@ -15,6 +15,7 @@ CreditMenuScene = ExtResource("2_credit")
 OptionsMenuScene = ExtResource("3_options")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=940124022]
+layer = 100
 
 [node name="Window" type="Control" parent="CanvasLayer" unique_id=150637527]
 layout_mode = 3
