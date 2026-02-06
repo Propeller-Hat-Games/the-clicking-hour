@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bnurmthuvt78j" path="res://scripts/environment/entity/SimpleEntity.cs" id="1_lxsru"]
 [ext_resource type="Texture2D" uid="uid://bsa0kpudjh2x3" path="res://assets/sprites/environment/entity/entity_dig_jump.png" id="3_ecdnh"]
-[ext_resource type="Texture2D" uid="uid://ywk2e6p08vkv" path="res://assets/sprites/environment/entity/entity_dig_walk_arm_dish.png" id="4_jfllw"]
+[ext_resource type="Texture2D" uid="uid://bubbum3745hky" path="res://assets/sprites/environment/entity/entity_dig_walk_arm_dish.png" id="4_jfllw"]
 [ext_resource type="Texture2D" uid="uid://xvd134umlrgv" path="res://assets/sprites/environment/entity/entity_normal_jump.png" id="5_vholj"]
 [ext_resource type="Texture2D" uid="uid://ivpyx6vt8xef" path="res://assets/sprites/environment/entity/entity_disapear.png" id="5_yeioj"]
 [ext_resource type="Texture2D" uid="uid://deytrogunhiv6" path="res://assets/sprites/environment/entity/entity_normal_walk_arm_dish.png" id="6_gmka6"]
