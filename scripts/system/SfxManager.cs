@@ -78,12 +78,13 @@ public partial class SfxManager : Node
 	/// Internal helper to play a sound stream with current SFX volume settings.
 	/// </summary>
 	/// <param name="sound">The audio stream to play.</param>
-	private void PlaySound(AudioStream sound)
+	/// <param name="volumeScale">The volume scale to apply to the SFX volume.</param>
+	private void PlaySound(AudioStream sound, float volumeScale = 1.0f)
 	{
 		if (sound == null) return;
 
 		var settings = GetNodeOrNull<SettingsManager>("/root/SettingsManager");
-		float volumeLinear = settings?.SfxVolume ?? 1.0f;
+		float volumeLinear = (settings?.SfxVolume ?? 1.0f) * volumeScale;
 
 		var player = new AudioStreamPlayer();
 		AddChild(player);
@@ -175,6 +176,7 @@ public partial class SfxManager : Node
 	/// <summary>
 	/// Plays a random correct glass sound effect.
 	/// </summary>
+	/// <param name="volumeScale">The volume scale to play the sound at.</param>
 	public void PlayCorrectGlassSound()
 	{
 		var sounds = new List<AudioStream> { _correctGlass1, _correctGlass2, _correctGlass3, _correctGlass4 };
@@ -182,7 +184,7 @@ public partial class SfxManager : Node
 
 		if (sounds.Count > 0)
 		{
-			PlaySound(sounds[_random.Next(sounds.Count)]);
+			PlaySound(sounds[_random.Next(sounds.Count)], 3.0f);
 		}
 	}
 }
