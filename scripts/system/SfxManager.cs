@@ -35,6 +35,12 @@ public partial class SfxManager : Node
 	private AudioStream _jingle1;
 	private AudioStream _jingle2;
 	private AudioStream _jingle3;
+
+	// Correct glass sounds
+	private AudioStream _correctGlass1;
+	private AudioStream _correctGlass2;
+	private AudioStream _correctGlass3;
+	private AudioStream _correctGlass4;
 	
 	/// <summary>
 	/// Initializes the SFX manager and preloads all sound effect streams.
@@ -59,6 +65,11 @@ public partial class SfxManager : Node
 		_jingle1 = GD.Load<AudioStream>("res://assets/sounds/Jingle1.mp3");
 		_jingle2 = GD.Load<AudioStream>("res://assets/sounds/Jingle2.mp3");
 		_jingle3 = GD.Load<AudioStream>("res://assets/sounds/Jingle3.mp3");
+
+		_correctGlass1 = GD.Load<AudioStream>("res://assets/sounds/Correct1.mp3");
+		_correctGlass2 = GD.Load<AudioStream>("res://assets/sounds/Correct2.mp3");
+		_correctGlass3 = GD.Load<AudioStream>("res://assets/sounds/Correct3.mp3");
+		_correctGlass4 = GD.Load<AudioStream>("res://assets/sounds/Correct4.mp3");
 
 		GD.Print("[SFX] Sounds loaded!");
 	}
@@ -159,4 +170,19 @@ public partial class SfxManager : Node
 		{
 			PlaySound(sounds[_random.Next(sounds.Count)]);
 		}
-	}}
+	}
+
+	/// <summary>
+	/// Plays a random correct glass sound effect.
+	/// </summary>
+	public void PlayCorrectGlassSound()
+	{
+		var sounds = new List<AudioStream> { _correctGlass1, _correctGlass2, _correctGlass3, _correctGlass4 };
+		sounds.RemoveAll(s => s == null);
+
+		if (sounds.Count > 0)
+		{
+			PlaySound(sounds[_random.Next(sounds.Count)]);
+		}
+	}
+}

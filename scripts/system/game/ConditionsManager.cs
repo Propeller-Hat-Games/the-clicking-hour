@@ -85,6 +85,7 @@ public partial class GameManager
         if (_requiredGlassCounts[index] > 0)
         {
             _requiredGlassCounts[index]--;
+            SFX.PlayCorrectGlassSound();
             UpdateBoard();
             return true;
         }
