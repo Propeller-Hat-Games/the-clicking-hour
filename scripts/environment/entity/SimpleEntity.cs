@@ -5,13 +5,13 @@ using Godot;
 /// </summary>
 public partial class SimpleEntity : Entity
 {
-    /// <summary>
-    /// Initializes simple entity specific properties.
-    /// </summary>
-    protected override void InitializeEntity() { }
+	/// <summary>
+	/// Initializes simple entity specific properties.
+	/// </summary>
+	protected override void InitializeEntity() { }
 
-    /// <summary>
-    /// Handles the click event for a simple entity.
-    /// </summary>
-    protected override void OnClicked() { }
+	/// <summary>
+	/// Handles the click event for a simple entity.
+	/// </summary>
+	protected override void OnClicked() { }
 }

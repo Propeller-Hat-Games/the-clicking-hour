@@ -3,46 +3,46 @@ using System;
 
 public partial class GameManager
 {
-    [Export]
-    private GlitchEffect Glitch;
-    [Export]
-    private Texture2D CursorNormal;
-    [Export]
-    private Texture2D CursorNight;
-    [Export]
-    private PointLight2D CursorLight;
+	[Export]
+	private GlitchEffect Glitch;
+	[Export]
+	private Texture2D CursorNormal;
+	[Export]
+	private Texture2D CursorNight;
+	[Export]
+	private PointLight2D CursorLight;
 
-    private CanvasLayer _vhsLayer;
-    [Export]
-    private AnimatedBackground background;
-    [Export]
-    private CanvasModulate BlackCanvas;
+	private CanvasLayer _vhsLayer;
+	[Export]
+	private AnimatedBackground background;
+	[Export]
+	private CanvasModulate BlackCanvas;
 
-    /// <summary>
-    /// Updates the cursor light position to follow the mouse.
-    /// </summary>
-    public override void _Process(double delta)
-    {
-        CursorLight.Position = GetViewport().GetMousePosition();
-    }
+	/// <summary>
+	/// Updates the cursor light position to follow the mouse.
+	/// </summary>
+	public override void _Process(double delta)
+	{
+		CursorLight.Position = GetViewport().GetMousePosition();
+	}
 
-    /// <summary>
-    /// Initializes all visual effects systems.
-    /// </summary>
-    public void LoadVFX()
-    {
-        SetupVHSEffect();
-        UpdateCursor();
-        UpdateNightMode();
-    }
+	/// <summary>
+	/// Initializes all visual effects systems.
+	/// </summary>
+	public void LoadVFX()
+	{
+		SetupVHSEffect();
+		UpdateCursor();
+		UpdateNightMode();
+	}
 
-    /// <summary>
-    /// Sets up the VHS screen overlay effect.
-    /// </summary>
-    private void SetupVHSEffect()
-    {
-        _vhsLayer = new CanvasLayer();
-        _vhsLayer.Layer = 10; // Ensure it's on top of everything
+	/// <summary>
+	/// Sets up the VHS screen overlay effect.
+	/// </summary>
+	private void SetupVHSEffect()
+	{
+		_vhsLayer = new CanvasLayer();
+		_vhsLayer.Layer = 10; // Ensure it's on top of everything
         AddChild(_vhsLayer);
 
         var colorRect = new ColorRect();
