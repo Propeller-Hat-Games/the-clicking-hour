@@ -30,6 +30,8 @@ public partial class GameManager
         EntitiesKilled = 0;
         GlassPassed = 0;
 
+        Musics.FadeOut();
+
         if (!Settings.HasSeenOnboarding)
         {
             Unboarding.Visible = true;
@@ -127,11 +129,17 @@ public partial class GameManager
         IsNightMode = CurrentWave > 2 && !IsNightMode && Rng.NextDouble() < 0.3;
         UpdateNightMode();
 
-        await Musics.PlayGameMusic(IsNightMode);
+        await ToSignal(GetTree().CreateTimer(1.0f, false), Timer.SignalName.Timeout);
+        if (!IsInsideTree()) return;
         
         door.Open(SFX);
         GD.Print($"[WAVE] Wave {CurrentWave} started!");
         if (IsNightMode) GD.Print($"[WAVE] This wave is night mode!");
+
+        Musics.PlayGameMusic(IsNightMode);
+
+        await ToSignal(GetTree().CreateTimer(1.0f, false), Timer.SignalName.Timeout);
+        if (!IsInsideTree()) return;
 
         IsSpawning = true;
 
