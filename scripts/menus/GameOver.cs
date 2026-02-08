@@ -16,7 +16,7 @@ public partial class GameOver : GeneralMenu
     {
         var label = GetNode<Label>("CanvasLayer/Window/VDiv/Data");
         label.Text = $"Vous avez survécu pendant {waves} vague{(waves > 1 ? "s" : "")}\n" +
-                     $"Entités éliminées : {kills}\n" +
+                     $"Serveurs supprimés : {kills}\n" +
                      $"Verres livrés : {passed}";
     }
 
