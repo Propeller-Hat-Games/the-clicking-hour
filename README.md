@@ -1,7 +1,7 @@
 # 🕰️ The Clicking Hour
 
 [![Godot Engine](https://img.shields.io/badge/Godot-4.x-%23478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org)
-[![C#](https://img.shields.io/badge/.NET-C%23-%23239120?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
+[![GDScript](https://img.shields.io/badge/GDScript-%23355570?logo=godot-engine&logoColor=white)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html)
 [![License: Non-Commercial](https://img.shields.io/badge/License-Non--Commercial-red.svg)](LICENSE)
 
 **The Clicking Hour** is a fast-paced arcade clicker set in the neon-soaked "Club 404".
@@ -34,7 +34,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 ## 🛠️ Technical Stack
 
 - **Engine:** [Godot 4.x](https://godotengine.org/) (Forward Plus renderer)
-- **Language:** C# (.NET 8.0+)
+- **Language:** GDScript
 - **Shaders:** Custom GLSL shaders for glitch and VHS post-processing.
 - **Architecture:** 
     - Event-driven UI and state management.
@@ -46,8 +46,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- [Godot Engine 4.x (.NET Edition)](https://godotengine.org/download)
-- [.NET SDK 8.0+](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Godot Engine 4.x](https://godotengine.org/download)
 
 ### Installation
 1. Clone the repository:
@@ -57,9 +56,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 2. Open the project in Godot:
    - Launch Godot.
    - Click **Import** and select the `project.godot` file in the cloned directory.
-3. Build the solution:
-   - Click the **MSBuild** button at the bottom of the Godot editor to compile the C# scripts.
-4. Run the game:
+3. Run the game:
    - Press **F5** or the Play button in the top-right corner.
 
 ---
@@ -68,7 +65,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 
 - `assets/`: Music, sounds, sprites, and shaders.
 - `scenes/`: Godot scenes (.tscn) for UI, environment, and entities.
-- `scripts/`: C# logic organized by system (game loop, menus, UI).
+- `scripts/`: GDScript logic organized by system (game loop, menus, UI).
 - `project.godot`: Main Godot project configuration.
 
 ---
