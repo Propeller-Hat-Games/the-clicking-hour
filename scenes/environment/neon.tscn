@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://crqnun1n00n82"]
 
-[ext_resource type="Script" uid="uid://1kyrveab5a30" path="res://scripts/environment/Neon.cs" id="1_3ee1g"]
+[ext_resource type="Script" path="res://scripts/environment/Neon.gd" id="1_3ee1g"]
 [ext_resource type="Texture2D" uid="uid://doly53lbprmk8" path="res://assets/sprites/environment/neon_off.png" id="1_ojm2t"]
 [ext_resource type="Texture2D" uid="uid://dlihm1fc1mcn1" path="res://assets/sprites/environment/neon_on.png" id="3_mum1e"]
 
@@ -13,12 +13,12 @@ gradient = SubResource("Gradient_3ee1g")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[node name="Neon" type="Node2D" unique_id=1969648613 node_paths=PackedStringArray("NeonOnSprite", "NeonOffSprite", "Light")]
+[node name="Neon" type="Node2D" unique_id=1969648613 node_paths=PackedStringArray("neon_on_sprite", "neon_off_sprite", "light")]
 scale = Vector2(3, 3)
 script = ExtResource("1_3ee1g")
-NeonOnSprite = NodePath("On")
-NeonOffSprite = NodePath("Off")
-Light = NodePath("PointLight2D")
+neon_on_sprite = NodePath("On")
+neon_off_sprite = NodePath("Off")
+light = NodePath("PointLight2D")
 
 [node name="Off" type="Sprite2D" parent="." unique_id=1234147785]
 texture = ExtResource("1_ojm2t")

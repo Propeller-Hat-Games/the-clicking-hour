@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bywu8mmutihmx"]
 
-[ext_resource type="Script" uid="uid://bqas8ixwisiyw" path="res://scripts/system/SplashScreen.cs" id="1_mv282"]
+[ext_resource type="Script" path="res://scripts/system/SplashScreen.gd" id="1_mv282"]
 [ext_resource type="Texture2D" uid="uid://bryn38gksb3mk" path="res://assets/sprites/splashScreen/splashscreen_CodeGameJam_pngExport/splashscreen_CodeGameJam_pngExport.0001.png" id="2_82ovq"]
 [ext_resource type="Texture2D" uid="uid://blfoiaskm5fo3" path="res://assets/sprites/splashScreen/splashscreen_CodeGameJam_pngExport/splashscreen_CodeGameJam_pngExport.0002.png" id="3_ss2b0"]
 [ext_resource type="Texture2D" uid="uid://b31x5b0k0ujo" path="res://assets/sprites/splashScreen/splashscreen_CodeGameJam_pngExport/splashscreen_CodeGameJam_pngExport.0003.png" id="4_q6oa5"]
@@ -1655,8 +1655,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mv282")
-FadeDuration = 1.0
-WaitDuration = 14.5
+fade_duration = 1.0
+wait_duration = 14.5
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=2082021397]
 layout_mode = 1

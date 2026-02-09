@@ -1,35 +1,35 @@
 [gd_scene format=3 uid="uid://dv81us2tealma"]
 
 [ext_resource type="Texture2D" uid="uid://bmidff1r0picd" path="res://assets/sprites/environment/entity/base_pannel.png" id="1_8tprs"]
-[ext_resource type="Script" uid="uid://06c2gcei85rn" path="res://scripts/ui/Board.cs" id="2_psm7c"]
+[ext_resource type="Script" path="res://scripts/ui/Board.gd" id="2_psm7c"]
 [ext_resource type="Texture2D" uid="uid://bpg5np1d3oymi" path="res://assets/sprites/environment/background/pannel_light.png" id="4_hotih"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="7_ygvyx"]
 
-[node name="Board" type="Sprite2D" unique_id=186680299 node_paths=PackedStringArray("LeftSlot", "MiddleSlot", "RightSlot", "LeftNb", "MiddleNb", "RightNb", "Light")]
+[node name="Board" type="Sprite2D" unique_id=186680299 node_paths=PackedStringArray("left_slot", "middle_slot", "right_slot", "left_nb", "middle_nb", "right_nb", "light")]
 scale = Vector2(3, 3)
 texture = ExtResource("1_8tprs")
 script = ExtResource("2_psm7c")
-LeftSlot = NodePath("LeftSlot")
-MiddleSlot = NodePath("MiddleSlot")
-RightSlot = NodePath("RightSlot")
-LeftNb = NodePath("LeftNb")
-MiddleNb = NodePath("MiddleNb")
-RightNb = NodePath("RightNb")
-Light = NodePath("PointLight2D")
+left_slot = NodePath("left_slot")
+middle_slot = NodePath("middle_slot")
+right_slot = NodePath("right_slot")
+left_nb = NodePath("left_nb")
+middle_nb = NodePath("middle_nb")
+right_nb = NodePath("right_nb")
+light = NodePath("PointLight2D")
 
-[node name="LeftSlot" type="Sprite2D" parent="." unique_id=802037853]
+[node name="left_slot" type="Sprite2D" parent="." unique_id=802037853]
 visible = false
 position = Vector2(-34, -4)
 
-[node name="MiddleSlot" type="Sprite2D" parent="." unique_id=671763657]
+[node name="middle_slot" type="Sprite2D" parent="." unique_id=671763657]
 visible = false
 position = Vector2(0, -4)
 
-[node name="RightSlot" type="Sprite2D" parent="." unique_id=1904042163]
+[node name="right_slot" type="Sprite2D" parent="." unique_id=1904042163]
 visible = false
 position = Vector2(34, -4)
 
-[node name="LeftNb" type="Label" parent="." unique_id=2104562144]
+[node name="left_nb" type="Label" parent="." unique_id=2104562144]
 visible = false
 offset_left = -35.333332
 offset_top = 10.0
@@ -40,7 +40,7 @@ theme_override_font_sizes/font_size = 16
 text = "10"
 horizontal_alignment = 1
 
-[node name="MiddleNb" type="Label" parent="." unique_id=2111229571]
+[node name="middle_nb" type="Label" parent="." unique_id=2111229571]
 visible = false
 offset_left = -1.3333315
 offset_top = 10.0
@@ -51,7 +51,7 @@ theme_override_font_sizes/font_size = 16
 text = "10"
 horizontal_alignment = 1
 
-[node name="RightNb" type="Label" parent="." unique_id=1630020982]
+[node name="right_nb" type="Label" parent="." unique_id=1630020982]
 visible = false
 offset_left = 33.000008
 offset_top = 10.0

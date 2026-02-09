@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://de8a82s41jlab"]
 
-[ext_resource type="Script" uid="uid://bnurmthuvt78j" path="res://scripts/environment/entity/SimpleEntity.cs" id="1_lxsru"]
+[ext_resource type="Script" path="res://scripts/environment/entity/SimpleEntity.gd" id="1_lxsru"]
 [ext_resource type="Texture2D" uid="uid://bsa0kpudjh2x3" path="res://assets/sprites/environment/entity/entity_dig_jump.png" id="3_ecdnh"]
 [ext_resource type="Texture2D" uid="uid://bubbum3745hky" path="res://assets/sprites/environment/entity/entity_dig_walk_arm_dish.png" id="4_jfllw"]
 [ext_resource type="Texture2D" uid="uid://bpcss1wrj84rw" path="res://assets/sprites/environment/entity/entity_multiclick_hurt.png" id="5_0lw3d"]
@@ -696,14 +696,14 @@ radius = 24.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lxsru"]
 size = Vector2(52, 108)
 
-[node name="Entity" type="CharacterBody2D" unique_id=1357488417 node_paths=PackedStringArray("glass", "sprite", "clickArea")]
+[node name="Entity" type="CharacterBody2D" unique_id=1357488417 node_paths=PackedStringArray("glass", "sprite", "click_area")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_lxsru")
-walkSpeed = 25.0
+walk_speed = 25.0
 glass = NodePath("Glass")
 sprite = NodePath("Sprite2D")
-clickArea = NodePath("ClickArea")
+click_area = NodePath("ClickArea")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=355789460]
 position = Vector2(0, -75)

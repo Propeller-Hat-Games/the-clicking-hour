@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://xvhpdf7qoa4b"]
 
-[ext_resource type="Script" uid="uid://d1wuo203q2duk" path="res://scripts/system/game/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="Script" path="res://scripts/system/game/GameManager.gd" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://bk8cwxtfujhoj" path="res://scenes/ui/pause_menu.tscn" id="2_5xtl8"]
 [ext_resource type="PackedScene" uid="uid://cdkbrq21ysjr4" path="res://scenes/ui/main_menu.tscn" id="2_glms7"]
 [ext_resource type="PackedScene" uid="uid://cv3k8lepywjd2" path="res://scenes/heart.tscn" id="3_c7a3q"]
@@ -33,25 +33,24 @@ fill_to = Vector2(0.5, 0)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c7a3q"]
 size = Vector2(224.63614, 24.255402)
 
-[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("board", "door", "mainMenu", "trash", "glitchEffect", "settingsButton", "HeartContainer", "Glitch", "CursorLight", "background", "BlackCanvas", "Spawn", "Unboarding")]
+[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("board", "door", "main_menu", "trash", "glitch_effect", "settings_button", "heart_container", "cursor_light", "background", "black_canvas", "spawn_area", "unboarding")]
 script = ExtResource("1_hwd4i")
 board = NodePath("NoLights/Board")
 door = NodePath("Door")
-mainMenu = NodePath("MainMenu")
+main_menu = NodePath("MainMenu")
 trash = NodePath("NoLights/Trash")
-glitchEffect = NodePath("GlitchEffect")
-settingsButton = NodePath("NoLights/SettingsButton")
-pauseMenuScene = ExtResource("2_5xtl8")
-HeartContainer = NodePath("NoLights/HeartContainer")
-HeartScene = ExtResource("3_c7a3q")
-Glitch = NodePath("GlitchEffect")
-CursorNormal = ExtResource("3_pc0jn")
-CursorNight = ExtResource("4_c7a3q")
-CursorLight = NodePath("CursorLight")
+glitch_effect = NodePath("GlitchEffect")
+settings_button = NodePath("NoLights/SettingsButton")
+pause_menu_scene = ExtResource("2_5xtl8")
+heart_container = NodePath("NoLights/HeartContainer")
+heart_scene = ExtResource("3_c7a3q")
+cursor_normal = ExtResource("3_pc0jn")
+cursor_night = ExtResource("4_c7a3q")
+cursor_light = NodePath("CursorLight")
 background = NodePath("AnimatedBackground")
-BlackCanvas = NodePath("BlackCanvas")
-Spawn = NodePath("SpawnArea")
-Unboarding = NodePath("NoLights/Unboarding")
+black_canvas = NodePath("BlackCanvas")
+spawn_area = NodePath("SpawnArea")
+unboarding = NodePath("NoLights/unboarding")
 
 [node name="CursorLight" type="PointLight2D" parent="." unique_id=502268563]
 visible = false
@@ -92,9 +91,9 @@ scale = Vector2(3, 3)
 z_index = 7
 position = Vector2(1081, 171)
 
-[node name="Glass" parent="." unique_id=612983208 node_paths=PackedStringArray("Sprites") instance=ExtResource("16_cjvif")]
+[node name="Glass" parent="." unique_id=612983208 node_paths=PackedStringArray("sprites") instance=ExtResource("16_cjvif")]
 visible = false
-Sprites = {
+sprites = {
 "blue": NodePath("Blue"),
 "green": NodePath("Green"),
 "red": NodePath("Red"),
@@ -126,7 +125,7 @@ shape = SubResource("RectangleShape2D_c7a3q")
 
 [node name="NoLights" type="CanvasLayer" parent="." unique_id=432013375]
 
-[node name="Unboarding" parent="NoLights" unique_id=86015135 instance=ExtResource("12_aonbx")]
+[node name="unboarding" parent="NoLights" unique_id=86015135 instance=ExtResource("12_aonbx")]
 visible = false
 z_index = 200
 position = Vector2(569, 327)

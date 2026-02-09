@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cdkbrq21ysjr4"]
 
-[ext_resource type="Script" uid="uid://dbuy0jnnubs3s" path="res://scripts/menus/MainMenu.cs" id="1_l6cm7"]
+[ext_resource type="Script" path="res://scripts/menus/MainMenu.gd" id="1_l6cm7"]
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_1g8jr"]
 [ext_resource type="PackedScene" uid="uid://6ejxl705e67l" path="res://scenes/ui/credit_menu.tscn" id="2_credit"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ekxnf"]
@@ -11,8 +11,8 @@
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_l6cm7")
-CreditMenuScene = ExtResource("2_credit")
-OptionsMenuScene = ExtResource("3_options")
+credit_menu_scene = ExtResource("2_credit")
+options_menu_scene = ExtResource("3_options")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=940124022]
 layer = 100
@@ -27,7 +27,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BackgroundBorder" type="TextureRect" parent="CanvasLayer/Window" unique_id=1579012225]
+[node name="background_border" type="TextureRect" parent="CanvasLayer/Window" unique_id=1579012225]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

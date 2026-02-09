@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://bsuxqfkp8jlbh"]
 
 [ext_resource type="Texture2D" uid="uid://c5v7s6a7qjset" path="res://assets/sprites/environment/background/background_aspritesheet.png" id="1_ewy2f"]
-[ext_resource type="Script" uid="uid://b6l4ncht1msor" path="res://scripts/environment/AnimatedBackground.cs" id="1_h7ob3"]
+[ext_resource type="Script" path="res://scripts/environment/AnimatedBackground.gd" id="1_h7ob3"]
 [ext_resource type="Texture2D" uid="uid://d3qxyxocbaoon" path="res://assets/sprites/environment/background/layer_city_background.png" id="3_4uvy6"]
 [ext_resource type="Texture2D" uid="uid://cv3414s262wd3" path="res://assets/sprites/environment/background/background_night.png" id="3_twueu"]
 [ext_resource type="Texture2D" uid="uid://dnl65r3oxdda2" path="res://assets/sprites/environment/background/layer_tree_background.png" id="4_4mu36"]

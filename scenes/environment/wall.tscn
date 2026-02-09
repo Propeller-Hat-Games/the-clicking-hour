@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bhoi4skfxyuti"]
 
 [ext_resource type="Texture2D" uid="uid://byg78yiycjkad" path="res://assets/sprites/environment/background/wall_party.png" id="1_gwhjf"]
-[ext_resource type="Script" uid="uid://dsgxj5se1or6u" path="res://scripts/environment/Wall.cs" id="1_yimtk"]
+[ext_resource type="Script" uid="uid://c1ca1ag3lqxd3" path="res://scripts/environment/Wall.gd" id="1_yimtk"]
 [ext_resource type="Texture2D" uid="uid://cml0tevkyvfd5" path="res://assets/sprites/environment/background/door_light.png" id="3_pvnxd"]
 [ext_resource type="Texture2D" uid="uid://cm0vee4txeuxj" path="res://assets/sprites/environment/background/frontground_wall.png" id="4_i3byp"]
 
@@ -41,10 +41,10 @@ animations = [{
 "speed": 2.0
 }]
 
-[node name="Wall" type="Node2D" unique_id=1417280598 node_paths=PackedStringArray("Sprite", "Light")]
+[node name="Wall" type="Node2D" unique_id=1417280598 node_paths=PackedStringArray("sprite", "light")]
 script = ExtResource("1_yimtk")
-Sprite = NodePath("AnimatedSprite2D")
-Light = NodePath("Light")
+sprite = NodePath("AnimatedSprite2D")
+light = NodePath("light")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1740675525]
 position = Vector2(-204, 0)
@@ -52,7 +52,7 @@ scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_mvppj")
 centered = false
 
-[node name="Light" type="PointLight2D" parent="." unique_id=1162192664 groups=["Lights"]]
+[node name="light" type="PointLight2D" parent="." unique_id=1162192664 groups=["Lights"]]
 position = Vector2(-94, 325)
 scale = Vector2(3, 3)
 color = Color(1, 0, 0, 1)

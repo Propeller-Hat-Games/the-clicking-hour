@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://ca31yr40ycoys"]
 
-[ext_resource type="Script" uid="uid://3qs8wglfigns" path="res://scripts/system/game/SpawnArea.cs" id="1_svk5y"]
+[ext_resource type="Script" path="res://scripts/system/game/SpawnArea.gd" id="1_svk5y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dl81w"]
 size = Vector2(600, 384)
 
-[node name="Spawn" type="Area2D" unique_id=314783567 node_paths=PackedStringArray("Area")]
+[node name="Spawn" type="Area2D" unique_id=314783567 node_paths=PackedStringArray("area")]
 y_sort_enabled = true
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_svk5y")
-Area = NodePath("Box")
+area = NodePath("Box")
 
 [node name="Box" type="CollisionShape2D" parent="." unique_id=1324298013]
 shape = SubResource("RectangleShape2D_dl81w")

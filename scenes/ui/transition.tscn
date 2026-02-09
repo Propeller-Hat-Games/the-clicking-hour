@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bgumxhw7b3qvc"]
 
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="1_jpjvg"]
-[ext_resource type="Script" uid="uid://c5najs8m1tc5p" path="res://scripts/ui/Transition.cs" id="1_script"]
+[ext_resource type="Script" path="res://scripts/ui/Transition.gd" id="1_script"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ghw5a"]
 
 [node name="Transition" type="Control"]
@@ -26,7 +26,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BackgroundBorder" type="TextureRect" parent="CanvasLayer/Window"]
+[node name="background_border" type="TextureRect" parent="CanvasLayer/Window"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

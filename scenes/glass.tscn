@@ -1,15 +1,15 @@
 [gd_scene format=3 uid="uid://cax1bv236pwwl"]
 
-[ext_resource type="Script" uid="uid://cew0nkf3ugbby" path="res://scripts/environment/Glass.cs" id="1_gtrt1"]
+[ext_resource type="Script" path="res://scripts/environment/Glass.gd" id="1_gtrt1"]
 [ext_resource type="Texture2D" uid="uid://b85gpkh8x6s3v" path="res://assets/sprites/environment/entity/glass_yellow.png" id="2_na6tc"]
 [ext_resource type="Texture2D" uid="uid://dnse2xctc42o4" path="res://assets/sprites/environment/entity/glass_red.png" id="3_2h05u"]
 [ext_resource type="Texture2D" uid="uid://b6v0b2kkf3i5s" path="res://assets/sprites/environment/entity/glass_green.png" id="8_0ruws"]
 [ext_resource type="Texture2D" uid="uid://dxq1ao0lglay6" path="res://assets/sprites/environment/entity/glass_blue.png" id="13_6bqtk"]
 [ext_resource type="Texture2D" uid="uid://crgfrkuykqkay" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
 
-[node name="Glass" type="Node2D" unique_id=612983208 node_paths=PackedStringArray("Sprites")]
+[node name="Glass" type="Node2D" unique_id=612983208 node_paths=PackedStringArray("sprites")]
 script = ExtResource("1_gtrt1")
-Sprites = {
+sprites = {
 "blue": NodePath("Blue"),
 "green": NodePath("Green"),
 "red": NodePath("Red"),

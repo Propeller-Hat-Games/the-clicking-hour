@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://df5m2q2j2q8n4"]
 
 [ext_resource type="PackedScene" uid="uid://de8a82s41jlab" path="res://scenes/environment/entity.tscn" id="1_entity"]
-[ext_resource type="Script" uid="uid://cls5mqxet0872" path="res://scripts/environment/entity/HidingEntity.cs" id="2_script"]
+[ext_resource type="Script" path="res://scripts/environment/entity/HidingEntity.gd" id="2_script"]
 
 [node name="HidingEntity" instance=ExtResource("1_entity")]
 script = ExtResource("2_script")
