@@ -89,7 +89,7 @@ layout_mode = 2
 theme = ExtResource("2_ekxnf")
 max_value = 1.0
 step = 0.05
-value = 1.0
+value = 0.8
 
 [node name="SfxVolLabel" type="Label" parent="CanvasLayer/Window/VBox" unique_id=249331224]
 layout_mode = 2

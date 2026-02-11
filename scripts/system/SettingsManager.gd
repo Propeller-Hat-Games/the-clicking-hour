@@ -4,7 +4,7 @@ extends Node
 
 signal settings_changed
 
-var master_volume: float = 1.0:
+var master_volume: float = 0.8:
 	set(value):
 		master_volume = value
 		_apply_master_volume()
@@ -62,7 +62,7 @@ func load_settings() -> void:
 	var config = ConfigFile.new()
 	var err = config.load("user://settings.cfg")
 	if err == OK:
-		master_volume = config.get_value("audio", "master_volume", 1.0)
+		master_volume = config.get_value("audio", "master_volume", 0.8)
 		sfx_volume = config.get_value("audio", "sfx_volume", 1.0)
 		glitch_enabled = config.get_value("effects", "glitch_enabled", true)
 		global_effects_enabled = config.get_value("effects", "global_effects_enabled", true)
