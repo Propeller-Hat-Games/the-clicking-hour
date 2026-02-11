@@ -22,11 +22,15 @@ func _ready() -> void:
 
 	# Menu music (static)
 	_menu_music = load("res://assets/musics/background/Jet27Drink.mp3")
+	_menu_music.loop = true
 	
 	# 🌞 Normal Playlist
 	_normal_playlist.append(load("res://assets/musics/background/GroovyDrink.mp3"))
 	_normal_playlist.append(load("res://assets/musics/background/SeasideDrink.mp3"))
 	_normal_playlist.append(load("res://assets/musics/background/SeriousDrink.mp3"))
+	
+	for stream in _normal_playlist:
+		stream.loop = true
 	
 	print("[MUSIC] Normal playlist loaded: ", _normal_playlist.size(), " tracks")
 
@@ -34,6 +38,9 @@ func _ready() -> void:
 	_night_playlist.append(load("res://assets/musics/backgroundDarkMode/DrunkGroovy.mp3"))
 	_night_playlist.append(load("res://assets/musics/backgroundDarkMode/DrunkSeaside.mp3"))
 	_night_playlist.append(load("res://assets/musics/backgroundDarkMode/DrunkSerious.mp3"))
+
+	for stream in _night_playlist:
+		stream.loop = true
 
 	print("[MUSIC] Night playlist loaded: ", _night_playlist.size(), " tracks")
 
