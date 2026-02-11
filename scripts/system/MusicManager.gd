@@ -62,6 +62,8 @@ func _setup_music_bus() -> void:
 	AudioServer.add_bus_effect(_music_bus_index, _low_pass_effect)
 	_low_pass_effect_index = AudioServer.get_bus_effect_count(_music_bus_index) - 1
 	AudioServer.set_bus_effect_enabled(_music_bus_index, _low_pass_effect_index, false)
+	
+	SettingsManager.apply_music_volume()
 
 ## Toggles a muffled (low-pass) effect on the music, typically used when the game is paused.
 func set_pause_effect(paused: bool) -> void:

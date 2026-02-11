@@ -34,7 +34,10 @@ var _correct_glass2: AudioStream
 var _correct_glass3: AudioStream
 var _correct_glass4: AudioStream
 
+var _sfx_bus_index: int
+
 func _ready() -> void:
+	_setup_sfx_bus()
 	# Load all sounds
 	_clic1 = load("res://assets/sounds/Clic1.mp3")
 	_clic2 = load("res://assets/sounds/Clic2.mp3")
@@ -61,17 +64,28 @@ func _ready() -> void:
 
 	print("[SFX] Sounds loaded!")
 
+func _setup_sfx_bus() -> void:
+	var existing_bus = AudioServer.get_bus_index("SFX")
+	if existing_bus != -1:
+		_sfx_bus_index = existing_bus
+	else:
+		_sfx_bus_index = AudioServer.get_bus_count()
+		AudioServer.add_bus(_sfx_bus_index)
+		AudioServer.set_bus_name(_sfx_bus_index, "SFX")
+		AudioServer.set_bus_send(_sfx_bus_index, "Master")
+	
+	SettingsManager.apply_sfx_volume()
+
 ## Internal helper to play a sound stream with current SFX volume settings.
 func _play_sound(sound: AudioStream, volume_scale: float = 1.0) -> void:
 	if sound == null:
 		return
 
-	var volume_linear = SettingsManager.sfx_volume * volume_scale
-
 	var player = AudioStreamPlayer.new()
 	add_child(player)
 	player.stream = sound
-	player.volume_db = linear_to_db(volume_linear)
+	player.bus = "SFX"
+	player.volume_db = linear_to_db(volume_scale)
 	player.play()
 
 	# Remove player when sound finishes

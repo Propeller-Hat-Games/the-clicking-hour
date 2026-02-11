@@ -1674,3 +1674,4 @@ sprite_frames = SubResource("SpriteFrames_ss2b0")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=310047019]
 stream = ExtResource("411_ss2b0")
 volume_db = -10.0
+bus = &"Music"
