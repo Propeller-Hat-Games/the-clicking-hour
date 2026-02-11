@@ -19,7 +19,7 @@ func load_vfx() -> void:
 
 func _setup_vhs_effect() -> void:
 	vhs_layer = CanvasLayer.new()
-	vhs_layer.layer = 10 # Ensure it's on top of everything
+	vhs_layer.layer = 255 # Ensure it's on top of everything
 	game.add_child(vhs_layer)
 
 	var color_rect = ColorRect.new()
