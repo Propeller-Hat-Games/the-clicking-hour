@@ -10,6 +10,9 @@ func initialize_entity() -> void:
 	anim_prefix = "multiclick"
 	hearts = randi_range(3, 5)
 
+func can_be_clicked() -> bool:
+	return hearts > 0 and not is_disappearing
+
 func _on_clicked() -> void:
 	current_state = EntityState.STUNNED
 	_stun_timer = STUN_DURATION

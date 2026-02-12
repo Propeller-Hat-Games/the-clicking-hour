@@ -98,9 +98,20 @@ func _animate_glass_disappearance() -> void:
 	tween.tween_property(glass, "position", _glass_initial_pos + Vector2(0, 50), 0.5).set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property(glass, "modulate:a", 0.0, 0.5).set_trans(Tween.TRANS_LINEAR)
 
+## Returns true if the entity can currently be clicked.
+func can_be_clicked() -> bool:
+	if hearts <= 0 or is_disappearing:
+		return false
+	
+	# Lock click if during spawn animation or hidden
+	if _spawn_timer < spawn_delay or current_state == EntityState.HIDING:
+		return false
+		
+	return true
+
 ## Handles a click attempt on this entity.
 func try_click(game: Node) -> void:
-	if hearts > 0:
+	if can_be_clicked():
 		hearts -= 1
 		SfxManager.play_click_sound()
 		if hearts <= 0:
