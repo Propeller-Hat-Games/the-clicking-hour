@@ -1,8 +1,41 @@
-[gd_scene load_steps=2 format=3 uid="uid://ba4p5yeipj4bk"]
+[gd_scene format=3 uid="uid://ba4p5yeipj4bk"]
 
 [ext_resource type="Texture2D" uid="uid://bekg81ing340d" path="res://assets/sprites/unboarding.png" id="1_qibao"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ig80y"]
 
-[node name="unboarding" type="Sprite2D"]
+[node name="unboarding" type="Sprite2D" unique_id=353724069]
 scale = Vector2(3, 3)
 texture = ExtResource("1_qibao")
 centered = false
+
+[node name="Control" type="Control" parent="." unique_id=1416841780]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label2" type="Label" parent="Control" unique_id=1371391236]
+layout_mode = 0
+offset_left = 9.666667
+offset_top = 15.000002
+offset_right = 156.66667
+offset_bottom = 182.33334
+theme = ExtResource("2_ig80y")
+theme_override_colors/font_color = Color(0.32941177, 0.49411765, 0.39215687, 1)
+theme_override_constants/line_spacing = 0
+theme_override_constants/paragraph_spacing = 0
+theme_override_font_sizes/font_size = 14
+text = "UNBOARDING"
+autowrap_mode = 3
+
+[node name="Label" type="Label" parent="Control" unique_id=162924918]
+layout_mode = 0
+offset_left = 9.666667
+offset_top = 14.333334
+offset_right = 156.66667
+offset_bottom = 181.66667
+theme = ExtResource("2_ig80y")
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 14
+text = "UNBOARDING"
+autowrap_mode = 3
