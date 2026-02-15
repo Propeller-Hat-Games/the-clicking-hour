@@ -10,7 +10,7 @@ enum EntityState {
 ## Base class for all interactive entities in the game.
 ## Handles movement, animation, and life cycle.
 
-@export var walk_speed: float = 300.0
+@export var walk_speed: float = 10.0
 @export var spawn_delay: float = 1.0
 @export var glass: Sprite2D
 @export var sprite: AnimatedSprite2D

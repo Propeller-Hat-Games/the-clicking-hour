@@ -50,9 +50,7 @@ func next_wave() -> void:
 
 	while game.is_spawning:
 		if game.spawn_area: game.spawn_area.spawn_entity(game)
-		var wave_modifier = max(1.0, game.current_wave / 3.0)
-		var delay = game._rng.randf_range(1.5, 3.0) / wave_modifier
-		delay = max(0.25, delay)
+		var delay = (1 / exp(0.15 * game.current_wave) + 0.25) * game._rng.randf_range(1.5, 3)
 		
 		await get_tree().create_timer(delay, false).timeout
 		if not is_inside_tree(): return

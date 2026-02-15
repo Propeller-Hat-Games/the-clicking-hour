@@ -26,7 +26,7 @@ func generate_conditions() -> void:
 	required_glass_counts.clear()
 
 	var glass_type_count = 1 + int(min(2, game.current_wave / 3.0))
-	var glass_count = 1 + game.current_wave
+	var glass_count = 1 + game.current_wave - glass_type_count
 
 	for i in range(glass_type_count):
 		var new_type
