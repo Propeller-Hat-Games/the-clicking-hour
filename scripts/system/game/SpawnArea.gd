@@ -44,7 +44,6 @@ func spawn_entity(game: GameManager) -> void:
 	
 	# Calculate speed first
 	entity.set_speed(entity.get_speed() + 15 * exp(0.1 * game.current_wave))
-	print(entity.get_speed())
 	
 	# Find a valid random position
 	entity.position = get_valid_random_position()
