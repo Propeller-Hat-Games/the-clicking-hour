@@ -14,18 +14,18 @@
 
 ## 🎮 Gameplay
 
-Your goal is simple but challenging: filter the incoming stream of waiters. The bar has specific requirements for each wave, displayed on the board. You must click on the correct entities to "accept" their drinks while ignoring or dealing with the wrong ones.
+Your goal is simple but challenging: filter the incoming stream of waiters. The bar has specific requirements for each wave, displayed on the board. You must click on the waiters with the **incorrect** drinks to remove them before they reach the door, while letting the **correct** ones through to fulfill the bar's requirements.
 
 ### Controls
-- **Mouse Left Click:** Interact with entities. That's all you need!
+- **Mouse Left Click:** Click on waiters to remove them. That's all you need!
 
 ### Key Features
-- **Dynamic Wave System:** Every wave increases in difficulty, requiring more glasses and introducing faster entities.
-- **Entity Variety:**
-    - **Simple Entities:** The standard waiter.
-    - **Teleport Entities:** They won't stay in one place for long!
-    - **Hiding Entities:** Catch them before they disappear back into the shadows.
-    - **Multi-Click Entities:** Requires multiple hits to release their prize.
+- **Dynamic Wave System:** Every wave increases in difficulty, requiring more glasses and introducing faster waiters.
+- **Waiter Variety:**
+    - **Simple Waiters:** The standard waiter.
+    - **Teleport Waiters:** They won't stay in one place for long!
+    - **Hiding Waiters:** Catch them before they disappear back into the shadows.
+    - **Multi-Click Waiters:** Requires multiple hits to release their prize.
 - **Night Mode:** A rare, high-intensity mode that challenges your visibility and reaction time with unique visuals and "drunk" music variations.
 - **VFX & Atmosphere:** Retro-inspired CRT/VHS effects, glitch shaders, and a reactive soundtrack suitable for a vaporwave club.
 
@@ -38,7 +38,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 - **Shaders:** Custom GLSL shaders for glitch and VHS post-processing.
 - **Architecture:** 
     - Event-driven UI and state management.
-    - Component-based entity system.
+    - Component-based waiter system.
     - Global managers for Settings, Music, and SFX.
 
 ---
@@ -64,7 +64,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 ## 📂 Project Structure
 
 - `assets/`: Music, sounds, sprites, and shaders.
-- `scenes/`: Godot scenes (.tscn) for UI, environment, and entities.
+- `scenes/`: Godot scenes (.tscn) for UI, environment, and waiters.
 - `scripts/`: GDScript logic organized by system (game loop, menus, UI).
 - `project.godot`: Main Godot project configuration.
 
