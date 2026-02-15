@@ -63,6 +63,7 @@ func _ready() -> void:
 		glitch_effect.set_desaturation(0.0)
 
 	settings_button.pressed.connect(_on_settings_button_pressed)
+	settings_button.disabled = true
 
 	MusicManager.play_menu_music()
 	hearts_manager.start_heart_animation_loop()
@@ -105,9 +106,12 @@ func _screen_fade_in() -> void:
 
 func _on_play_button_pressed() -> void:
 	main_menu.close()
+	settings_button.disabled = false
 	wave_manager.start_game()
 
 func _on_settings_button_pressed() -> void:
+	if settings_button.disabled:
+		return
 	var pause_menu = pause_menu_scene.instantiate()
 	add_child(pause_menu)
 	get_tree().paused = true

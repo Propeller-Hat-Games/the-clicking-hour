@@ -34,6 +34,8 @@ func next_wave() -> void:
 	game.is_night_mode = game.current_wave > 2 and not game.is_night_mode and game._rng.randf() < 0.3
 	game.vfx_manager.update_night_mode()
 
+	game.settings_button.disabled = false
+
 	await get_tree().create_timer(1.0, false).timeout
 	if not is_inside_tree(): return
 	
@@ -70,6 +72,8 @@ func end_wave() -> void:
 	await get_tree().create_timer(0.5, false).timeout
 	if not is_inside_tree(): return
 
+	game.settings_button.disabled = true
+
 	SfxManager.play_jingle_sound()
 
 	var transition_scene = load("res://scenes/ui/transition.tscn")
@@ -87,6 +91,7 @@ func end_wave() -> void:
 
 func end_game() -> void:
 	game.is_spawning = false
+	game.settings_button.disabled = true
 	if game.door: game.door.close(SfxManager)
 	if game.spawn_area: game.spawn_area.kill_every_entities()
 	await MusicManager.fade_out()
