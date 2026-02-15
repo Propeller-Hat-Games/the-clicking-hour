@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://6ejxl705e67l"]
 
-[ext_resource type="Script" path="res://scripts/menus/CreditMenu.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://ciogylpjmfthq" path="res://scripts/menus/CreditMenu.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_gradient"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="3_theme"]
 
-[node name="CreditMenu" type="Control"]
+[node name="CreditMenu" type="Control" unique_id=1963725932]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,10 +13,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2086783563]
 layer = 100
 
-[node name="Window" type="Control" parent="CanvasLayer"]
+[node name="Window" type="Control" parent="CanvasLayer" unique_id=1579005767]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -26,7 +26,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="background_border" type="TextureRect" parent="CanvasLayer/Window"]
+[node name="background_border" type="TextureRect" parent="CanvasLayer/Window" unique_id=1396451857]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -41,7 +41,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_gradient")
 
-[node name="Background" type="ColorRect" parent="CanvasLayer/Window"]
+[node name="Background" type="ColorRect" parent="CanvasLayer/Window" unique_id=463574504]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -56,7 +56,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.00392157, 0, 0.0431373, 1)
 
-[node name="VDiv" type="VBoxContainer" parent="CanvasLayer/Window"]
+[node name="VDiv" type="VBoxContainer" parent="CanvasLayer/Window" unique_id=978201321]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -72,28 +72,28 @@ grow_vertical = 2
 theme = ExtResource("3_theme")
 alignment = 1
 
-[node name="Title" type="Label" parent="CanvasLayer/Window/VDiv"]
+[node name="Title" type="Label" parent="CanvasLayer/Window/VDiv" unique_id=864866868]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
-text = "Crédits"
+text = "CRE_TITLE"
 horizontal_alignment = 1
 
-[node name="CreditsList" type="Label" parent="CanvasLayer/Window/VDiv"]
+[node name="CreditsList" type="Label" parent="CanvasLayer/Window/VDiv" unique_id=541425763]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Ferdinand Del Re | Flamasar - Art
-Gaspard Ternoy - Musique
-Baptiste May - Code
-Lucas Guglielmetti - Code
-Hugo Louis Joseph - Code
-Kamil Charbenaga - Code
-Clément Thery - Code"
+text = "Ferdinand Del Re | Flamasar - ROLE_ART
+Gaspard Ternoy - ROLE_MUSIC
+Baptiste May - ROLE_CODE
+Lucas Guglielmetti - ROLE_CODE
+Hugo Louis Joseph - ROLE_CODE
+Kamil Charbenaga - ROLE_CODE
+Clément Thery - ROLE_CODE"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="CloseButton" type="Button" parent="CanvasLayer/Window/VDiv"]
+[node name="CloseButton" type="Button" parent="CanvasLayer/Window/VDiv" unique_id=1186303319]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Retour"

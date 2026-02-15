@@ -75,12 +75,12 @@ theme_override_constants/separation = 20
 [node name="Title" type="Label" parent="CanvasLayer/Window/VBox" unique_id=564371256]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "OPTIONS"
+text = "OP_TITLE"
 horizontal_alignment = 1
 
 [node name="MasterVolLabel" type="Label" parent="CanvasLayer/Window/VBox" unique_id=707597449]
 layout_mode = 2
-text = "Volume Global"
+text = "OP_GLOBAL_VOLUME"
 
 [node name="MasterSlider" type="HSlider" parent="CanvasLayer/Window/VBox" unique_id=1858173947]
 unique_name_in_owner = true
@@ -93,7 +93,7 @@ value = 0.8
 [node name="MusicVolLabel" type="Label" parent="CanvasLayer/Window/VBox" unique_id=519736643]
 layout_mode = 2
 theme = ExtResource("2_ekxnf")
-text = "Volume de la musique"
+text = "OP_MUSIC_VOLUME"
 
 [node name="MusicSlider" type="HSlider" parent="CanvasLayer/Window/VBox" unique_id=386029166]
 unique_name_in_owner = true
@@ -104,7 +104,7 @@ value = 1.0
 
 [node name="SfxVolLabel" type="Label" parent="CanvasLayer/Window/VBox" unique_id=249331224]
 layout_mode = 2
-text = "Volume SFX"
+text = "OP_MUSIC_SFX"
 
 [node name="SfxSlider" type="HSlider" parent="CanvasLayer/Window/VBox" unique_id=1364412622]
 unique_name_in_owner = true
@@ -118,16 +118,16 @@ value = 1.0
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_ekxnf")
-text = "Effet Glitch"
+text = "OP_EF_GLITCH"
 
 [node name="GlobalEffectsToggle" type="CheckBox" parent="CanvasLayer/Window/VBox" unique_id=1251007555]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_ekxnf")
-text = "Effets Globaux (VHS)"
+text = "OP_EF_GLOBAL"
 
 [node name="BackButton" type="Button" parent="CanvasLayer/Window/VBox" unique_id=2059672852]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Retour"
+text = "OP_RETURN"

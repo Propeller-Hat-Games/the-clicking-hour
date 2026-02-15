@@ -13,8 +13,7 @@ func _ready() -> void:
 ## Sets the text to display which wave was completed.
 func set_completed_wave(wave_number: int) -> void:
 	if _title_label:
-		_title_label.text = "STAGE %d
-CLEARED !" % wave_number
+		_title_label.text = tr("STAGE_CLEARED") % wave_number
 
 ## Closes the transition window and signals for the next stage.
 func close_window() -> void:

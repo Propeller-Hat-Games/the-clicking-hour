@@ -32,6 +32,10 @@ SfxManager="*res://scripts/system/SfxManager.gd"
 
 window/stretch/mode="viewport"
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://assets/translations/translations.en.translation", "res://assets/translations/translations.fr.translation")
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

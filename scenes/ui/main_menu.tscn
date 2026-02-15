@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cdkbrq21ysjr4"]
 
-[ext_resource type="Script" path="res://scripts/menus/MainMenu.gd" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://cvyno2jf52ldj" path="res://scripts/menus/MainMenu.gd" id="1_l6cm7"]
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_1g8jr"]
 [ext_resource type="PackedScene" uid="uid://6ejxl705e67l" path="res://scenes/ui/credit_menu.tscn" id="2_credit"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ekxnf"]
@@ -93,28 +93,28 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
-text = "Jouer"
+text = "UI_PLAY"
 
 [node name="OptionsButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid" unique_id=1119652955]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
-text = "Options"
+text = "UI_OPTION"
 
 [node name="CreditsButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid" unique_id=1468393310]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
-text = "Crédits"
+text = "UI_CREDIT"
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/Window/VDiv/Grid" unique_id=1135243225]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
-text = "Quitter"
+text = "UI_QUIT"
 
 [connection signal="pressed" from="CanvasLayer/Window/VDiv/Grid/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Window/VDiv/Grid/OptionsButton" to="." method="_on_options_button_pressed"]

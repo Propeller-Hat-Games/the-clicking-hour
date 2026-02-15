@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://bk8cwxtfujhoj"]
 
-[ext_resource type="Script" path="res://scripts/menus/PauseMenu.gd" id="1_pause"]
+[ext_resource type="Script" uid="uid://chbtxly7bw8kv" path="res://scripts/menus/PauseMenu.gd" id="1_pause"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ekxnf"]
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="3_1g8jr"]
 [ext_resource type="PackedScene" uid="uid://bj3mb4owktbgt" path="res://scenes/ui/options_menu.tscn" id="4_options"]
 
-[node name="PauseMenu" type="Control"]
+[node name="PauseMenu" type="Control" unique_id=149180864]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -16,10 +16,10 @@ grow_vertical = 2
 script = ExtResource("1_pause")
 options_menu_scene = ExtResource("4_options")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1647190467]
 layer = 100
 
-[node name="Window" type="Control" parent="CanvasLayer"]
+[node name="Window" type="Control" parent="CanvasLayer" unique_id=1023170067]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -29,7 +29,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="background_border" type="TextureRect" parent="CanvasLayer/Window"]
+[node name="background_border" type="TextureRect" parent="CanvasLayer/Window" unique_id=1166075740]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -44,7 +44,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_1g8jr")
 
-[node name="Background" type="ColorRect" parent="CanvasLayer/Window"]
+[node name="Background" type="ColorRect" parent="CanvasLayer/Window" unique_id=1108116561]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -59,7 +59,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0034003255, 0.0011342621, 0.043252215, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Window"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Window" unique_id=1135271406]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -76,23 +76,23 @@ theme = ExtResource("2_ekxnf")
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Label" type="Label" parent="CanvasLayer/Window/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Window/VBoxContainer" unique_id=258967405]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "PAUSE"
+text = "PAU_TITLE"
 horizontal_alignment = 1
 
-[node name="ResumeButton" type="Button" parent="CanvasLayer/Window/VBoxContainer"]
+[node name="ResumeButton" type="Button" parent="CanvasLayer/Window/VBoxContainer" unique_id=1114271948]
 layout_mode = 2
-text = "Reprendre"
+text = "PAU_RESUME"
 
-[node name="OptionsButton" type="Button" parent="CanvasLayer/Window/VBoxContainer"]
+[node name="OptionsButton" type="Button" parent="CanvasLayer/Window/VBoxContainer" unique_id=204451365]
 layout_mode = 2
-text = "Options"
+text = "PAU_OPTIONS"
 
-[node name="MainMenuButton" type="Button" parent="CanvasLayer/Window/VBoxContainer"]
+[node name="MainMenuButton" type="Button" parent="CanvasLayer/Window/VBoxContainer" unique_id=1411473497]
 layout_mode = 2
-text = "Menu Principal"
+text = "PAU_MAIN_MENU"
 
 [connection signal="pressed" from="CanvasLayer/Window/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Window/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]

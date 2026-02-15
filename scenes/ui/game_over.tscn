@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bhxcy7xwjclhk"]
 
 [ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="1_60xr3"]
-[ext_resource type="Script" path="res://scripts/menus/GameOver.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cxxnc0y4f4dfo" path="res://scripts/menus/GameOver.gd" id="1_script"]
 [ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_fu4wh"]
 
-[node name="GameOver" type="Control"]
+[node name="GameOver" type="Control" unique_id=81849337]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,10 +13,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2103880452]
 layer = 100
 
-[node name="Window" type="Control" parent="CanvasLayer"]
+[node name="Window" type="Control" parent="CanvasLayer" unique_id=1536085087]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -26,7 +26,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="background_border" type="TextureRect" parent="CanvasLayer/Window"]
+[node name="background_border" type="TextureRect" parent="CanvasLayer/Window" unique_id=275093128]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -41,7 +41,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_60xr3")
 
-[node name="Background" type="ColorRect" parent="CanvasLayer/Window"]
+[node name="Background" type="ColorRect" parent="CanvasLayer/Window" unique_id=1877895683]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -56,7 +56,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VDiv" type="VBoxContainer" parent="CanvasLayer/Window"]
+[node name="VDiv" type="VBoxContainer" parent="CanvasLayer/Window" unique_id=1065390679]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -71,24 +71,24 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_fu4wh")
 
-[node name="Game Over" type="Label" parent="CanvasLayer/Window/VDiv"]
+[node name="Game Over" type="Label" parent="CanvasLayer/Window/VDiv" unique_id=912486680]
 layout_mode = 2
 theme = ExtResource("2_fu4wh")
 theme_override_font_sizes/font_size = 64
-text = "Game Over"
+text = "GO_TITLE"
 horizontal_alignment = 1
 
-[node name="Data" type="Label" parent="CanvasLayer/Window/VDiv"]
+[node name="Data" type="Label" parent="CanvasLayer/Window/VDiv" unique_id=532764261]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Vous avez survécu pendant X vagues"
+text = "GO_SURVIVE"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Button" type="Button" parent="CanvasLayer/Window/VDiv"]
+[node name="Button" type="Button" parent="CanvasLayer/Window/VDiv" unique_id=216943764]
 layout_mode = 2
 theme = ExtResource("2_fu4wh")
-text = "Retourner au menu"
+text = "GO_RETURN"
 
 [connection signal="pressed" from="CanvasLayer/Window/VDiv/Button" to="." method="_on_button_pressed"]
