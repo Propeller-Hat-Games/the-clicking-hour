@@ -10,6 +10,7 @@ var _sprite: AnimatedSprite2D
 var _audio: AudioStreamPlayer
 var _fade_color_rect: ColorRect
 var _is_skipping: bool = false
+var _audio_unlocked: bool = false
 
 func _ready() -> void:
 	_sprite = get_node("AnimatedSprite2D")
@@ -27,7 +28,14 @@ func _ready() -> void:
 	_sprite.modulate.a = 0.0
 	
 	_sprite.play()
-	_audio.play()
+	
+	# Web audio policy: Wait for interaction or Godot to resume AudioContext
+	if OS.get_name() == "Web":
+		# Audio will be played on first user input to unlock the AudioContext
+		pass
+	else:
+		# For non-web platforms, play audio directly
+		_try_unlock_audio()
 	
 	await _fade_sprite(0.0, 1.0)
 	if not is_inside_tree() or _is_skipping: return
@@ -41,8 +49,18 @@ func _input(event: InputEvent) -> void:
 	if _is_skipping:
 		return
 		
+	# Always try to unlock audio on first input, regardless of platform
+	if not _audio_unlocked:
+		_try_unlock_audio()
+
 	if (event is InputEventMouseButton and event.pressed) or (event is InputEventKey and event.pressed):
 		_skip()
+
+func _try_unlock_audio() -> void:
+	if _audio_unlocked:
+		return
+	_audio.play()
+	_audio_unlocked = true
 
 func _skip() -> void:
 	_is_skipping = true

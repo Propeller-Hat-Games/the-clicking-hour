@@ -19,6 +19,8 @@ var _low_pass_effect: AudioEffectLowPassFilter
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_music_bus()
+	
+
 
 	# Menu music (static)
 	_menu_music = load("res://assets/musics/background/Jet27Drink.mp3")
@@ -45,10 +47,10 @@ func _ready() -> void:
 	print("[MUSIC] Night playlist loaded: ", _night_playlist.size(), " tracks")
 
 func _setup_music_bus() -> void:
-	var existing_bus = AudioServer.get_bus_index("Music")
-	if existing_bus != -1:
-		_music_bus_index = existing_bus
-	else:
+	_music_bus_index = AudioServer.get_bus_index("Music")
+	
+	# If bus doesn't exist (e.g. layout failed), fallback
+	if _music_bus_index == -1:
 		_music_bus_index = AudioServer.get_bus_count()
 		AudioServer.add_bus(_music_bus_index)
 		AudioServer.set_bus_name(_music_bus_index, "Music")
@@ -56,21 +58,24 @@ func _setup_music_bus() -> void:
 	
 	bus = "Music"
 
-	# Check if low pass already exists
+	# Find the low pass effect
 	for i in range(AudioServer.get_bus_effect_count(_music_bus_index)):
 		var effect = AudioServer.get_bus_effect(_music_bus_index, i)
 		if effect is AudioEffectLowPassFilter:
 			_low_pass_effect = effect
 			_low_pass_effect_index = i
-			return
+			break
 
-	_low_pass_effect = AudioEffectLowPassFilter.new()
-	_low_pass_effect.cutoff_hz = 20000
-	AudioServer.add_bus_effect(_music_bus_index, _low_pass_effect)
-	_low_pass_effect_index = AudioServer.get_bus_effect_count(_music_bus_index) - 1
-	AudioServer.set_bus_effect_enabled(_music_bus_index, _low_pass_effect_index, false)
+	if _low_pass_effect == null:
+		_low_pass_effect = AudioEffectLowPassFilter.new()
+		_low_pass_effect.cutoff_hz = 20000
+		AudioServer.add_bus_effect(_music_bus_index, _low_pass_effect)
+		_low_pass_effect_index = AudioServer.get_bus_effect_count(_music_bus_index) - 1
 	
+	AudioServer.set_bus_effect_enabled(_music_bus_index, _low_pass_effect_index, false)
 	SettingsManager.apply_music_volume()
+
+
 
 ## Toggles a muffled (low-pass) effect on the music, typically used when the game is paused.
 func set_pause_effect(paused: bool) -> void:

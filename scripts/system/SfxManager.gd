@@ -65,10 +65,9 @@ func _ready() -> void:
 	print("[SFX] Sounds loaded!")
 
 func _setup_sfx_bus() -> void:
-	var existing_bus = AudioServer.get_bus_index("SFX")
-	if existing_bus != -1:
-		_sfx_bus_index = existing_bus
-	else:
+	_sfx_bus_index = AudioServer.get_bus_index("SFX")
+	
+	if _sfx_bus_index == -1:
 		_sfx_bus_index = AudioServer.get_bus_count()
 		AudioServer.add_bus(_sfx_bus_index)
 		AudioServer.set_bus_name(_sfx_bus_index, "SFX")
