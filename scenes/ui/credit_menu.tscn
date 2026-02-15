@@ -96,6 +96,6 @@ autowrap_mode = 3
 [node name="CloseButton" type="Button" parent="CanvasLayer/Window/VDiv" unique_id=1186303319]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Retour"
+text = "OP_RETURN"
 
 [connection signal="pressed" from="CanvasLayer/Window/VDiv/CloseButton" to="." method="_on_close_button_pressed"]
