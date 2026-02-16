@@ -10,6 +10,10 @@ signal play_button_pressed
 var _credit_menu_instance: Control
 var _options_menu_instance: Control
 
+func _ready() -> void:
+	super._ready()
+	$CanvasLayer/Window/VDiv/Version.text = "v" + ProjectSettings.get_setting("application/config/version")
+
 ## Signals that the play button was pressed.
 func _on_play_button_pressed() -> void:
 	play_button_pressed.emit()

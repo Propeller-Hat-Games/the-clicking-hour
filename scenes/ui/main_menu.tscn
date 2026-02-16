@@ -35,9 +35,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -300.0
-offset_top = -200.0
+offset_top = -225.0
 offset_right = 300.0
-offset_bottom = 200.0
+offset_bottom = 225.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_1g8jr")
@@ -50,9 +50,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -290.0
-offset_top = -190.0
+offset_top = -215.0
 offset_right = 290.0
-offset_bottom = 190.0
+offset_bottom = 215.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0034003255, 0.0011342621, 0.043252215, 1)
@@ -71,7 +71,6 @@ offset_bottom = 160.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_ekxnf")
-theme_override_constants/separation = 12
 
 [node name="Title" type="TextureRect" parent="CanvasLayer/Window/VDiv" unique_id=1870708946]
 custom_minimum_size = Vector2(237, 201)
@@ -115,6 +114,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_ekxnf")
 text = "UI_QUIT"
+
+[node name="Version" type="Label" parent="CanvasLayer/Window/VDiv" unique_id=1139629247]
+layout_mode = 2
+text = "VERSION"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="CanvasLayer/Window/VDiv/Grid/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Window/VDiv/Grid/OptionsButton" to="." method="_on_options_button_pressed"]
