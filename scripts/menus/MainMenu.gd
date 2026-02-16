@@ -13,6 +13,9 @@ var _options_menu_instance: Control
 func _ready() -> void:
 	super._ready()
 	$CanvasLayer/Window/VDiv/Version.text = "v" + ProjectSettings.get_setting("application/config/version")
+	
+	if OS.has_feature("web"):
+		$CanvasLayer/Window/VDiv/Grid/QuitButton.disabled = true
 
 ## Signals that the play button was pressed.
 func _on_play_button_pressed() -> void:
