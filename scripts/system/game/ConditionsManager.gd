@@ -6,8 +6,10 @@ var game: GameManager
 var required_glass_types: Array[String] = []
 var required_glass_counts: Array[int] = []
 
+
 func init(p_game: GameManager) -> void:
 	game = p_game
+
 
 func load_conditions_manager() -> void:
 	if game.board == null:
@@ -17,9 +19,16 @@ func load_conditions_manager() -> void:
 	game.board.z_index = 100
 	game.glass_manager.load_glass()
 
+
 func update_board() -> void:
-	if game.board == null: return
-	game.board.update_board(required_glass_types.size(), game.glass_manager.get_glass_sprites(required_glass_types), required_glass_counts)
+	if game.board == null:
+		return
+	game.board.update_board(
+		required_glass_types.size(),
+		game.glass_manager.get_glass_sprites(required_glass_types),
+		required_glass_counts
+	)
+
 
 func generate_conditions() -> void:
 	required_glass_types.clear()
@@ -47,11 +56,14 @@ func generate_conditions() -> void:
 		print("             - %s : %d" % [required_glass_types[i], required_glass_counts[i]])
 
 	update_board()
-	if game.board != null: game.board.visible = true
+	if game.board != null:
+		game.board.visible = true
+
 
 func try_enter_glass(type: String) -> bool:
 	var index = required_glass_types.find(type)
-	if index == -1: return false
+	if index == -1:
+		return false
 	if required_glass_counts[index] > 0:
 		required_glass_counts[index] -= 1
 		SfxManager.play_correct_glass_sound()
@@ -59,7 +71,9 @@ func try_enter_glass(type: String) -> bool:
 		return true
 	return false
 
+
 func is_conditions_done() -> bool:
 	for count in required_glass_counts:
-		if count > 0: return false
+		if count > 0:
+			return false
 	return true

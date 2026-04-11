@@ -46,16 +46,19 @@ var has_seen_onboarding: bool = false:
 	get:
 		return has_seen_onboarding
 
+
 func _ready() -> void:
 	load_settings()
 	apply_master_volume()
 	apply_music_volume()
 	apply_sfx_volume()
 
+
 ## Applies the current master volume setting to the AudioServer.
 func apply_master_volume() -> void:
 	var master_bus_index = AudioServer.get_bus_index("Master")
 	AudioServer.set_bus_volume_db(master_bus_index, linear_to_db(master_volume))
+
 
 ## Applies the current music volume setting to the AudioServer.
 func apply_music_volume() -> void:
@@ -63,11 +66,13 @@ func apply_music_volume() -> void:
 	if music_bus_index != -1:
 		AudioServer.set_bus_volume_db(music_bus_index, linear_to_db(music_volume))
 
+
 ## Applies the current SFX volume setting to the AudioServer.
 func apply_sfx_volume() -> void:
 	var sfx_bus_index = AudioServer.get_bus_index("SFX")
 	if sfx_bus_index != -1:
 		AudioServer.set_bus_volume_db(sfx_bus_index, linear_to_db(sfx_volume))
+
 
 ## Persists current settings to a configuration file.
 func save_settings() -> void:
@@ -79,6 +84,7 @@ func save_settings() -> void:
 	config.set_value("effects", "global_effects_enabled", global_effects_enabled)
 	config.set_value("gameplay", "has_seen_onboarding", has_seen_onboarding)
 	config.save("user://settings.cfg")
+
 
 ## Loads settings from the configuration file if it exists.
 func load_settings() -> void:

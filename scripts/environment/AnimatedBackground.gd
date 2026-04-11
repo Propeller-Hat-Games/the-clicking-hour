@@ -10,6 +10,7 @@ var _back: Array[Sprite2D] = []
 var _front: Array[Sprite2D] = []
 var _sprite: AnimatedSprite2D
 
+
 func _ready() -> void:
 	# AnimatedSprite2D
 	_sprite = get_node_or_null("AnimatedSprite2D")
@@ -20,9 +21,11 @@ func _ready() -> void:
 	_back = _safe_get_sprites(["Sprite2D_Back", "Sprite2D_Back2"])
 	_front = _safe_get_sprites(["Sprite2D_Front", "Sprite2D_Front2"])
 
+
 func _process(delta: float) -> void:
 	_scroll_layer(_back, speed_back, delta)
 	_scroll_layer(_front, speed_front, delta)
+
 
 ## Scrolls a set of sprites at a specific speed, wrapping them around the screen.
 func _scroll_layer(layer: Array[Sprite2D], speed: float, delta: float) -> void:
@@ -39,6 +42,7 @@ func _scroll_layer(layer: Array[Sprite2D], speed: float, delta: float) -> void:
 
 		spr.position = pos
 
+
 ## Updates the background animation based on day/night cycle.
 func update_animated_sprite(is_night_mode: bool) -> void:
 	if _sprite == null:
@@ -47,6 +51,7 @@ func update_animated_sprite(is_night_mode: bool) -> void:
 	var target_anim = "night" if is_night_mode else "default"
 	if _sprite.animation != target_anim:
 		_sprite.play(target_anim)
+
 
 ## Utility method to safely get multiple Sprite2D nodes by name.
 func _safe_get_sprites(node_names: Array) -> Array[Sprite2D]:

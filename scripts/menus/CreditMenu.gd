@@ -4,9 +4,10 @@ extends GeneralMenu
 
 signal close_requested
 
+
 func _ready() -> void:
 	super._ready()
-	
+
 	# Update credits list with translated roles
 	var credits_label = $CanvasLayer/Window/VDiv/CreditsList
 	if credits_label:
@@ -18,10 +19,11 @@ func _ready() -> void:
 		credits_text += "Kamil Charbenaga - " + tr("ROLE_CODE") + "\n"
 		credits_text += "Clément Thery - " + tr("ROLE_CODE")
 		credits_label.text = credits_text
-	
+
 	var close_button = $CanvasLayer/Window/VDiv/CloseButton
 	if close_button:
 		close_button.text = tr("OP_RETURN")
+
 
 ## Signals that the close button was pressed.
 func _on_close_button_pressed() -> void:

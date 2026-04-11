@@ -1,17 +1,28 @@
-extends Control
 class_name GeneralMenu
+extends Control
 
 ## Base class for menus, providing common functionality like floating window animation.
 
 @export var background_border: TextureRect
 @export var rotation_speed: float = 3.0
 
+
 func _ready() -> void:
 	var window = get_node_or_null("CanvasLayer/Window")
 	if window != null:
 		var tween = create_tween().set_loops()
-		tween.tween_property(window, "position:y", window.position.y - 20.0, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-		tween.tween_property(window, "position:y", window.position.y, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		(
+			tween
+			. tween_property(window, "position:y", window.position.y - 20.0, 2.0)
+			. set_trans(Tween.TRANS_SINE)
+			. set_ease(Tween.EASE_IN_OUT)
+		)
+		(
+			tween
+			. tween_property(window, "position:y", window.position.y, 2.0)
+			. set_trans(Tween.TRANS_SINE)
+			. set_ease(Tween.EASE_IN_OUT)
+		)
 
 		var background = background_border
 		if background == null:
@@ -24,7 +35,7 @@ func _ready() -> void:
 			var clip_container = Control.new()
 			clip_container.name = "RotationClipContainer"
 			clip_container.clip_contents = true
-			
+
 			# 2. Match the container's layout to the original background's layout
 			clip_container.size = background.size
 			clip_container.position = background.position
@@ -62,7 +73,10 @@ func _ready() -> void:
 			var target_rotation = TAU * sign(rotation_speed)
 
 			var rotation_tween = background.create_tween().set_loops()
-			rotation_tween.tween_method(func(rot): background.rotation = rot, 0.0, target_rotation, duration)
+			rotation_tween.tween_method(
+				func(rot): background.rotation = rot, 0.0, target_rotation, duration
+			)
+
 
 ## Closes the menu by freeing the node.
 func close() -> void:

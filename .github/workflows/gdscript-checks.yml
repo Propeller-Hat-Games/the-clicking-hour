@@ -1,0 +1,22 @@
+name: GDScript Checks
+
+on:
+  push:
+    branches: [main, develop, "feature/**"]
+  pull_request:
+    branches: [main, develop, "feature/**"]
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GDScript Toolkit
+        uses: Scony/godot-gdscript-toolkit@master
+
+      - name: Check Formatting
+        run: gdformat --check .
+
+      - name: Lint GDScript
+        run: gdlint .
