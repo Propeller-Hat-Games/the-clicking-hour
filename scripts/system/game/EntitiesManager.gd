@@ -5,39 +5,53 @@ extends Node
 var game: GameManager
 var entity_scenes: Array[PackedScene] = []
 
+
 func init(p_game: GameManager) -> void:
 	game = p_game
 
+
 func load_entities() -> void:
-	if game.door: game.door.entity_entered_door.connect(_on_entity_entered_door)
+	if game.door:
+		game.door.entity_entered_door.connect(_on_entity_entered_door)
 	_load_entity_scene("res://scenes/environment/entity.tscn")
 	_load_entity_scene("res://scenes/environment/hiding_entity.tscn")
 	_load_entity_scene("res://scenes/environment/multi_click_entity.tscn")
 	_load_entity_scene("res://scenes/environment/teleport_entity.tscn")
 
+
 func _load_entity_scene(path: String) -> void:
 	entity_scenes.append(load(path))
 
+
 func get_random_entity() -> PackedScene:
-	if game.current_wave < 5: return entity_scenes[0]
+	if game.current_wave < 5:
+		return entity_scenes[0]
 	var p = game._rng.randi_range(0, 99)
-	
-	if p <= 75: return entity_scenes[0]
-	if p <= 85: return entity_scenes[1]
-	elif p <= 95: return entity_scenes[2]
+
+	if p <= 75:
+		return entity_scenes[0]
+	if p <= 85:
+		return entity_scenes[1]
+	if p <= 95:
+		return entity_scenes[2]
 	return entity_scenes[3]
 
+
 func _on_entity_entered_door(entity: Entity) -> void:
-	if not game.is_spawning: return
+	if not game.is_spawning:
+		return
 
 	var type = entity.glass_type
-	if type == "": return
-	
+	if type == "":
+		return
+
 	entity.set_entered_door()
-	
+
 	# Delay QueueFree to let it continue its path for a bit visually
-	get_tree().create_timer(2.0).timeout.connect(func():
-		if is_instance_valid(entity): entity.queue_free()
+	get_tree().create_timer(2.0).timeout.connect(
+		func():
+			if is_instance_valid(entity):
+				entity.queue_free()
 	)
 
 	game.glass_passed += 1

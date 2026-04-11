@@ -14,6 +14,7 @@ var _amount_left: int = 0
 var _amount_middle: int = 0
 var _amount_right: int = 0
 
+
 func _ready() -> void:
 	if light != null:
 		light.add_to_group("Lights")
@@ -22,14 +23,27 @@ func _ready() -> void:
 	var slots = [left_slot, middle_slot, right_slot]
 	var labels = [left_nb, middle_nb, right_nb]
 	for slot in slots:
-		if slot != null: slot.visible = false
+		if slot != null:
+			slot.visible = false
 	for label in labels:
-		if label != null: label.visible = false
+		if label != null:
+			label.visible = false
 
 	# Setup floating animation with Tween
 	var tween = create_tween().set_loops()
-	tween.tween_property(self, "position:y", position.y - 5.0, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(self, "position:y", position.y + 5.0, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	(
+		tween
+		. tween_property(self, "position:y", position.y - 5.0, 2.0)
+		. set_trans(Tween.TRANS_SINE)
+		. set_ease(Tween.EASE_IN_OUT)
+	)
+	(
+		tween
+		. tween_property(self, "position:y", position.y + 5.0, 2.0)
+		. set_trans(Tween.TRANS_SINE)
+		. set_ease(Tween.EASE_IN_OUT)
+	)
+
 
 ## Performs a flickering flash animation on a canvas item.
 func _flash(item: CanvasItem, appearing: bool) -> void:
@@ -47,7 +61,7 @@ func _flash(item: CanvasItem, appearing: bool) -> void:
 		if not is_instance_valid(item):
 			return
 		item.modulate.a = opacity
-		
+
 		await get_tree().create_timer(0.05).timeout
 		if not is_inside_tree():
 			return
@@ -58,6 +72,7 @@ func _flash(item: CanvasItem, appearing: bool) -> void:
 		item.visible = false
 	else:
 		item.modulate.a = 1.0
+
 
 ## Updates the board slots with new glass textures and counts.
 func update_board(slot_count: int, sprites: Array[Sprite2D], counts: Array[int]) -> void:
@@ -70,7 +85,7 @@ func update_board(slot_count: int, sprites: Array[Sprite2D], counts: Array[int])
 			# Ensure slots and sprites are valid before accessing
 			if slots[i] != null and i < sprites.size() and sprites[i] != null:
 				slots[i].texture = sprites[i].texture
-				
+
 				# Flash logic based on state change
 				if current_amounts[i] == 0 and counts[i] > 0:
 					_flash(slots[i], true)
@@ -87,8 +102,10 @@ func update_board(slot_count: int, sprites: Array[Sprite2D], counts: Array[int])
 					_flash(labels[i], false)
 		else:
 			# Hide unused slots and labels
-			if slots[i] != null: slots[i].visible = false
-			if labels[i] != null: labels[i].visible = false
+			if slots[i] != null:
+				slots[i].visible = false
+			if labels[i] != null:
+				labels[i].visible = false
 
 	_amount_left = counts[0] if slot_count > 0 else 0
 	_amount_middle = counts[1] if slot_count > 1 else 0

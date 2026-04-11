@@ -36,7 +36,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 - **Engine:** [Godot 4.x](https://godotengine.org/) (Forward Plus renderer)
 - **Language:** GDScript
 - **Shaders:** Custom GLSL shaders for glitch and VHS post-processing.
-- **Architecture:** 
+- **Architecture:**
     - Event-driven UI and state management.
     - Component-based waiter system.
     - Global managers for Settings, Music, and SFX.
@@ -58,6 +58,38 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
    - Click **Import** and select the `project.godot` file in the cloned directory.
 3. Run the game:
    - Press **F5** or the Play button in the top-right corner.
+
+---
+
+## 🛠️ Development
+
+This project uses **[GDScript Toolkit](https://github.com/Scony/godot-gdscript-toolkit)** for linting and formatting, integrated with **pre-commit** hooks and **GitHub Actions**.
+
+### Prerequisites for Developers
+- **Python 3**
+- **pip**
+
+### Setting up Pre-commit Hooks
+To ensure your code matches the project's standards before you commit:
+1. Install `pre-commit`:
+   ```bash
+   pip install pre-commit
+   ```
+2. Install the hooks in the project:
+   ```bash
+   pre-commit install
+   ```
+
+### Running Checks Manually
+You can run the linter and formatter manually on all files:
+```bash
+# Run all pre-commit hooks
+pre-commit run --all-files
+
+# Or run specific tools (requires gdtoolkit installed via pip)
+gdlint .
+gdformat --check .
+```
 
 ---
 

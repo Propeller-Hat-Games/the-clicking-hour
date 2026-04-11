@@ -5,8 +5,10 @@ extends Node
 var game: GameManager
 var heart_nodes: Array[Node2D] = []
 
+
 func init(p_game: GameManager) -> void:
 	game = p_game
+
 
 func update_hearts() -> void:
 	for heart in heart_nodes:
@@ -24,6 +26,7 @@ func update_hearts() -> void:
 
 	game.vfx_manager.update_desaturation(clamp((1.0 - (game.hearts / 3.0)) * 0.5, 0.0, 0.5))
 
+
 func start_heart_animation_loop() -> void:
 	while is_inside_tree():
 		if get_tree().paused:
@@ -34,14 +37,27 @@ func start_heart_animation_loop() -> void:
 		for heart in current_hearts:
 			if is_instance_valid(heart):
 				var tween = create_tween()
-				tween.tween_property(heart, "position:y", -15.0, 0.15).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(heart, "position:y", 0.0, 0.4).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
-			
+				(
+					tween
+					. tween_property(heart, "position:y", -15.0, 0.15)
+					. set_trans(Tween.TRANS_SINE)
+					. set_ease(Tween.EASE_OUT)
+				)
+				(
+					tween
+					. tween_property(heart, "position:y", 0.0, 0.4)
+					. set_trans(Tween.TRANS_BOUNCE)
+					. set_ease(Tween.EASE_OUT)
+				)
+
 			await get_tree().create_timer(0.2).timeout
-			if not is_inside_tree(): return
+			if not is_inside_tree():
+				return
 
 		await get_tree().create_timer(3.0).timeout
-		if not is_inside_tree(): return
+		if not is_inside_tree():
+			return
+
 
 func loose_heart() -> void:
 	game.hearts -= 1

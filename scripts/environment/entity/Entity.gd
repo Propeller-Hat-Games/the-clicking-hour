@@ -1,14 +1,14 @@
-extends CharacterBody2D
 class_name Entity
+extends CharacterBody2D
+
+## Base class for all interactive entities in the game.
+## Handles movement, animation, and life cycle.
 
 enum EntityState {
 	WALKING,
 	HIDING,
 	STUNNED,
 }
-
-## Base class for all interactive entities in the game.
-## Handles movement, animation, and life cycle.
 
 @export var walk_speed: float = 10.0
 @export var spawn_delay: float = 1.0
@@ -21,7 +21,8 @@ var current_state: EntityState = EntityState.WALKING
 var walk_direction: Vector2 = Vector2.RIGHT
 var hearts: int = 1
 var is_alive: bool:
-	get: return hearts > 0
+	get:
+		return hearts > 0
 var is_disappearing: bool = false
 var anim_prefix: String = "normal"
 var heading_to_door: bool = true
@@ -32,11 +33,12 @@ var _door: Node2D
 var _trash: Node2D
 var _target_y_offset: float
 
+
 func _ready() -> void:
 	_door = get_tree().get_first_node_in_group("Door") as Node2D
 	_target_y_offset = randf_range(-20.0, 20.0)
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
-	
+
 	# Cache Trash node efficiently
 	_trash = get_tree().get_first_node_in_group("Trash") as Node2D
 	if _trash == null:
@@ -49,19 +51,23 @@ func _ready() -> void:
 		_glass_initial_pos = glass.position
 		_animate_glass_spawn()
 
+
 ## Initializes specific entity properties. Must be implemented by subclasses.
 func initialize_entity() -> void:
 	pass
 
+
 ## Called when the entity is clicked. Must be implemented by subclasses.
 func _on_clicked() -> void:
 	pass
+
 
 ## Updates the glass sprite texture and type.
 func update_glass_type(type: String, template: Sprite2D) -> void:
 	glass_type = type
 	if glass != null and template != null:
 		glass.texture = template.texture
+
 
 ## Animates the glass bobbing while the entity is walking.
 func _animate_glass_walking(delta: float) -> void:
@@ -75,6 +81,7 @@ func _animate_glass_walking(delta: float) -> void:
 	elif current_state != EntityState.HIDING:
 		glass.position = glass.position.lerp(_glass_initial_pos, delta * 10.0)
 
+
 ## Animates the glass spawning effect.
 func _animate_glass_spawn() -> void:
 	if glass == null:
@@ -86,7 +93,13 @@ func _animate_glass_spawn() -> void:
 	var duration = spawn_delay
 
 	var tween = create_tween()
-	tween.tween_property(glass, "position", _glass_initial_pos, duration).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	(
+		tween
+		. tween_property(glass, "position", _glass_initial_pos, duration)
+		. set_trans(Tween.TRANS_QUART)
+		. set_ease(Tween.EASE_OUT)
+	)
+
 
 ## Animates the glass disappearance when the entity leaves or is removed.
 func _animate_glass_disappearance() -> void:
@@ -95,19 +108,23 @@ func _animate_glass_disappearance() -> void:
 
 	var tween = create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(glass, "position", _glass_initial_pos + Vector2(0, 50), 0.5).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(glass, "position", _glass_initial_pos + Vector2(0, 50), 0.5).set_trans(
+		Tween.TRANS_LINEAR
+	)
 	tween.tween_property(glass, "modulate:a", 0.0, 0.5).set_trans(Tween.TRANS_LINEAR)
+
 
 ## Returns true if the entity can currently be clicked.
 func can_be_clicked() -> bool:
 	if hearts <= 0 or is_disappearing:
 		return false
-	
+
 	# Lock click if during spawn animation or hidden
 	if _spawn_timer < spawn_delay or current_state == EntityState.HIDING:
 		return false
-		
+
 	return true
+
 
 ## Handles a click attempt on this entity.
 func try_click(game: Node) -> void:
@@ -120,6 +137,7 @@ func try_click(game: Node) -> void:
 				game.entities_killed += 1
 		else:
 			_on_clicked()
+
 
 func _physics_process(delta: float) -> void:
 	if hearts <= 0:
@@ -143,7 +161,7 @@ func _physics_process(delta: float) -> void:
 
 				# Improved pathfinding to avoid "Wall Left" and "Wall Right" flanking the door
 				var dist_to_door_x = door_pos.x - global_position.x
-				
+
 				if dist_to_door_x > 20:
 					target_pos.x = door_pos.x - 20
 				else:
@@ -151,12 +169,13 @@ func _physics_process(delta: float) -> void:
 					target_pos.x = door_pos.x + 1000
 
 				walk_direction = (target_pos - global_position).normalized()
-			
+
 			velocity = walk_direction * walk_speed
 			move_and_slide()
-		
+
 		EntityState.STUNNED:
 			velocity = Vector2.ZERO
+
 
 ## Disables interactions and collisions when the entity enters the door.
 func set_entered_door() -> void:
@@ -171,9 +190,11 @@ func set_entered_door() -> void:
 		click_area.set_deferred("monitorable", false)
 		click_area.input_pickable = false
 
+
 ## Custom entity processing logic. To be overridden by subclasses.
 func process_entity(_delta: float) -> void:
 	pass
+
 
 ## Updates the entity's animation based on state and timers.
 func _update_animation() -> void:
@@ -193,8 +214,11 @@ func _update_animation() -> void:
 	elif current_state == EntityState.STUNNED:
 		play_synced_animation(anim_prefix + "_hurt")
 
+
 ## Plays an animation with speed synchronization.
-func play_synced_animation(anim_name: String, backwards: bool = false, duration: float = -1.0) -> void:
+func play_synced_animation(
+	anim_name: String, backwards: bool = false, duration: float = -1.0
+) -> void:
 	if sprite == null or not sprite.sprite_frames.has_animation(anim_name):
 		return
 	if is_disappearing and anim_name != "disapear":
@@ -202,7 +226,10 @@ func play_synced_animation(anim_name: String, backwards: bool = false, duration:
 
 	var speed = 1.0
 	if duration > 0:
-		var anim_duration = sprite.sprite_frames.get_frame_count(anim_name) / sprite.sprite_frames.get_animation_speed(anim_name)
+		var anim_duration = (
+			sprite.sprite_frames.get_frame_count(anim_name)
+			/ sprite.sprite_frames.get_animation_speed(anim_name)
+		)
 		speed = anim_duration / duration
 
 	var final_speed = -speed if backwards else speed
@@ -214,9 +241,10 @@ func play_synced_animation(anim_name: String, backwards: bool = false, duration:
 		# If speed changed, update it. play() handles this without resetting frame if anim is same.
 		sprite.play(anim_name, final_speed, backwards)
 
+
 ## Handles the entity's death, playing sound and animating it towards the trash.
 func die() -> void:
-	current_state = EntityState.WALKING # Just to ensure it's not stunned anymore for movement
+	current_state = EntityState.WALKING  # Just to ensure it's not stunned anymore for movement
 
 	SfxManager.play_death_sound()
 
@@ -234,11 +262,17 @@ func die() -> void:
 
 	var tween = create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(self, "global_position", target_pos, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	(
+		tween
+		. tween_property(self, "global_position", target_pos, 0.5)
+		. set_trans(Tween.TRANS_QUAD)
+		. set_ease(Tween.EASE_IN)
+	)
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.5)
 
 	tween.set_parallel(false)
 	tween.chain().tween_callback(queue_free)
+
 
 ## Asynchronously handles the entity's disappearance animation.
 func disappear() -> void:
@@ -258,23 +292,27 @@ func disappear() -> void:
 		await sprite.animation_finished
 		if not is_inside_tree():
 			return
-	
+
 	await get_tree().create_timer(0.1).timeout
 	if not is_inside_tree():
 		return
 	queue_free()
 
+
 ## Returns the type of glass carried by this entity.
 func get_glass_type() -> String:
 	return glass_type
+
 
 ## Sets the walking direction for this entity.
 func set_walk_direction(direction: Vector2) -> void:
 	walk_direction = direction.normalized()
 
+
 ## Sets the movement speed of the entity.
 func set_speed(speed: float) -> void:
 	walk_speed = speed
+
 
 ## Gets the current movement speed of the entity.
 func get_speed() -> float:

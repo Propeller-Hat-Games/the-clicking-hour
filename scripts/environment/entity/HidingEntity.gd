@@ -6,9 +6,11 @@ extends Entity
 const HIDE_DURATION: float = 3.0
 const DIG_ANIM_DURATION: float = 0.3
 
+
 func initialize_entity() -> void:
 	anim_prefix = "dig"
 	hearts = 3
+
 
 func _on_clicked() -> void:
 	if current_state == EntityState.HIDING or is_disappearing:
@@ -23,7 +25,14 @@ func _on_clicked() -> void:
 	# Animate glass down
 	if glass != null:
 		var tween = create_tween()
-		tween.tween_property(glass, "position", _glass_initial_pos + Vector2(0, 75), DIG_ANIM_DURATION).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)
+		(
+			tween
+			. tween_property(
+				glass, "position", _glass_initial_pos + Vector2(0, 75), DIG_ANIM_DURATION
+			)
+			. set_trans(Tween.TRANS_QUART)
+			. set_ease(Tween.EASE_IN)
+		)
 
 	await get_tree().create_timer(DIG_ANIM_DURATION).timeout
 	if not is_inside_tree() or is_disappearing:
@@ -41,13 +50,19 @@ func _on_clicked() -> void:
 	# Animate glass up
 	if glass != null:
 		var tween = create_tween()
-		tween.tween_property(glass, "position", _glass_initial_pos, DIG_ANIM_DURATION).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+		(
+			tween
+			. tween_property(glass, "position", _glass_initial_pos, DIG_ANIM_DURATION)
+			. set_trans(Tween.TRANS_QUART)
+			. set_ease(Tween.EASE_OUT)
+		)
 
 	await get_tree().create_timer(DIG_ANIM_DURATION).timeout
 	if not is_inside_tree() or is_disappearing:
 		return
 
 	current_state = EntityState.WALKING
+
 
 func _update_animation() -> void:
 	# If hidden, prevent base UpdateAnimation from interfering
