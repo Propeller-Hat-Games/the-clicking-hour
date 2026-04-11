@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install GDScript Toolkit
-        uses: Scony/godot-gdscript-toolkit@v4
+        uses: Scony/godot-gdscript-toolkit@master
 
       - name: Check Formatting
         run: gdformat --check .
