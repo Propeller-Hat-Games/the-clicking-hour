@@ -125,6 +125,7 @@ func _on_settings_button_pressed() -> void:
 	add_child(pause_menu)
 	get_tree().paused = true
 	MusicManager.set_pause_effect(true)
+	discord_rpc_manager.set_paused(true)
 
 
 func _unhandled_input(event: InputEvent) -> void:
