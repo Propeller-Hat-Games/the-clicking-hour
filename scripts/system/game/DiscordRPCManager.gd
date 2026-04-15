@@ -10,9 +10,14 @@ var _is_paused: bool = false
 
 func init(p_game: GameManager) -> void:
 	_game = p_game
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	DiscordRPC.app_id = 1493718940147257365
 	DiscordRPC.large_image = "icon"
-	set_main_menu()
+	get_tree().create_timer(1.0).timeout.connect(set_main_menu)
+
+
+func _process(_delta: float) -> void:
+	DiscordRPC.run_callbacks()
 
 
 func set_main_menu() -> void:

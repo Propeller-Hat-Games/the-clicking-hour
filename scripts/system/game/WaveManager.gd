@@ -17,6 +17,8 @@ func start_game() -> void:
 	game.entities_killed = 0
 	game.glass_passed = 0
 
+	game.discord_rpc_manager.set_playing(0, false)
+
 	MusicManager.fade_out()
 
 	if not SettingsManager.has_seen_onboarding:
