@@ -14,25 +14,23 @@ func init(p_game: GameManager) -> void:
 
 
 func set_main_menu() -> void:
-	DiscordRPC.details = "Main Menu"
-	DiscordRPC.state = "Getting ready to play"
+	DiscordRPC.details = "In the main menu"
+	DiscordRPC.state = ""
 	DiscordRPC.refresh()
 
 
 func set_settings_menu() -> void:
-	DiscordRPC.details = "Settings"
-	DiscordRPC.state = "Tweaking the experience"
+	DiscordRPC.details = "In the settings"
 	DiscordRPC.refresh()
 
 
 func set_credits_menu() -> void:
-	DiscordRPC.details = "Credits"
-	DiscordRPC.state = "Viewing the creators"
+	DiscordRPC.details = "In the credits"
 	DiscordRPC.refresh()
 
 
 func set_playing(wave: int, is_night_mode: bool) -> void:
-	DiscordRPC.details = "In the Club"
+	DiscordRPC.details = "In game"
 	var mode_text = " (Night Mode)" if is_night_mode else ""
 	DiscordRPC.state = "Wave %d%s" % [wave, mode_text]
 	DiscordRPC.refresh()
@@ -42,7 +40,7 @@ func set_paused(is_paused: bool) -> void:
 	if is_paused:
 		DiscordRPC.details = "Paused"
 	else:
-		DiscordRPC.details = "At the enter of the Club"
+		set_playing(_game.current_wave, _game.is_night_mode)
 	DiscordRPC.refresh()
 
 
