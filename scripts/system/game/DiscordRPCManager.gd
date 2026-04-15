@@ -1,5 +1,6 @@
 extends Node
 
+
 func init(_game: GameManager) -> void:
 	DiscordRPC.app_id = 1493718940147257365
 	DiscordRPC.details = "In the main menu"
