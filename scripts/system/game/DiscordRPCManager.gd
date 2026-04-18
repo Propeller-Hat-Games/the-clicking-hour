@@ -23,7 +23,7 @@ func _process(_delta: float) -> void:
 func set_main_menu() -> void:
 	_game_start_timestamp = 0
 	_is_paused = false
-	DiscordRPC.details = "In the main menu"
+	DiscordRPC.details = tr("RPC_MAIN_MENU")
 	DiscordRPC.state = ""
 	DiscordRPC.start_timestamp = 0
 	DiscordRPC.end_timestamp = 0
@@ -31,19 +31,19 @@ func set_main_menu() -> void:
 
 
 func set_settings_menu() -> void:
-	DiscordRPC.details = "In the settings"
+	DiscordRPC.details = tr("RPC_SETTINGS")
 	DiscordRPC.refresh()
 
 
 func set_credits_menu() -> void:
-	DiscordRPC.details = "In the credits"
+	DiscordRPC.details = tr("RPC_CREDITS")
 	DiscordRPC.refresh()
 
 
 func set_playing(wave: int, is_night_mode: bool) -> void:
-	DiscordRPC.details = "In game"
-	var mode_text = " (Night Mode)" if is_night_mode else ""
-	DiscordRPC.state = "Wave %d%s" % [wave, mode_text]
+	DiscordRPC.details = tr("RPC_GAME")
+	var mode_text = " (%s)" % tr("RPC_NIGHT_STATUS") if is_night_mode else ""
+	DiscordRPC.state = tr("RPC_WAVE_STATUS") % wave + mode_text
 
 	if _game_start_timestamp == 0:
 		_game_start_timestamp = int(Time.get_unix_time_from_system())
@@ -58,7 +58,7 @@ func set_paused(is_paused: bool) -> void:
 		if not _is_paused:
 			_pause_start_timestamp = int(Time.get_unix_time_from_system())
 			_is_paused = true
-		DiscordRPC.details = "Paused"
+		DiscordRPC.details = tr("RPC_PAUSED")
 		DiscordRPC.start_timestamp = 0
 		DiscordRPC.refresh()
 	else:
@@ -70,8 +70,8 @@ func set_paused(is_paused: bool) -> void:
 
 
 func set_game_over(wave: int) -> void:
-	DiscordRPC.details = "Game Over"
-	DiscordRPC.state = "Survived %d waves" % wave
+	DiscordRPC.details = tr("RPC_GAME_OVER_TITLE")
+	DiscordRPC.state = tr("RPC_GAME_OVER_DESCRIPTION") % wave
 	DiscordRPC.start_timestamp = _game_start_timestamp
 	DiscordRPC.end_timestamp = int(Time.get_unix_time_from_system())
 	_game_start_timestamp = 0
