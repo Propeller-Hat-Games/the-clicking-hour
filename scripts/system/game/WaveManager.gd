@@ -17,6 +17,8 @@ func start_game() -> void:
 	game.entities_killed = 0
 	game.glass_passed = 0
 
+	game.discord_rpc_manager.set_playing(0, false)
+
 	MusicManager.fade_out()
 
 	if not SettingsManager.has_seen_onboarding:
@@ -52,6 +54,7 @@ func next_wave() -> void:
 		print("[WAVE] This wave is night mode!")
 
 	MusicManager.play_game_music(game.is_night_mode)
+	game.discord_rpc_manager.set_playing(game.current_wave, game.is_night_mode)
 
 	await get_tree().create_timer(1.0, false).timeout
 	if not is_inside_tree():
@@ -125,4 +128,5 @@ func end_game() -> void:
 	game_over_instance.set_waves_survived(
 		game.current_wave - 1, game.entities_killed, game.glass_passed
 	)
+	game.discord_rpc_manager.set_game_over(game.current_wave - 1)
 	await MusicManager.play_menu_music()

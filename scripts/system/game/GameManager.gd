@@ -39,6 +39,7 @@ var wave_manager: Node
 var conditions_manager: Node
 var hearts_manager: Node
 var vfx_manager: Node
+var discord_rpc_manager: Node
 
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
@@ -77,6 +78,7 @@ func _setup_managers() -> void:
 	conditions_manager = _add_manager(preload("res://scripts/system/game/ConditionsManager.gd"))
 	hearts_manager = _add_manager(preload("res://scripts/system/game/HeartsManager.gd"))
 	vfx_manager = _add_manager(preload("res://scripts/system/game/VFXManager.gd"))
+	discord_rpc_manager = _add_manager(preload("res://scripts/system/game/DiscordRPCManager.gd"))
 
 	conditions_manager.load_conditions_manager()
 	vfx_manager.load_vfx()
@@ -123,6 +125,7 @@ func _on_settings_button_pressed() -> void:
 	add_child(pause_menu)
 	get_tree().paused = true
 	MusicManager.set_pause_effect(true)
+	discord_rpc_manager.set_paused(true)
 
 
 func _unhandled_input(event: InputEvent) -> void:

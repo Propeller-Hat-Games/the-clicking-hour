@@ -32,6 +32,8 @@ func _on_credits_button_pressed() -> void:
 		var credit_menu = credit_menu_scene.instantiate()
 		_credit_menu_instance = credit_menu
 		add_child(_credit_menu_instance)
+		if get_parent() is GameManager:
+			get_parent().discord_rpc_manager.set_credits_menu()
 		credit_menu.close_requested.connect(_on_credit_menu_closed)
 
 
@@ -40,6 +42,8 @@ func _on_credit_menu_closed() -> void:
 	if _credit_menu_instance != null:
 		_credit_menu_instance.queue_free()
 		_credit_menu_instance = null
+		if get_parent() is GameManager:
+			get_parent().discord_rpc_manager.set_main_menu()
 
 
 ## Opens the options menu.
@@ -54,6 +58,8 @@ func _on_options_button_pressed() -> void:
 		var options_menu = scene_to_instantiate.instantiate()
 		_options_menu_instance = options_menu
 		add_child(_options_menu_instance)
+		if get_parent() is GameManager:
+			get_parent().discord_rpc_manager.set_settings_menu()
 		options_menu.close_requested.connect(_on_options_menu_closed)
 
 
@@ -62,6 +68,8 @@ func _on_options_menu_closed() -> void:
 	if _options_menu_instance != null:
 		_options_menu_instance.queue_free()
 		_options_menu_instance = null
+		if get_parent() is GameManager:
+			get_parent().discord_rpc_manager.set_main_menu()
 
 
 ## Quits the application.

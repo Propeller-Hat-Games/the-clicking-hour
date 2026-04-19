@@ -22,15 +22,24 @@ boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="uid://yinrpv5hh3ot"
 
+[audio]
+
+buses/default_bus_layout="uid://8fqlg3xulgn6"
+
 [autoload]
 
 SettingsManager="*res://scripts/system/SettingsManager.gd"
 MusicManager="*res://scripts/system/MusicManager.gd"
 SfxManager="*res://scripts/system/SfxManager.gd"
+DiscordRPCLoader="*uid://ct0yxwshdrke"
 
 [display]
 
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg")
 
 [internationalization]
 

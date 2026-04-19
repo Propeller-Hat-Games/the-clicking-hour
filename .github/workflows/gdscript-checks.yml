@@ -16,7 +16,7 @@ jobs:
         uses: Scony/godot-gdscript-toolkit@master
 
       - name: Check Formatting
-        run: gdformat --check .
+        run: gdformat --check scripts
 
       - name: Lint GDScript
-        run: gdlint .
+        run: gdlint scripts
