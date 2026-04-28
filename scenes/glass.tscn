@@ -8,8 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://crgfrkuykqkay" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
 
 [sub_resource type="Curve" id="Curve_2h05u"]
-_data = [Vector2(0.0021834038, 1), 0.0, -1.0021882, 0, 1, Vector2(1, 0), -1.0021882, 0.0, 1, 0]
-point_count = 2
+_data = [Vector2(0, 1), 0.0, -2.9762263, 0, 1, Vector2(0.25327516, 0.2461958), -1.1533219, -1.1533219, 0, 0, Vector2(1, 0), -0.05318794, 0.0, 0, 0]
+point_count = 3
 
 [node name="Glass" type="Node2D" unique_id=612983208]
 script = ExtResource("1_gtrt1")
