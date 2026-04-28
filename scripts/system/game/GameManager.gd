@@ -18,6 +18,7 @@ extends Node2D
 @export var heart_scene: PackedScene
 @export var background: Node  # AnimatedBackground script
 @export var black_canvas: CanvasModulate
+@export var debug_panel: PanelContainer
 
 @export_group("Assets")
 @export var cursor_normal: Texture2D
@@ -83,6 +84,7 @@ func _setup_managers() -> void:
 	conditions_manager.load_conditions_manager()
 	vfx_manager.load_vfx()
 	entities_manager.load_entities()
+	debug_panel.init(self)
 
 
 func _add_manager(script: GDScript) -> Node:
