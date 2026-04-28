@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://cjm64w2s2xab0" path="res://assets/sprites/environment/entity/glass_blue.png" id="13_6bqtk"]
 [ext_resource type="Texture2D" uid="uid://crgfrkuykqkay" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
 
+[sub_resource type="Curve" id="Curve_2h05u"]
+_data = [Vector2(0.0021834038, 1), 0.0, -1.0021882, 0, 1, Vector2(1, 0), -1.0021882, 0.0, 1, 0]
+point_count = 2
+
 [node name="Glass" type="Node2D" unique_id=612983208]
 script = ExtResource("1_gtrt1")
 sprites = {
@@ -15,6 +19,7 @@ sprites = {
 "red": NodePath("Red"),
 "yellow": NodePath("Yellow")
 }
+probabilityCurve = SubResource("Curve_2h05u")
 
 [node name="Yellow" type="Sprite2D" parent="." unique_id=528045575]
 scale = Vector2(3, 3)
