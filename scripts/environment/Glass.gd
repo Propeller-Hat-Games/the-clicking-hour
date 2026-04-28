@@ -4,7 +4,6 @@ extends Node2D
 
 @export var sprites: Dictionary = {}
 
-
 ## Returns the dictionary of glass sprites.
 func get_sprites() -> Dictionary:
 	return sprites

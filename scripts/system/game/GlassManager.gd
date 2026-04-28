@@ -4,14 +4,14 @@ extends Node
 
 var game: GameManager
 var every_sprites: Dictionary = {}
-
+var glass_node
 
 func init(p_game: GameManager) -> void:
 	game = p_game
 
 
 func load_glass() -> void:
-	var glass_node = game.get_node_or_null("Glass")
+	glass_node = game.get_node_or_null("Glass")
 	if glass_node == null:
 		printerr("[GLASS] Glass node not found in GameManager!")
 		return
@@ -37,11 +37,19 @@ func load_glass() -> void:
 
 
 func random_glass_type() -> String:
-	var keys = every_sprites.keys()
-	if keys.size() == 0:
-		return ""
-	return keys[game._rng.randi() % keys.size()]
+	#TODO ajouter la courbe à Glass.gd
+	return glass_node.get_random_glass()
 
+func n_random_glass_types(n:int) -> Array[String]:
+	var typesArray : Array[String] = []
+	
+	var sprites = every_sprites.keys()
+	sprites.shuffle()
+	
+	# Ajoute au tableau renvoyé, les sprites contenus dans une sous partie du tableau de sprites trié aléatoirement.
+	typesArray.append_array(sprites.slice(0,min(every_sprites.size(),n)))
+	
+	return typesArray
 
 func get_glass_sprite(type: String) -> Sprite2D:
 	return every_sprites.get(type)
