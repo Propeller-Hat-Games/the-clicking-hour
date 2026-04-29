@@ -6,6 +6,7 @@ var game: GameManager
 var every_sprites: Dictionary = {}
 var glass_node
 
+
 func init(p_game: GameManager) -> void:
 	game = p_game
 
@@ -40,16 +41,19 @@ func random_glass_type() -> String:
 	#TODO ajouter la courbe à Glass.gd
 	return glass_node.get_random_glass()
 
-func n_random_glass_types(n:int) -> Array[String]:
-	var typesArray : Array[String] = []
-	
+
+func n_random_glass_types(n: int) -> Array[String]:
+	var types_array: Array[String] = []
+
 	var sprites = every_sprites.keys()
 	sprites.shuffle()
-	
-	# Ajoute au tableau renvoyé, les sprites contenus dans une sous partie du tableau de sprites trié aléatoirement.
-	typesArray.append_array(sprites.slice(0,min(every_sprites.size(),n)))
-	
-	return typesArray
+
+	# Ajoute au tableau renvoyé, les sprites contenus dans une sous partie du tableau
+	# de sprites trié aléatoirement.
+	types_array.append_array(sprites.slice(0, min(every_sprites.size(), n)))
+
+	return types_array
+
 
 func get_glass_sprite(type: String) -> Sprite2D:
 	return every_sprites.get(type)

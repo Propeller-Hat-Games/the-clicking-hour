@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://crgfrkuykqkay" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
 
 [sub_resource type="Curve" id="Curve_2h05u"]
-_data = [Vector2(0, 1), 0.0, -2.9762263, 0, 1, Vector2(0.25327516, 0.2461958), -1.1533219, -1.1533219, 0, 0, Vector2(1, 0), -0.05318794, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, -3.9180758, 0, 0, Vector2(0.25183377, 0.24945539), -1.2385277, -1.2385277, 0, 0, Vector2(1, 0.0039942265), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [node name="Glass" type="Node2D" unique_id=612983208]
@@ -19,7 +19,8 @@ sprites = {
 "red": NodePath("Red"),
 "yellow": NodePath("Yellow")
 }
-probabilityCurve = SubResource("Curve_2h05u")
+probability_curve = SubResource("Curve_2h05u")
+max_number_of_apparitions = 10
 
 [node name="Yellow" type="Sprite2D" parent="." unique_id=528045575]
 scale = Vector2(3, 3)
