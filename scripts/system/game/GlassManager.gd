@@ -37,9 +37,8 @@ func load_glass() -> void:
 			print("        - %s resolved to %s" % [key, node.name])
 
 
-func random_glass_type() -> String:
-	#TODO ajouter la courbe à Glass.gd
-	return glass_node.get_random_glass()
+func random_glass_type(current_wave: int) -> String:
+	return glass_node.get_random_glass(current_wave)
 
 
 func n_random_glass_types(n: int) -> Array[String]:
