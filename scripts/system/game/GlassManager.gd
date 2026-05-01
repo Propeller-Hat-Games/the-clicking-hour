@@ -4,6 +4,7 @@ extends Node
 
 var game: GameManager
 var every_sprites: Dictionary = {}
+var glass_node
 
 
 func init(p_game: GameManager) -> void:
@@ -11,7 +12,7 @@ func init(p_game: GameManager) -> void:
 
 
 func load_glass() -> void:
-	var glass_node = game.get_node_or_null("Glass")
+	glass_node = game.get_node_or_null("Glass")
 	if glass_node == null:
 		printerr("[GLASS] Glass node not found in GameManager!")
 		return
@@ -36,11 +37,20 @@ func load_glass() -> void:
 			print("        - %s resolved to %s" % [key, node.name])
 
 
-func random_glass_type() -> String:
-	var keys = every_sprites.keys()
-	if keys.size() == 0:
-		return ""
-	return keys[game._rng.randi() % keys.size()]
+func random_glass_type(current_wave: int) -> String:
+	return glass_node.get_random_glass(current_wave)
+
+
+func n_random_glass_types(n: int) -> Array[String]:
+	var types_array: Array[String] = []
+
+	var sprites = every_sprites.keys()
+	sprites.shuffle()
+
+	# We add the sprites contained in a subpart of the sprites randomly sorted array
+	types_array.append_array(sprites.slice(0, min(every_sprites.size(), n)))
+
+	return types_array
 
 
 func get_glass_sprite(type: String) -> Sprite2D:

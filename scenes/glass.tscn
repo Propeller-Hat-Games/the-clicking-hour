@@ -1,13 +1,18 @@
 [gd_scene format=3 uid="uid://cax1bv236pwwl"]
 
-[ext_resource type="Script" path="res://scripts/environment/Glass.gd" id="1_gtrt1"]
-[ext_resource type="Texture2D" uid="uid://b85gpkh8x6s3v" path="res://assets/sprites/environment/entity/glass_yellow.png" id="2_na6tc"]
-[ext_resource type="Texture2D" uid="uid://dnse2xctc42o4" path="res://assets/sprites/environment/entity/glass_red.png" id="3_2h05u"]
-[ext_resource type="Texture2D" uid="uid://b6v0b2kkf3i5s" path="res://assets/sprites/environment/entity/glass_green.png" id="8_0ruws"]
-[ext_resource type="Texture2D" uid="uid://dxq1ao0lglay6" path="res://assets/sprites/environment/entity/glass_blue.png" id="13_6bqtk"]
+[ext_resource type="Script" uid="uid://c3i0tjh2uw8dx" path="res://scripts/environment/Glass.gd" id="1_gtrt1"]
+[ext_resource type="Texture2D" uid="uid://bgnhwtcs302ik" path="res://assets/sprites/environment/entity/glass_yellow.png" id="2_na6tc"]
+[ext_resource type="Texture2D" uid="uid://csntdew6jy1a2" path="res://assets/sprites/environment/entity/glass_red.png" id="3_2h05u"]
+[ext_resource type="Texture2D" uid="uid://85yt017iidob" path="res://assets/sprites/environment/entity/glass_green.png" id="8_0ruws"]
+[ext_resource type="Texture2D" uid="uid://cjm64w2s2xab0" path="res://assets/sprites/environment/entity/glass_blue.png" id="13_6bqtk"]
 [ext_resource type="Texture2D" uid="uid://crgfrkuykqkay" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
 
-[node name="Glass" type="Node2D" unique_id=612983208 node_paths=PackedStringArray("sprites")]
+[sub_resource type="Curve" id="Curve_2h05u"]
+_limits = [0.25, 5.0, 0.0, 20.0]
+_data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(20, 0.25), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Glass" type="Node2D" unique_id=612983208]
 script = ExtResource("1_gtrt1")
 sprites = {
 "blue": NodePath("Blue"),
@@ -15,6 +20,7 @@ sprites = {
 "red": NodePath("Red"),
 "yellow": NodePath("Yellow")
 }
+influence_curve = SubResource("Curve_2h05u")
 
 [node name="Yellow" type="Sprite2D" parent="." unique_id=528045575]
 scale = Vector2(3, 3)

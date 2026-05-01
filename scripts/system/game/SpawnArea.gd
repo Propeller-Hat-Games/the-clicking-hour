@@ -57,7 +57,7 @@ func spawn_entity(game: GameManager) -> void:
 	entity.position = get_valid_random_position()
 	add_child(entity)
 
-	var glass_type = game.glass_manager.random_glass_type()
+	var glass_type = game.glass_manager.random_glass_type(game.current_wave)
 	entity.update_glass_type(glass_type, game.glass_manager.get_glass_sprite(glass_type))
 
 	entity.tree_exited.connect(func(): _on_entity_tree_exited(entity))

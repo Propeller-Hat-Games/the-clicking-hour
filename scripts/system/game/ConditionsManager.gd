@@ -37,13 +37,7 @@ func generate_conditions() -> void:
 	var glass_type_count = 1 + int(min(2, game.current_wave / 3.0))
 	var glass_count = 1 + game.current_wave - glass_type_count
 
-	for i in range(glass_type_count):
-		var new_type
-		while true:
-			new_type = game.glass_manager.random_glass_type()
-			if not required_glass_types.has(new_type):
-				break
-
+	for new_type in game.glass_manager.n_random_glass_types(glass_type_count):
 		required_glass_types.append(new_type)
 		required_glass_counts.append(1)
 
