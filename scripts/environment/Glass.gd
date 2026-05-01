@@ -12,12 +12,6 @@ var probabilities: Dictionary = {}
 func get_sprites() -> Dictionary:
 	return sprites
 
-
-#func _ready() -> void:
-#for type in sprites:
-#lastest_amount_of_apparitions_per_type[type] = 0
-
-
 func _ready() -> void:
 	var keys = sprites.keys()
 	var ratio: float = 1.0 / (keys.size())
