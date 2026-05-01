@@ -47,7 +47,7 @@ func n_random_glass_types(n: int) -> Array[String]:
 	var sprites = every_sprites.keys()
 	sprites.shuffle()
 
-    # We add the sprites contained in a subpart of the sprites randomly sorted array
+	# We add the sprites contained in a subpart of the sprites randomly sorted array
 	types_array.append_array(sprites.slice(0, min(every_sprites.size(), n)))
 
 	return types_array

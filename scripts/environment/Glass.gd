@@ -12,6 +12,7 @@ var probabilities: Dictionary = {}
 func get_sprites() -> Dictionary:
 	return sprites
 
+
 func _ready() -> void:
 	var keys = sprites.keys()
 	var ratio: float = 1.0 / (keys.size())
