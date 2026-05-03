@@ -25,6 +25,11 @@ _limits = [0.0, 2.0, 0.0, 50.0]
 _data = [Vector2(0, 2), 0.0, -0.10946449, 0, 0, Vector2(12.530712, 0.9937936), -0.050927356, -0.050927356, 0, 0, Vector2(50, 0.24534512), 0.0, 0.0, 0, 0]
 point_count = 3
 
+[sub_resource type="Curve" id="Curve_4vth2"]
+_limits = [1.0, 30.0, 0.0, 20.0]
+_data = [Vector2(0, 1), 0.0, 1.0690237, 0, 0, Vector2(20, 30), 3.1174686, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="Gradient" id="Gradient_c7a3q"]
 offsets = PackedFloat32Array(0, 0.48795182, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
@@ -41,6 +46,8 @@ size = Vector2(224.63614, 24.255402)
 [node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("door", "main_menu", "trash", "glitch_effect", "settings_button", "spawn_area", "unboarding", "board", "heart_container", "background", "black_canvas", "cursor_light")]
 script = ExtResource("1_hwd4i")
 delay_curve = SubResource("Curve_c7a3q")
+glass_count_curve = SubResource("Curve_4vth2")
+waves_to_add_a_glass_type = 3.0
 door = NodePath("Door")
 main_menu = NodePath("MainMenu")
 trash = NodePath("NoLights/Trash")
