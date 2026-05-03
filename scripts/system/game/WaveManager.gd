@@ -29,10 +29,10 @@ func start_game() -> void:
 				await get_tree().process_frame
 		SettingsManager.has_seen_onboarding = true
 
-	next_wave()
+	next_wave(game.current_wave)
 
 
-func next_wave() -> void:
+func next_wave(wave_number: int) -> void:
 	game.conditions_manager.generate_conditions()
 	game.current_wave += 1
 
@@ -65,7 +65,7 @@ func next_wave() -> void:
 	while game.is_spawning:
 		if game.spawn_area:
 			game.spawn_area.spawn_entity(game)
-		var delay = (1 / exp(0.15 * game.current_wave) + 0.25) * game._rng.randf_range(1.5, 3)
+		var delay = game.delay_curve.sample(wave_number) * game._rng.randf_range(1.5, 3)
 
 		await get_tree().create_timer(delay, false).timeout
 		if not is_inside_tree():
@@ -110,7 +110,7 @@ func end_wave() -> void:
 	if not is_inside_tree():
 		return
 
-	next_wave()
+	next_wave(game.current_wave)
 
 
 func end_game() -> void:

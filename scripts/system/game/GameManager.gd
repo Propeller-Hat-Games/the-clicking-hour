@@ -4,6 +4,8 @@ extends Node2D
 ## Central manager for the game loop, linking all systems and state.
 
 # --- EXPORTS ---
+@export var delay_curve: Curve
+
 @export_group("References")
 @export var door: Node2D
 @export var main_menu: Control
