@@ -51,7 +51,11 @@ func spawn_entity(game: GameManager) -> void:
 	var entity = random_scene.instantiate() as Entity
 
 	# Calculate speed first
-	entity.set_speed(entity.get_speed() + 15 * exp(0.1 * game.current_wave))
+	# The two numbers are respectively the min and max domain of the curve
+	# We clamp the wave value to stay inside the curve domain
+	entity.set_speed(
+		entity.get_speed() + game.entity_speed_curve.sample(clamp(game.current_wave, 0, 50))
+	)
 
 	# Find a valid random position
 	entity.position = get_valid_random_position()

@@ -30,6 +30,11 @@ _limits = [1.0, 30.0, 0.0, 20.0]
 _data = [Vector2(0, 1), 0.0, 1.0690237, 0, 0, Vector2(20, 30), 3.1174686, 0.0, 0, 0]
 point_count = 2
 
+[sub_resource type="Curve" id="Curve_yxe1x"]
+_limits = [0.0, 90.0, 0.0, 50.0]
+_data = [Vector2(0, 0), 0.0, 3.1338024, 0, 0, Vector2(50, 90), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="Gradient" id="Gradient_c7a3q"]
 offsets = PackedFloat32Array(0, 0.48795182, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
@@ -47,6 +52,7 @@ size = Vector2(224.63614, 24.255402)
 script = ExtResource("1_hwd4i")
 delay_curve = SubResource("Curve_c7a3q")
 glass_count_curve = SubResource("Curve_4vth2")
+entity_speed_curve = SubResource("Curve_yxe1x")
 waves_to_add_a_glass_type = 3.0
 door = NodePath("Door")
 main_menu = NodePath("MainMenu")
