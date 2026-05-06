@@ -1,3 +1,4 @@
+class_name TeleportEntity
 extends Entity
 
 ## Entity that teleports to a random location in its spawn area when clicked.
@@ -5,7 +6,7 @@ extends Entity
 
 
 func initialize_entity() -> void:
-	anim_prefix = "tp"
+	anim_prefix = &"tp"
 	hearts = 3
 
 
@@ -16,13 +17,13 @@ func _on_clicked() -> void:
 	current_state = EntityState.HIDING  # Use Hiding state to disable movement/animation updates
 
 	# Disappear animation (Jump)
-	var anim = anim_prefix + "_jump"
-	var anim_duration = 0.2
+	var anim := StringName(anim_prefix + "_jump")
+	var anim_duration := 0.2
 	play_synced_animation(anim, false, anim_duration)
 
 	# Animate glass down
 	if glass != null:
-		var tween = create_tween()
+		var tween := create_tween()
 		(
 			tween
 			. tween_property(glass, "position", _glass_initial_pos + Vector2(0, 50), anim_duration)
@@ -35,7 +36,7 @@ func _on_clicked() -> void:
 		return
 
 	# Teleport to random position in spawn area
-	var parent = get_parent()
+	var parent := get_parent()
 	if parent.has_method("get_valid_random_position"):
 		position = parent.get_valid_random_position(self)
 
@@ -44,7 +45,7 @@ func _on_clicked() -> void:
 
 	# Animate glass up
 	if glass != null:
-		var tween = create_tween()
+		var tween := create_tween()
 		(
 			tween
 			. tween_property(glass, "position", _glass_initial_pos, anim_duration)

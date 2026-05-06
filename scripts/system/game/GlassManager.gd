@@ -1,23 +1,21 @@
-extends Node
+class_name GlassManager
+extends GameManagerInterface
 
 ## Handles glass asset loading and random glass types.
 
-var game: GameManager
-var every_sprites: Dictionary = {}
-var glass_node
-
-
-func init(p_game: GameManager) -> void:
-	game = p_game
+var every_sprites: Dictionary[String, Sprite2D] = {}
+var glass_node: Node2D
 
 
 func load_glass() -> void:
-	glass_node = game.get_node_or_null("Glass")
+	if glass_node == null:
+		glass_node = game.get_node_or_null("Glass")
+
 	if glass_node == null:
 		printerr("[GLASS] Glass node not found in GameManager!")
 		return
 
-	var raw_sprites = glass_node.get_sprites()
+	var raw_sprites: Dictionary = glass_node.get_sprites()
 	every_sprites.clear()
 
 	print("[GLASS] Loading and resolving sprites:")
@@ -44,7 +42,7 @@ func random_glass_type(current_wave: int) -> String:
 func n_random_glass_types(n: int) -> Array[String]:
 	var types_array: Array[String] = []
 
-	var sprites = every_sprites.keys()
+	var sprites: Array[String] = every_sprites.keys()
 	sprites.shuffle()
 
 	# We add the sprites contained in a subpart of the sprites randomly sorted array

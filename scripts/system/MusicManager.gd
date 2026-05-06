@@ -30,8 +30,8 @@ func _ready() -> void:
 	_normal_playlist.append(load("res://assets/musics/background/SeasideDrink.mp3"))
 	_normal_playlist.append(load("res://assets/musics/background/SeriousDrink.mp3"))
 
-	for stream in _normal_playlist:
-		stream.loop = true
+	for track in _normal_playlist:
+		track.loop = true
 
 	print("[MUSIC] Normal playlist loaded: ", _normal_playlist.size(), " tracks")
 
@@ -40,8 +40,8 @@ func _ready() -> void:
 	_night_playlist.append(load("res://assets/musics/backgroundDarkMode/DrunkSeaside.mp3"))
 	_night_playlist.append(load("res://assets/musics/backgroundDarkMode/DrunkSerious.mp3"))
 
-	for stream in _night_playlist:
-		stream.loop = true
+	for track in _night_playlist:
+		track.loop = true
 
 	print("[MUSIC] Night playlist loaded: ", _night_playlist.size(), " tracks")
 
@@ -60,7 +60,7 @@ func _setup_music_bus() -> void:
 
 	# Find the low pass effect
 	for i in range(AudioServer.get_bus_effect_count(_music_bus_index)):
-		var effect = AudioServer.get_bus_effect(_music_bus_index, i)
+		var effect := AudioServer.get_bus_effect(_music_bus_index, i)
 		if effect is AudioEffectLowPassFilter:
 			_low_pass_effect = effect
 			_low_pass_effect_index = i
@@ -85,8 +85,8 @@ func set_pause_effect(paused: bool) -> void:
 		_pause_tween.kill()
 
 	_pause_tween = create_tween()
-	var target_cutoff = 800.0 if paused else 20000.0
-	var target_volume = -6.0 if paused else 0.0
+	var target_cutoff := 800.0 if paused else 20000.0
+	var target_volume := -6.0 if paused else 0.0
 
 	AudioServer.set_bus_effect_enabled(_music_bus_index, _low_pass_effect_index, true)
 
@@ -120,8 +120,8 @@ func play_menu_music() -> void:
 
 ## Plays a random track from the game playlist (normal or night mode) with a fade effect.
 func play_game_music(is_night_mode: bool) -> void:
-	var playlist = _night_playlist if is_night_mode else _normal_playlist
-	var next_stream = playlist[_rng.randi() % playlist.size()]
+	var playlist := _night_playlist if is_night_mode else _normal_playlist
+	var next_stream := playlist[_rng.randi() % playlist.size()]
 
 	await fade_to(next_stream)
 

@@ -1,3 +1,4 @@
+class_name SplashScreen
 extends Control
 
 ## Displays the splash screen with a logo and transition to the main menu.
@@ -6,17 +7,15 @@ extends Control
 @export var wait_duration: float = 1.0
 @export var main_menu_scene_path: String = "res://scenes/game_manager.tscn"
 
-var _sprite: AnimatedSprite2D
-var _audio: AudioStreamPlayer
 var _fade_color_rect: ColorRect
 var _is_skipping: bool = false
 var _audio_unlocked: bool = false
 
+@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _audio: AudioStreamPlayer = $AudioStreamPlayer
+
 
 func _ready() -> void:
-	_sprite = get_node("AnimatedSprite2D")
-	_audio = get_node("AudioStreamPlayer")
-
 	# Add a dedicated fade overlay
 	_fade_color_rect = ColorRect.new()
 	_fade_color_rect.color = Color.BLACK
@@ -57,10 +56,7 @@ func _input(event: InputEvent) -> void:
 	if not _audio_unlocked:
 		_try_unlock_audio()
 
-	if (
-		(event is InputEventMouseButton and event.pressed)
-		or (event is InputEventKey and event.pressed)
-	):
+	if event.is_action_pressed(&"interact") or event.is_pressed():
 		_skip()
 
 
@@ -78,7 +74,7 @@ func _skip() -> void:
 
 func _transition_to_menu(custom_fade_duration: float = fade_duration) -> void:
 	# Fade out everything to black
-	var fade_out_tween = create_tween().set_parallel()
+	var fade_out_tween := create_tween().set_parallel()
 	fade_out_tween.tween_property(_sprite, "modulate:a", 0.0, custom_fade_duration)
 	fade_out_tween.tween_property(_audio, "volume_db", -80.0, custom_fade_duration)
 	fade_out_tween.tween_property(_fade_color_rect, "modulate:a", 1.0, custom_fade_duration)
@@ -96,7 +92,7 @@ func _transition_to_menu(custom_fade_duration: float = fade_duration) -> void:
 
 
 func _fade_sprite(from: float, to: float) -> void:
-	var tween = create_tween()
+	var tween := create_tween()
 	tween.tween_property(_sprite, "modulate:a", to, fade_duration).from(from)
 
 	await tween.finished

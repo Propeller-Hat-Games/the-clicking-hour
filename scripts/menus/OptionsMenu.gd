@@ -1,3 +1,4 @@
+class_name OptionsMenu
 extends GeneralMenu
 
 ## Manages game settings like audio volume and visual effects.

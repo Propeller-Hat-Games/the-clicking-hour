@@ -1,13 +1,9 @@
-extends Node
+class_name HeartsManager
+extends GameManagerInterface
 
 ## Handles player health and heart UI animation.
 
-var game: GameManager
 var heart_nodes: Array[Node2D] = []
-
-
-func init(p_game: GameManager) -> void:
-	game = p_game
 
 
 func update_hearts() -> void:
@@ -16,10 +12,10 @@ func update_hearts() -> void:
 			heart.queue_free()
 	heart_nodes.clear()
 
-	var spacing = 96.0
+	var spacing := 96.0
 
 	for i in range(game.hearts):
-		var heart = game.heart_scene.instantiate()
+		var heart := game.heart_scene.instantiate()
 		heart.position = Vector2(i * spacing, 0)
 		game.heart_container.add_child(heart)
 		heart_nodes.append(heart)
@@ -33,10 +29,10 @@ func start_heart_animation_loop() -> void:
 			await get_tree().process_frame
 			continue
 
-		var current_hearts = heart_nodes.duplicate()
+		var current_hearts: Array[Node2D] = heart_nodes.duplicate()
 		for heart in current_hearts:
 			if is_instance_valid(heart):
-				var tween = create_tween()
+				var tween := create_tween()
 				(
 					tween
 					. tween_property(heart, "position:y", -15.0, 0.15)

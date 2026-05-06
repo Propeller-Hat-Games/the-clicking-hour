@@ -2,7 +2,7 @@ extends Node
 
 ## Manages sound effects playback.
 
-var _random = RandomNumberGenerator.new()
+var _random := RandomNumberGenerator.new()
 
 # Click sounds
 var _clic1: AudioStream
@@ -83,7 +83,7 @@ func _play_sound(sound: AudioStream, volume_scale: float = 1.0) -> void:
 	if sound == null:
 		return
 
-	var player = AudioStreamPlayer.new()
+	var player := AudioStreamPlayer.new()
 	add_child(player)
 	player.stream = sound
 	player.bus = "SFX"
@@ -96,7 +96,7 @@ func _play_sound(sound: AudioStream, volume_scale: float = 1.0) -> void:
 
 ## Plays a random click sound effect.
 func play_click_sound() -> void:
-	var sounds = [_clic1, _clic2, _clic3].filter(func(s): return s != null)
+	var sounds: Array[AudioStream] = [_clic1, _clic2, _clic3].filter(func(s): return s != null)
 	if sounds.size() > 0:
 		_play_sound(sounds[_random.randi() % sounds.size()])
 
@@ -133,15 +133,18 @@ func play_take_damage_sound() -> void:
 
 ## Plays a random jingle sound effect for wave completion.
 func play_jingle_sound() -> void:
-	var sounds = [_jingle1, _jingle2, _jingle3].filter(func(s): return s != null)
+	var sounds: Array[AudioStream] = [_jingle1, _jingle2, _jingle3].filter(
+		func(s): return s != null
+	)
 	if sounds.size() > 0:
 		_play_sound(sounds[_random.randi() % sounds.size()])
 
 
 ## Plays a random correct glass sound effect.
 func play_correct_glass_sound() -> void:
-	var sounds = [_correct_glass1, _correct_glass2, _correct_glass3, _correct_glass4].filter(
-		func(s): return s != null
-	)
+	var raw_sounds: Array[AudioStream] = [
+		_correct_glass1, _correct_glass2, _correct_glass3, _correct_glass4
+	]
+	var sounds = raw_sounds.filter(func(s): return s != null)
 	if sounds.size() > 0:
 		_play_sound(sounds[_random.randi() % sounds.size()], 3.0)
