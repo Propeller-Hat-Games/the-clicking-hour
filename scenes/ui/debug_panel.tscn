@@ -1,0 +1,157 @@
+[gd_scene format=3 uid="uid://cudhhn1di6nvu"]
+
+[ext_resource type="Script" uid="uid://4t4dqpc3tue2" path="res://scripts/ui/debug_panel.gd" id="1_iihrd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iihrd"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.2509804, 0.2509804, 0.2509804, 0.8784314)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="FontVariation" id="FontVariation_iihrd"]
+variation_embolden = 1.0
+
+[sub_resource type="FontVariation" id="FontVariation_e7ebm"]
+variation_embolden = 1.0
+
+[sub_resource type="FontVariation" id="FontVariation_osiar"]
+variation_embolden = -0.5
+
+[sub_resource type="FontVariation" id="FontVariation_nhodr"]
+variation_embolden = 1.0
+
+[node name="DebugPanel" type="PanelContainer" unique_id=2042180886]
+z_index = 256
+offset_right = 186.0
+offset_bottom = 155.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_iihrd")
+script = ExtResource("1_iihrd")
+
+[node name="OpenButton" type="Button" parent="." unique_id=373061755]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Debug"
+flat = true
+
+[node name="Content" type="VBoxContainer" parent="." unique_id=1123223837]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Content" unique_id=1205188434]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_iihrd")
+theme_override_font_sizes/font_size = 20
+text = "Debug panel"
+horizontal_alignment = 1
+
+[node name="Body" type="HSplitContainer" parent="Content" unique_id=1870679551]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Informations" type="VBoxContainer" parent="Content/Body" unique_id=1393896008]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Content/Body/Informations" unique_id=654600448]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_e7ebm")
+text = "Informations"
+horizontal_alignment = 1
+
+[node name="CurrentWave" type="Label" parent="Content/Body/Informations" unique_id=858252417]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_osiar")
+text = "Current wave : None"
+
+[node name="NightMode" type="Label" parent="Content/Body/Informations" unique_id=267244990]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_osiar")
+text = "Night Mode : None"
+
+[node name="Lives" type="Label" parent="Content/Body/Informations" unique_id=267244991]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_osiar")
+text = "Lives : None"
+
+[node name="Kills" type="Label" parent="Content/Body/Informations" unique_id=267244992]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_osiar")
+text = "Kills : None"
+
+[node name="Passed" type="Label" parent="Content/Body/Informations" unique_id=267244993]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_osiar")
+text = "Passed : None"
+
+[node name="Manage" type="VBoxContainer" parent="Content/Body" unique_id=304530677]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Content/Body/Manage" unique_id=2114547674]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_nhodr")
+text = "Configuration"
+horizontal_alignment = 1
+
+[node name="WaveGroup" type="HBoxContainer" parent="Content/Body/Manage" unique_id=608662776]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Content/Body/Manage/WaveGroup" unique_id=2112079193]
+layout_mode = 2
+text = "Wave :"
+
+[node name="Less" type="Button" parent="Content/Body/Manage/WaveGroup" unique_id=1243184070]
+layout_mode = 2
+text = "-"
+
+[node name="Wave" type="LineEdit" parent="Content/Body/Manage/WaveGroup" unique_id=574654399]
+layout_mode = 2
+text = "0"
+alignment = 1
+
+[node name="More" type="Button" parent="Content/Body/Manage/WaveGroup" unique_id=1862214290]
+layout_mode = 2
+text = "+"
+
+[node name="NightModeGroup" type="HBoxContainer" parent="Content/Body/Manage" unique_id=727977321]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Content/Body/Manage/NightModeGroup" unique_id=225391030]
+layout_mode = 2
+text = "Night Mode : "
+
+[node name="CheckButton" type="CheckButton" parent="Content/Body/Manage/NightModeGroup" unique_id=1502875924]
+layout_mode = 2
+
+[node name="Footer" type="HBoxContainer" parent="Content/Body/Manage" unique_id=474166500]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ResetButton" type="Button" parent="Content/Body/Manage/Footer" unique_id=1746445102]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
+
+[node name="UpdateButton" type="Button" parent="Content/Body/Manage/Footer" unique_id=916964146]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Update"
+
+[node name="CloseButton" type="Button" parent="Content" unique_id=1254313724]
+layout_mode = 2
+text = "Close"
+
+[connection signal="pressed" from="OpenButton" to="." method="_on_open_button_pressed"]
+[connection signal="pressed" from="Content/Body/Manage/WaveGroup/Less" to="." method="_on_wave_less_pressed"]
+[connection signal="text_changed" from="Content/Body/Manage/WaveGroup/Wave" to="." method="_on_wave_text_changed"]
+[connection signal="pressed" from="Content/Body/Manage/WaveGroup/More" to="." method="_on_wave_more_pressed"]
+[connection signal="pressed" from="Content/Body/Manage/Footer/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="Content/Body/Manage/Footer/UpdateButton" to="." method="_on_update_button_pressed"]
+[connection signal="pressed" from="Content/CloseButton" to="." method="_on_close_button_pressed"]
