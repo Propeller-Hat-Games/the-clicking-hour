@@ -4,6 +4,8 @@ extends Node
 
 var _random := RandomNumberGenerator.new()
 
+var _sfx_bus_index: int
+
 # Click sounds
 @onready var _clic1 := load("res://assets/sounds/Clic1.mp3") as AudioStream
 @onready var _clic2 := load("res://assets/sounds/Clic2.mp3") as AudioStream
@@ -29,12 +31,10 @@ var _random := RandomNumberGenerator.new()
 @onready var _jingle3 := load("res://assets/sounds/Jingle3.mp3") as AudioStream
 
 # Correct glass sounds
-var _correct_glass1 := load("res://assets/sounds/Correct1.mp3") as AudioStream
-var _correct_glass2 := load("res://assets/sounds/Correct2.mp3") as AudioStream
-var _correct_glass3 := load("res://assets/sounds/Correct3.mp3") as AudioStream
-var _correct_glass4 := load("res://assets/sounds/Correct4.mp3") as AudioStream
-
-var _sfx_bus_index: int
+@onready var _correct_glass1 := load("res://assets/sounds/Correct1.mp3") as AudioStream
+@onready var _correct_glass2 := load("res://assets/sounds/Correct2.mp3") as AudioStream
+@onready var _correct_glass3 := load("res://assets/sounds/Correct3.mp3") as AudioStream
+@onready var _correct_glass4 := load("res://assets/sounds/Correct4.mp3") as AudioStream
 
 
 func _ready() -> void:
@@ -104,18 +104,14 @@ func play_take_damage_sound() -> void:
 
 ## Plays a random jingle sound effect for wave completion.
 func play_jingle_sound() -> void:
-	var sounds := [_jingle1, _jingle2, _jingle3].filter(
-		func(s): return s != null
-	)
+	var sounds := [_jingle1, _jingle2, _jingle3].filter(func(s): return s != null)
 	if sounds.size() > 0:
 		_play_sound(sounds[_random.randi() % sounds.size()])
 
 
 ## Plays a random correct glass sound effect.
 func play_correct_glass_sound() -> void:
-	var raw_sounds := [
-		_correct_glass1, _correct_glass2, _correct_glass3, _correct_glass4
-	]
+	var raw_sounds := [_correct_glass1, _correct_glass2, _correct_glass3, _correct_glass4]
 	var sounds := raw_sounds.filter(func(s): return s != null)
 	if sounds.size() > 0:
 		_play_sound(sounds[_random.randi() % sounds.size()], 3.0)
