@@ -29,10 +29,10 @@ func start_game() -> void:
 				await get_tree().process_frame
 		SettingsManager.has_seen_onboarding = true
 
-	next_wave(game.current_wave)
+	next_wave()
 
 
-func next_wave(wave_number: int) -> void:
+func next_wave() -> void:
 	game.conditions_manager.generate_conditions()
 	game.current_wave += 1
 
@@ -68,7 +68,7 @@ func next_wave(wave_number: int) -> void:
 			# The two numbers are respectively the min and max domain of the curve
 			# We clamp the wave value to stay inside the curve domain
 		var delay = (
-			game.delay_curve.sample(clamp(wave_number, 0, 50)) * game._rng.randf_range(1.5, 3)
+			game.delay_curve.sample(clamp(game.current_wave, 0, 50)) * game._rng.randf_range(1.5, 3)
 		)
 
 		await get_tree().create_timer(delay, false).timeout
@@ -114,7 +114,7 @@ func end_wave() -> void:
 	if not is_inside_tree():
 		return
 
-	next_wave(game.current_wave)
+	next_wave()
 
 
 func end_game() -> void:
