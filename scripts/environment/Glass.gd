@@ -1,11 +1,12 @@
+class_name Glass
 extends Node2D
 
 ## Manages a collection of glass sprites.
 
-@export var sprites: Dictionary = {}
+@export var sprites: Dictionary[String, Variant] = {}
 # Affects the changes in probabilities, higher influence means repetition is less likely
 @export var influence_curve: Curve
-var probabilities: Dictionary = {}
+var probabilities: Dictionary[String, float] = {}
 
 
 ## Returns the dictionary of glass sprites.
@@ -14,7 +15,7 @@ func get_sprites() -> Dictionary:
 
 
 func _ready() -> void:
-	var keys = sprites.keys()
+	var keys: Array[String] = sprites.keys()
 	var ratio: float = 1.0 / (keys.size())
 	for type in sprites.keys():
 		probabilities[type] = ratio
@@ -22,10 +23,10 @@ func _ready() -> void:
 
 ## Returns a random glass key from the available sprites.
 func get_random_glass(current_wave: int) -> String:
-	var keys = sprites.keys()
-	var size = keys.size()
+	var keys: Array[String] = sprites.keys()
+	var size := keys.size()
 	# Failsafe in case of an eventual error to avoid NULL access on dictionary
-	var return_key = keys[0]
+	var return_key := keys[0]
 	var probability_sum: float = 0.0
 
 	var random_float: float = randf()

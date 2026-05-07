@@ -1,3 +1,4 @@
+class_name SimpleEntity
 extends Entity
 
 ## Simple entity that dies in one click.

@@ -1,3 +1,4 @@
+class_name AnimatedBackground
 extends Node2D
 
 ## Handles the scrolling background animation with parallax effect.
@@ -8,18 +9,18 @@ extends Node2D
 
 var _back: Array[Sprite2D] = []
 var _front: Array[Sprite2D] = []
-var _sprite: AnimatedSprite2D
+
+@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 
 func _ready() -> void:
 	# AnimatedSprite2D
-	_sprite = get_node_or_null("AnimatedSprite2D")
 	if _sprite:
 		_sprite.play()
 
 	# Background layers
-	_back = _safe_get_sprites(["Sprite2D_Back", "Sprite2D_Back2"])
-	_front = _safe_get_sprites(["Sprite2D_Front", "Sprite2D_Front2"])
+	_back = _safe_get_sprites([&"Sprite2D_Back", &"Sprite2D_Back2"])
+	_front = _safe_get_sprites([&"Sprite2D_Front", &"Sprite2D_Front2"])
 
 
 func _process(delta: float) -> void:
@@ -33,7 +34,7 @@ func _scroll_layer(layer: Array[Sprite2D], speed: float, delta: float) -> void:
 		if spr == null:
 			continue
 
-		var pos = spr.position
+		var pos := spr.position
 		pos.x -= speed * delta
 
 		# Horizontal Loop
@@ -48,16 +49,16 @@ func update_animated_sprite(is_night_mode: bool) -> void:
 	if _sprite == null:
 		return
 
-	var target_anim = "night" if is_night_mode else "default"
+	var target_anim := &"night" if is_night_mode else &"default"
 	if _sprite.animation != target_anim:
 		_sprite.play(target_anim)
 
 
 ## Utility method to safely get multiple Sprite2D nodes by name.
-func _safe_get_sprites(node_names: Array) -> Array[Sprite2D]:
+func _safe_get_sprites(node_names: Array[String]) -> Array[Sprite2D]:
 	var result: Array[Sprite2D] = []
 	for node_name in node_names:
-		var node = get_node_or_null(node_name)
+		var node := get_node_or_null(node_name)
 		if node is Sprite2D:
-			result.append(node)
+			result.append(node as Sprite2D)
 	return result

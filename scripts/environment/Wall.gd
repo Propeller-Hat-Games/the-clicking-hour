@@ -1,3 +1,4 @@
+class_name Wall
 extends Node2D
 
 ## Wall script that plays the attached AnimatedSprite2D and synchronizes
@@ -8,7 +9,7 @@ extends Node2D
 
 
 func _ready() -> void:
-	sprite.play()
+	sprite.play(&"default")
 	sprite.frame_changed.connect(_on_frame_changed)
 	_update_light_color()
 

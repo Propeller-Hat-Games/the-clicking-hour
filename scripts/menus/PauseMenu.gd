@@ -1,3 +1,4 @@
+class_name PauseMenu
 extends GeneralMenu
 
 ## Handles the Pause Menu.
@@ -19,7 +20,7 @@ func _on_resume_button_pressed() -> void:
 ## Opens the options menu from the pause screen.
 func _on_options_button_pressed() -> void:
 	if options_menu_scene != null:
-		var options_menu = options_menu_scene.instantiate()
+		var options_menu: OptionsMenu = options_menu_scene.instantiate()
 		_options_menu_instance = options_menu
 		add_child(_options_menu_instance)
 		if get_parent() is GameManager:

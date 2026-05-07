@@ -8,9 +8,9 @@ extends Control
 
 
 func _ready() -> void:
-	var window = get_node_or_null("CanvasLayer/Window")
+	var window: Control = get_node_or_null("CanvasLayer/Window")
 	if window != null:
-		var tween = create_tween().set_loops()
+		var tween: Tween = create_tween().set_loops()
 		(
 			tween
 			. tween_property(window, "position:y", window.position.y - 20.0, 2.0)
@@ -24,7 +24,7 @@ func _ready() -> void:
 			. set_ease(Tween.EASE_IN_OUT)
 		)
 
-		var background = background_border
+		var background: TextureRect = background_border
 		if background == null:
 			background = window.get_node_or_null("BackgroundBorder")
 		if background == null:
@@ -32,8 +32,8 @@ func _ready() -> void:
 
 		if background != null and abs(rotation_speed) > 0.001:
 			# 1. Create a container that will stay static and clip the rotating child
-			var clip_container = Control.new()
-			clip_container.name = "RotationClipContainer"
+			var clip_container: Control = Control.new()
+			clip_container.name = &"RotationClipContainer"
 			clip_container.clip_contents = true
 
 			# 2. Match the container's layout to the original background's layout
@@ -53,8 +53,8 @@ func _ready() -> void:
 			clip_container.grow_vertical = background.grow_vertical
 
 			# 3. Move the background into the container
-			var parent = background.get_parent()
-			var index = background.get_index()
+			var parent := background.get_parent()
+			var index := background.get_index()
 			parent.remove_child(background)
 			clip_container.add_child(background)
 			parent.add_child(clip_container)
@@ -72,7 +72,7 @@ func _ready() -> void:
 			var duration = TAU / abs(rotation_speed)
 			var target_rotation = TAU * sign(rotation_speed)
 
-			var rotation_tween = background.create_tween().set_loops()
+			var rotation_tween := background.create_tween().set_loops()
 			rotation_tween.tween_method(
 				func(rot): background.rotation = rot, 0.0, target_rotation, duration
 			)

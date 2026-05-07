@@ -1,3 +1,4 @@
+class_name DebugPanel
 extends PanelContainer
 
 var game: GameManager
@@ -85,5 +86,5 @@ func _on_update_button_pressed() -> void:
 	game.is_spawning = false
 	game.spawn_area.kill_every_entities()
 
-	var night_mode = $Content/Body/Manage/NightModeGroup/CheckButton.button_pressed
+	var night_mode: bool = $Content/Body/Manage/NightModeGroup/CheckButton.button_pressed
 	game.wave_manager.start_wave(change_wave, night_mode)

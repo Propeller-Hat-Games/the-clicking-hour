@@ -1,3 +1,4 @@
+class_name MultiClickEntity
 extends Entity
 
 ## Entity that requires multiple clicks to defeat (3 to 5).
@@ -9,7 +10,7 @@ var _stun_timer: float = 0.0
 
 
 func initialize_entity() -> void:
-	anim_prefix = "multiclick"
+	anim_prefix = &"multiclick"
 	hearts = randi_range(3, 5)
 
 

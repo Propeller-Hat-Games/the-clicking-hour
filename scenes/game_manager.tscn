@@ -98,12 +98,6 @@ position = Vector2(1081, 171)
 
 [node name="Glass" parent="." unique_id=612983208 instance=ExtResource("16_cjvif")]
 visible = false
-sprites = {
-"blue": NodePath("Blue"),
-"green": NodePath("Green"),
-"red": NodePath("Red"),
-"yellow": NodePath("Yellow")
-}
 
 [node name="Wall Left" type="StaticBody2D" parent="." unique_id=1420222297]
 z_index = 10
@@ -134,7 +128,6 @@ shape = SubResource("RectangleShape2D_c7a3q")
 visible = false
 z_index = 200
 position = Vector2(569, 327)
-centered = true
 
 [node name="Board" parent="NoLights" unique_id=1183887835 instance=ExtResource("5_board")]
 visible = false
