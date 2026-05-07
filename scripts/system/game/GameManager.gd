@@ -5,8 +5,8 @@ extends Node2D
 
 # --- EXPORTS ---
 @export_group("References")
-@export var door: Node2D
-@export var main_menu: Control
+@export var door: Door
+@export var main_menu: MainMenu
 @export var trash: Node2D
 @export var glitch_effect: GlitchEffect
 @export var settings_button: Button
@@ -18,7 +18,7 @@ extends Node2D
 @export var heart_scene: PackedScene
 @export var background: AnimatedBackground
 @export var black_canvas: CanvasModulate
-@export var debug_panel: PanelContainer
+@export var debug_panel: DebugPanel
 
 @export_group("Assets")
 @export var cursor_normal: Texture2D
