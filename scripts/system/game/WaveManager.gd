@@ -66,7 +66,11 @@ func start_wave(wave_index: int, night_mode: bool) -> void:
 	while game.is_spawning:
 		if game.spawn_area:
 			game.spawn_area.spawn_entity(game)
-		var delay := (1 / exp(0.15 * game.current_wave) + 0.25) * game._rng.randf_range(1.5, 3)
+			# The two numbers are respectively the min and max domain of the curve
+			# We clamp the wave value to stay inside the curve domain
+		var delay := (
+			game.delay_curve.sample(clamp(game.current_wave, 0, 50)) * game._rng.randf_range(1.5, 3)
+		)
 
 		await get_tree().create_timer(delay, false).timeout
 		if not is_inside_tree():

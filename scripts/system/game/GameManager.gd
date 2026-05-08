@@ -4,6 +4,12 @@ extends Node2D
 ## Central manager for the game loop, linking all systems and state.
 
 # --- EXPORTS ---
+@export_group("Difficulty settings")
+@export var delay_curve: Curve
+@export var glass_count_curve: Curve
+@export var entity_speed_curve: Curve
+@export var waves_to_add_a_glass_type: float
+
 @export_group("References")
 @export var door: Door
 @export var main_menu: MainMenu
