@@ -1,3 +1,4 @@
+class_name Board
 extends Sprite2D
 
 ## Displays the current required glass orders.
@@ -17,11 +18,11 @@ var _amount_right: int = 0
 
 func _ready() -> void:
 	if light != null:
-		light.add_to_group("Lights")
+		light.add_to_group(&"Lights")
 
 	# Initial state: hide all slots and labels
-	var slots = [left_slot, middle_slot, right_slot]
-	var labels = [left_nb, middle_nb, right_nb]
+	var slots: Array[Sprite2D] = [left_slot, middle_slot, right_slot]
+	var labels: Array[Label] = [left_nb, middle_nb, right_nb]
 	for slot in slots:
 		if slot != null:
 			slot.visible = false
@@ -30,7 +31,7 @@ func _ready() -> void:
 			label.visible = false
 
 	# Setup floating animation with Tween
-	var tween = create_tween().set_loops()
+	var tween: Tween = create_tween().set_loops()
 	(
 		tween
 		. tween_property(self, "position:y", position.y - 5.0, 2.0)
@@ -76,9 +77,9 @@ func _flash(item: CanvasItem, appearing: bool) -> void:
 
 ## Updates the board slots with new glass textures and counts.
 func update_board(slot_count: int, sprites: Array[Sprite2D], counts: Array[int]) -> void:
-	var slots = [left_slot, middle_slot, right_slot]
-	var labels = [left_nb, middle_nb, right_nb]
-	var current_amounts = [_amount_left, _amount_middle, _amount_right]
+	var slots: Array[Sprite2D] = [left_slot, middle_slot, right_slot]
+	var labels: Array[Label] = [left_nb, middle_nb, right_nb]
+	var current_amounts: Array[int] = [_amount_left, _amount_middle, _amount_right]
 
 	for i in range(slots.size()):
 		if i < slot_count:

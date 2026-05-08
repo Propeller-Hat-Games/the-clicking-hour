@@ -31,6 +31,7 @@ buses/default_bus_layout="uid://8fqlg3xulgn6"
 SettingsManager="*res://scripts/system/SettingsManager.gd"
 MusicManager="*res://scripts/system/MusicManager.gd"
 SfxManager="*res://scripts/system/SfxManager.gd"
+GameEvents="*res://scripts/system/GameEvents.gd"
 DiscordRPCLoader="*uid://ct0yxwshdrke"
 
 [display]
@@ -40,6 +41,14 @@ window/stretch/mode="viewport"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg")
+
+[input]
+
+interact={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
 
 [internationalization]
 

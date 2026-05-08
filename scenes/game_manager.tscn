@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://dwa5g75hy7mms" path="res://scenes/ui/settings_button.tscn" id="13_lcbjr"]
 [ext_resource type="PackedScene" uid="uid://crqnun1n00n82" path="res://scenes/environment/neon.tscn" id="14_30v7y"]
 [ext_resource type="PackedScene" uid="uid://cax1bv236pwwl" path="res://scenes/glass.tscn" id="16_cjvif"]
+[ext_resource type="PackedScene" uid="uid://cudhhn1di6nvu" path="res://scenes/ui/debug_panel.tscn" id="20_4vth2"]
 
 [sub_resource type="Curve" id="Curve_c7a3q"]
 _limits = [0.0, 2.0, 0.0, 50.0]
@@ -48,7 +49,10 @@ fill_to = Vector2(0.5, 0)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c7a3q"]
 size = Vector2(224.63614, 24.255402)
 
-[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("door", "main_menu", "trash", "glitch_effect", "settings_button", "spawn_area", "unboarding", "board", "heart_container", "background", "black_canvas", "cursor_light")]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
+light_mode = 1
+
+[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("door", "main_menu", "trash", "glitch_effect", "settings_button", "spawn_area", "unboarding", "board", "heart_container", "background", "black_canvas", "debug_panel", "cursor_light")]
 script = ExtResource("1_hwd4i")
 delay_curve = SubResource("Curve_c7a3q")
 glass_count_curve = SubResource("Curve_4vth2")
@@ -67,6 +71,7 @@ heart_container = NodePath("NoLights/HeartContainer")
 heart_scene = ExtResource("3_c7a3q")
 background = NodePath("AnimatedBackground")
 black_canvas = NodePath("BlackCanvas")
+debug_panel = NodePath("NoShaders/DebugPanel")
 cursor_normal = ExtResource("3_pc0jn")
 cursor_night = ExtResource("4_c7a3q")
 cursor_light = NodePath("CursorLight")
@@ -167,3 +172,13 @@ z_index = 5
 scale = Vector2(3, 3)
 texture = ExtResource("12_c7a3q")
 centered = false
+
+[node name="NoShaders" type="CanvasLayer" parent="." unique_id=1945530382]
+layer = 256
+
+[node name="DebugPanel" parent="NoShaders" unique_id=2042180886 instance=ExtResource("20_4vth2")]
+material = SubResource("CanvasItemMaterial_unshaded")
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 206.0
+offset_bottom = 175.0

@@ -1,3 +1,4 @@
+class_name SpawnArea
 extends Area2D
 
 ## Manages the spawning of entities within a defined area.
@@ -12,10 +13,10 @@ func get_random_position() -> Vector2:
 	if area == null or not area.shape is RectangleShape2D:
 		return Vector2.ZERO
 
-	var rect_shape = area.shape as RectangleShape2D
-	var size = rect_shape.size
-	var x = randf_range(-size.x / 2.0, size.x / 2.0)
-	var y = randf_range(-size.y / 2.0, size.y / 2.0)
+	var rect_shape: RectangleShape2D = area.shape
+	var size := rect_shape.size
+	var x := randf_range(-size.x / 2.0, size.x / 2.0)
+	var y := randf_range(-size.y / 2.0, size.y / 2.0)
 
 	return area.position + Vector2(x, y)
 
@@ -36,10 +37,10 @@ func is_position_valid(
 func get_valid_random_position(
 	ignore_entity: Entity = null, min_dist: float = 250.0, max_attempts: int = 50
 ) -> Vector2:
-	var pos = Vector2.ZERO
+	var pos := Vector2.ZERO
 	for i in range(max_attempts):
 		pos = get_random_position()
-		var threshold = min_dist * (1.0 - float(i) / max_attempts)
+		var threshold := min_dist * (1.0 - float(i) / max_attempts)
 		if is_position_valid(pos, threshold * threshold, ignore_entity):
 			break
 	return pos
@@ -47,8 +48,8 @@ func get_valid_random_position(
 
 ## Instantiates and spawns a random entity within the area, applying current wave modifiers.
 func spawn_entity(game: GameManager) -> void:
-	var random_scene = game.entities_manager.get_random_entity()
-	var entity = random_scene.instantiate() as Entity
+	var random_scene := game.entities_manager.get_random_entity()
+	var entity: Entity = random_scene.instantiate()
 
 	# Calculate speed first
 	# The two numbers are respectively the min and max domain of the curve
@@ -61,7 +62,7 @@ func spawn_entity(game: GameManager) -> void:
 	entity.position = get_valid_random_position()
 	add_child(entity)
 
-	var glass_type = game.glass_manager.random_glass_type(game.current_wave)
+	var glass_type := game.glass_manager.random_glass_type(game.current_wave)
 	entity.update_glass_type(glass_type, game.glass_manager.get_glass_sprite(glass_type))
 
 	entity.tree_exited.connect(func(): _on_entity_tree_exited(entity))
@@ -76,7 +77,7 @@ func _on_entity_tree_exited(entity: Entity) -> void:
 
 ## Triggers the disappearance and removal of all currently active entities.
 func kill_every_entities() -> void:
-	var entities_snapshot = _active_entities.duplicate()
+	var entities_snapshot: Array[Entity] = _active_entities.duplicate()
 
 	for entity in entities_snapshot:
 		if is_instance_valid(entity) and entity.is_alive:

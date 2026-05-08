@@ -1,13 +1,9 @@
-extends Node
+class_name EntitiesManager
+extends GameManagerInterface
 
 ## Handles entity loading and door entry logic.
 
-var game: GameManager
 var entity_scenes: Array[PackedScene] = []
-
-
-func init(p_game: GameManager) -> void:
-	game = p_game
 
 
 func load_entities() -> void:
@@ -26,7 +22,7 @@ func _load_entity_scene(path: String) -> void:
 func get_random_entity() -> PackedScene:
 	if game.current_wave < 5:
 		return entity_scenes[0]
-	var p = game._rng.randi_range(0, 99)
+	var p := game._rng.randi_range(0, 99)
 
 	if p <= 75:
 		return entity_scenes[0]
@@ -41,7 +37,7 @@ func _on_entity_entered_door(entity: Entity) -> void:
 	if not game.is_spawning:
 		return
 
-	var type = entity.glass_type
+	var type := entity.glass_type
 	if type == "":
 		return
 
@@ -56,7 +52,10 @@ func _on_entity_entered_door(entity: Entity) -> void:
 
 	game.glass_passed += 1
 
-	if game.conditions_manager.try_enter_glass(type):
+	var is_correct := game.conditions_manager.try_enter_glass(type)
+	GameEvents.glass_delivered.emit(type, is_correct)
+
+	if is_correct:
 		if game.conditions_manager.is_conditions_done():
 			game.wave_manager.end_wave()
 	else:

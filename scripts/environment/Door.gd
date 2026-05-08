@@ -1,3 +1,4 @@
+class_name Door
 extends Area2D
 
 ## Represents a door in the environment that entities can enter.
@@ -11,20 +12,20 @@ signal entity_entered_door(entity: Entity)
 
 
 func _ready() -> void:
-	add_to_group("Door")
+	add_to_group(&"Door")
 	body_entered.connect(_on_body_entered)
 
 
 ## Changes the door sprite to the open texture and plays the open sound.
-func open(sfx: Node) -> void:
+func open() -> void:
 	sprite.texture = open_texture
-	sfx.play_door_open_sound()
+	SfxManager.play_door_open_sound()
 
 
 ## Changes the door sprite to the closed texture and plays the close sound.
-func close(sfx: Node) -> void:
+func close() -> void:
 	sprite.texture = closed_texture
-	sfx.play_door_close_sound()
+	SfxManager.play_door_close_sound()
 
 
 ## Callback for when a body enters the door's detection area.

@@ -1,3 +1,4 @@
+class_name Neon
 extends Node2D
 
 ## Controls a Neon light that flickers between On and Off states.

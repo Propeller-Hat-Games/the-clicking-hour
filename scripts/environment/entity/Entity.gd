@@ -24,25 +24,24 @@ var is_alive: bool:
 	get:
 		return hearts > 0
 var is_disappearing: bool = false
-var anim_prefix: String = "normal"
+var anim_prefix: String = &"normal"
 var heading_to_door: bool = true
 
 var _spawn_timer: float = 0.0
 var _glass_initial_pos: Vector2
-var _door: Node2D
-var _trash: Node2D
 var _target_y_offset: float
+
+@onready var _door: Node2D = get_tree().get_first_node_in_group(&"Door")
+@onready var _trash: Node2D = (
+	get_tree().get_first_node_in_group(&"Trash")
+	if get_tree().get_first_node_in_group(&"Trash")
+	else get_tree().root.find_child(&"Trash", true, false)
+)
 
 
 func _ready() -> void:
-	_door = get_tree().get_first_node_in_group("Door") as Node2D
 	_target_y_offset = randf_range(-20.0, 20.0)
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
-
-	# Cache Trash node efficiently
-	_trash = get_tree().get_first_node_in_group("Trash") as Node2D
-	if _trash == null:
-		_trash = get_tree().root.find_child("Trash", true, false) as Node2D
 
 	initialize_entity()
 	_update_animation()
@@ -76,7 +75,7 @@ func _animate_glass_walking(delta: float) -> void:
 
 	if current_state == EntityState.WALKING and sprite != null:
 		# Sync glass bobbing with walking frames: 2 pixels offset on every other frame
-		var y_offset = -1.0 if (sprite.frame % 2 != 0) else 1.0
+		var y_offset := -1.0 if (sprite.frame % 2 != 0) else 1.0
 		glass.position = _glass_initial_pos + Vector2(0, y_offset)
 	elif current_state != EntityState.HIDING:
 		glass.position = glass.position.lerp(_glass_initial_pos, delta * 10.0)
@@ -90,9 +89,9 @@ func _animate_glass_spawn() -> void:
 	glass.position = _glass_initial_pos + Vector2(0, 50)
 	glass.modulate.a = 1.0
 
-	var duration = spawn_delay
+	var duration: float = spawn_delay
 
-	var tween = create_tween()
+	var tween := create_tween()
 	(
 		tween
 		. tween_property(glass, "position", _glass_initial_pos, duration)
@@ -106,7 +105,7 @@ func _animate_glass_disappearance() -> void:
 	if glass == null:
 		return
 
-	var tween = create_tween()
+	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(glass, "position", _glass_initial_pos + Vector2(0, 50), 0.5).set_trans(
 		Tween.TRANS_LINEAR
@@ -131,9 +130,10 @@ func try_click(game: Node) -> void:
 	if can_be_clicked():
 		hearts -= 1
 		SfxManager.play_click_sound()
+		GameEvents.entity_clicked.emit(self)
 		if hearts <= 0:
 			die()
-			if "entities_killed" in game:
+			if &"entities_killed" in game:
 				game.entities_killed += 1
 		else:
 			_on_clicked()
@@ -155,12 +155,12 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		EntityState.WALKING:
 			if _door != null and heading_to_door:
-				var door_pos = _door.global_position
-				var target_pos = door_pos
+				var door_pos := _door.global_position
+				var target_pos := door_pos
 				target_pos.y += _target_y_offset
 
 				# Improved pathfinding to avoid "Wall Left" and "Wall Right" flanking the door
-				var dist_to_door_x = door_pos.x - global_position.x
+				var dist_to_door_x := door_pos.x - global_position.x
 
 				if dist_to_door_x > 20:
 					target_pos.x = door_pos.x - 20
@@ -176,6 +176,9 @@ func _physics_process(delta: float) -> void:
 		EntityState.STUNNED:
 			velocity = Vector2.ZERO
 
+		EntityState.HIDING:
+			pass
+
 
 ## Disables interactions and collisions when the entity enters the door.
 func set_entered_door() -> void:
@@ -183,11 +186,11 @@ func set_entered_door() -> void:
 	z_index = -1
 
 	# Disable clicking and collisions safely
-	set_deferred("collision_layer", 0)
-	set_deferred("collision_mask", 0)
+	set_deferred(&"collision_layer", 0)
+	set_deferred(&"collision_mask", 0)
 	if click_area != null:
-		click_area.set_deferred("monitoring", false)
-		click_area.set_deferred("monitorable", false)
+		click_area.set_deferred(&"monitoring", false)
+		click_area.set_deferred(&"monitorable", false)
 		click_area.input_pickable = false
 
 
@@ -203,36 +206,36 @@ func _update_animation() -> void:
 
 	if _spawn_timer < spawn_delay:
 		# Play jump animation backwards for spawning (emerging)
-		play_synced_animation(anim_prefix + "_jump", true, spawn_delay)
+		play_synced_animation(StringName(anim_prefix + "_jump"), true, spawn_delay)
 		return
 
 	if current_state == EntityState.WALKING:
-		play_synced_animation(anim_prefix + "_walk")
+		play_synced_animation(StringName(anim_prefix + "_walk"))
 
 		if walk_direction.x != 0:
 			sprite.flip_h = walk_direction.x < 0
 	elif current_state == EntityState.STUNNED:
-		play_synced_animation(anim_prefix + "_hurt")
+		play_synced_animation(StringName(anim_prefix + "_hurt"))
 
 
 ## Plays an animation with speed synchronization.
 func play_synced_animation(
-	anim_name: String, backwards: bool = false, duration: float = -1.0
+	anim_name: StringName, backwards: bool = false, duration: float = -1.0
 ) -> void:
 	if sprite == null or not sprite.sprite_frames.has_animation(anim_name):
 		return
-	if is_disappearing and anim_name != "disapear":
+	if is_disappearing and anim_name != &"disapear":
 		return
 
-	var speed = 1.0
+	var speed := 1.0
 	if duration > 0:
-		var anim_duration = (
+		var anim_duration := (
 			sprite.sprite_frames.get_frame_count(anim_name)
 			/ sprite.sprite_frames.get_animation_speed(anim_name)
 		)
 		speed = anim_duration / duration
 
-	var final_speed = -speed if backwards else speed
+	var final_speed := -speed if backwards else speed
 
 	# Only play if not already playing that animation, OR if we need to enforce speed/direction
 	if sprite.animation != anim_name:
@@ -248,19 +251,19 @@ func die() -> void:
 
 	SfxManager.play_death_sound()
 
-	set_deferred("collision_layer", 0)
-	set_deferred("collision_mask", 0)
+	set_deferred(&"collision_layer", 0)
+	set_deferred(&"collision_mask", 0)
 
 	if click_area != null:
-		click_area.set_deferred("monitoring", false)
-		click_area.set_deferred("monitorable", false)
+		click_area.set_deferred(&"monitoring", false)
+		click_area.set_deferred(&"monitorable", false)
 		click_area.input_pickable = false
 
-	var target_pos = Vector2(64, 602)
+	var target_pos := Vector2(64, 602)
 	if _trash != null:
 		target_pos = _trash.global_position
 
-	var tween = create_tween()
+	var tween := create_tween()
 	tween.set_parallel(true)
 	(
 		tween
@@ -280,15 +283,15 @@ func disappear() -> void:
 		return
 	is_disappearing = true
 
-	set_deferred("collision_layer", 0)
-	set_deferred("collision_mask", 0)
+	set_deferred(&"collision_layer", 0)
+	set_deferred(&"collision_mask", 0)
 	velocity = Vector2.ZERO
 	set_physics_process(false)
 
 	_animate_glass_disappearance()
 
-	if sprite != null and sprite.sprite_frames.has_animation("disapear"):
-		sprite.play("disapear")
+	if sprite != null and sprite.sprite_frames.has_animation(&"disapear"):
+		sprite.play(&"disapear")
 		await sprite.animation_finished
 		if not is_inside_tree():
 			return

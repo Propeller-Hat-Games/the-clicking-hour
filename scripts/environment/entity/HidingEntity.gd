@@ -1,3 +1,4 @@
+class_name HidingEntity
 extends Entity
 
 ## Entity that hides in the ground when clicked and re-emerges after a duration.
@@ -8,7 +9,7 @@ const DIG_ANIM_DURATION: float = 0.3
 
 
 func initialize_entity() -> void:
-	anim_prefix = "dig"
+	anim_prefix = &"dig"
 	hearts = 3
 
 
@@ -19,12 +20,12 @@ func _on_clicked() -> void:
 	current_state = EntityState.HIDING
 
 	# Hide in ground (Jump animation played normally = go down)
-	var anim_name = anim_prefix + "_jump"
+	var anim_name := StringName(anim_prefix + "_jump")
 	play_synced_animation(anim_name, false, DIG_ANIM_DURATION)
 
 	# Animate glass down
 	if glass != null:
-		var tween = create_tween()
+		var tween := create_tween()
 		(
 			tween
 			. tween_property(
@@ -49,7 +50,7 @@ func _on_clicked() -> void:
 
 	# Animate glass up
 	if glass != null:
-		var tween = create_tween()
+		var tween := create_tween()
 		(
 			tween
 			. tween_property(glass, "position", _glass_initial_pos, DIG_ANIM_DURATION)

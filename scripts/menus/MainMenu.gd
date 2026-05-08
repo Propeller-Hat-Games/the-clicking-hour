@@ -1,3 +1,4 @@
+class_name MainMenu
 extends GeneralMenu
 
 ## Controls the Main Menu interactions.
@@ -29,7 +30,7 @@ func _on_play_button_pressed() -> void:
 ## Opens the credit menu.
 func _on_credits_button_pressed() -> void:
 	if credit_menu_scene != null:
-		var credit_menu = credit_menu_scene.instantiate()
+		var credit_menu: CreditMenu = credit_menu_scene.instantiate()
 		_credit_menu_instance = credit_menu
 		add_child(_credit_menu_instance)
 		if get_parent() is GameManager:
@@ -48,14 +49,14 @@ func _on_credit_menu_closed() -> void:
 
 ## Opens the options menu.
 func _on_options_button_pressed() -> void:
-	var scene_to_instantiate = options_menu_scene
+	var scene_to_instantiate := options_menu_scene
 
 	if scene_to_instantiate == null:
 		# Fallback if scene is not exported
 		scene_to_instantiate = load("res://scenes/ui/options_menu.tscn")
 
 	if scene_to_instantiate != null:
-		var options_menu = scene_to_instantiate.instantiate()
+		var options_menu: OptionsMenu = scene_to_instantiate.instantiate()
 		_options_menu_instance = options_menu
 		add_child(_options_menu_instance)
 		if get_parent() is GameManager:
