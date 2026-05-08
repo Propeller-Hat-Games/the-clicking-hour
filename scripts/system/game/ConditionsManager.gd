@@ -26,13 +26,7 @@ func update_board() -> void:
 	)
 
 
-func generate_conditions_tutorial() -> void:
-	var glass_type_count := 2
-	var glass_count := 2
-	for new_type in game.glass_manager.n_random_glass_types(glass_type_count):
-		required_glass_types.append(new_type)
-		required_glass_counts.append(1)
-
+func debug(glass_type_count: int) -> void:
 	print("[CONDITIONS] Generated conditions:")
 	for i in range(glass_type_count):
 		print("             - %s : %d" % [required_glass_types[i], required_glass_counts[i]])
@@ -40,6 +34,18 @@ func generate_conditions_tutorial() -> void:
 	update_board()
 	if game.board != null:
 		game.board.visible = true
+
+
+func init_glass_types(glass_type_count: int) -> void:
+	for new_type in game.glass_manager.n_random_glass_types(glass_type_count):
+		required_glass_types.append(new_type)
+		required_glass_counts.append(1)
+
+
+func generate_conditions_tutorial() -> void:
+	var glass_type_count := 2
+	init_glass_types(glass_type_count)
+	debug(glass_type_count)
 
 
 func generate_conditions() -> void:
@@ -51,21 +57,13 @@ func generate_conditions() -> void:
 	# We clamp the wave value to stay inside the curve domain
 	var glass_count := game.glass_count_curve.sample(clamp(game.current_wave, 0, 20))
 
-	for new_type in game.glass_manager.n_random_glass_types(glass_type_count):
-		required_glass_types.append(new_type)
-		required_glass_counts.append(1)
+	init_glass_types(glass_type_count)
 
 	for i in range(glass_count):
 		var index := game._rng.randi() % required_glass_types.size()
 		required_glass_counts[index] += 1
 
-	print("[CONDITIONS] Generated conditions:")
-	for i in range(glass_type_count):
-		print("             - %s : %d" % [required_glass_types[i], required_glass_counts[i]])
-
-	update_board()
-	if game.board != null:
-		game.board.visible = true
+	debug(glass_type_count)
 
 
 func try_enter_glass(type: String) -> bool:
