@@ -59,4 +59,5 @@ func _on_entity_entered_door(entity: Entity) -> void:
 		if game.conditions_manager.is_conditions_done():
 			game.wave_manager.end_wave()
 	else:
-		game.hearts_manager.loose_heart()
+		if game.current_wave > 0:
+			game.hearts_manager.loose_heart()

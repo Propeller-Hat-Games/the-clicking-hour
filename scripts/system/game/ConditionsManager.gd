@@ -26,6 +26,22 @@ func update_board() -> void:
 	)
 
 
+func generate_conditions_tutorial() -> void:
+	var glass_type_count := 2
+	var glass_count := 2
+	for new_type in game.glass_manager.n_random_glass_types(glass_type_count):
+		required_glass_types.append(new_type)
+		required_glass_counts.append(1)
+
+	print("[CONDITIONS] Generated conditions:")
+	for i in range(glass_type_count):
+		print("             - %s : %d" % [required_glass_types[i], required_glass_counts[i]])
+
+	update_board()
+	if game.board != null:
+		game.board.visible = true
+
+
 func generate_conditions() -> void:
 	required_glass_types.clear()
 	required_glass_counts.clear()
