@@ -26,7 +26,7 @@ func update_board() -> void:
 	)
 
 
-func debug(glass_type_count: int) -> void:
+func handle_visuals(glass_type_count: int) -> void:
 	print("[CONDITIONS] Generated conditions:")
 	for i in range(glass_type_count):
 		print("             - %s : %d" % [required_glass_types[i], required_glass_counts[i]])
@@ -45,7 +45,7 @@ func init_glass_types(glass_type_count: int) -> void:
 func generate_conditions_tutorial() -> void:
 	var glass_type_count := 2
 	init_glass_types(glass_type_count)
-	debug(glass_type_count)
+	handle_visuals(glass_type_count)
 
 
 func generate_conditions() -> void:
@@ -63,7 +63,7 @@ func generate_conditions() -> void:
 		var index := game._rng.randi() % required_glass_types.size()
 		required_glass_counts[index] += 1
 
-	debug(glass_type_count)
+	handle_visuals(glass_type_count)
 
 
 func try_enter_glass(type: String) -> bool:
