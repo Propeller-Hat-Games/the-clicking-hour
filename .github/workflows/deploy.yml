@@ -1,0 +1,56 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.2
+          use-dotnet: false
+
+      - name: Download Templates
+        run: |
+          wget -q https://github.com/godotengine/godot-builds/releases/download/4.6.2-stable/Godot_v4.6.2-stable_export_templates.tpz
+          mkdir -pv ~/.local/share/godot/export_templates/4.6.2.stable
+          unzip -q Godot_v4.6.2-stable_export_templates.tpz
+          mv templates/* ~/.local/share/godot/export_templates/4.6.2.stable/
+          rm Godot_v4.6.2-stable_export_templates.tpz
+
+      - name: Export Web
+        run: |
+          mkdir -pv build/web
+          godot --headless --export-release "Web" build/web/index.html
+
+      - name: Download coi-serviceworker
+        run: |
+          wget -q https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.js -P build/web
+
+      - name: Inject coi-serviceworker
+        run: |
+          sed -i 's/<script/<script src="coi-serviceworker.js"><\/script><script/g' build/web/index.html
+
+      - name: Add .nojekyll
+        run: touch build/web/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
+          destination_dir: ${{ github.ref == 'refs/heads/main' && '.' || 'develop' }}
+          force_orphan: false
