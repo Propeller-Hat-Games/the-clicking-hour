@@ -55,8 +55,9 @@ func start_heart_animation_loop() -> void:
 			return
 
 
-func loose_heart() -> void:
-	game.hearts -= 1
+func lose_heart() -> void:
+	if game.current_wave > 0:
+		game.hearts -= 1
 	game.vfx_manager.trigger_glitch_effect()
 	SfxManager.play_take_damage_sound()
 	update_hearts()
