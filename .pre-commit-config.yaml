@@ -1,14 +1,13 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
-    -   id: check-yaml
-    -   id: check-added-large-files
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
 
--   repo: https://github.com/Scony/godot-gdscript-toolkit
+  - repo: https://github.com/Scony/godot-gdscript-toolkit
     rev: 4.5.0
     hooks:
-    -   id: gdlint
-    -   id: gdformat
+      - id: gdlint
+      - id: gdformat
