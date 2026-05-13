@@ -35,7 +35,6 @@ func tutorial_wave() -> void:
 
 
 func next_wave() -> void:
-	game.conditions_manager.generate_conditions()
 	var next_wave_index := game.current_wave + 1
 	var next_night_mode := (
 		next_wave_index > 2 and not game.is_night_mode and game._rng.randf() < 0.3
@@ -44,6 +43,7 @@ func next_wave() -> void:
 
 
 func start_wave(wave_index: int, night_mode: bool) -> void:
+	game.conditions_manager.generate_conditions()
 	game.current_wave = wave_index
 	game.is_night_mode = night_mode
 
