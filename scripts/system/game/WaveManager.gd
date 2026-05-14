@@ -43,9 +43,9 @@ func next_wave() -> void:
 
 
 func start_wave(wave_index: int, night_mode: bool) -> void:
-	game.conditions_manager.generate_conditions()
 	game.current_wave = wave_index
 	game.is_night_mode = night_mode
+	game.conditions_manager.generate_conditions()
 
 	game.settings_button.disabled = false
 
