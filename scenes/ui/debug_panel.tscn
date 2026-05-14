@@ -22,6 +22,9 @@ variation_embolden = 1.0
 [sub_resource type="FontVariation" id="FontVariation_osiar"]
 variation_embolden = -0.5
 
+[sub_resource type="FontVariation" id="FontVariation_t45x0"]
+variation_embolden = -0.5
+
 [sub_resource type="FontVariation" id="FontVariation_nhodr"]
 variation_embolden = 1.0
 
@@ -75,10 +78,25 @@ layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_osiar")
 text = "Night Mode : None"
 
-[node name="Lives" type="Label" parent="Content/Body/Informations" unique_id=267244991]
+[node name="LivesGroup" type="HBoxContainer" parent="Content/Body/Informations" unique_id=79786783]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Content/Body/Informations/LivesGroup" unique_id=267244991]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_osiar")
-text = "Lives : None"
+text = "Lives :"
+
+[node name="Less" type="Button" parent="Content/Body/Informations/LivesGroup" unique_id=1370617493]
+layout_mode = 2
+text = "-"
+
+[node name="Value" type="Label" parent="Content/Body/Informations/LivesGroup" unique_id=852579258]
+layout_mode = 2
+text = "None"
+
+[node name="More" type="Button" parent="Content/Body/Informations/LivesGroup" unique_id=536003444]
+layout_mode = 2
+text = "+"
 
 [node name="Kills" type="Label" parent="Content/Body/Informations" unique_id=267244992]
 layout_mode = 2
@@ -89,6 +107,17 @@ text = "Kills : None"
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_osiar")
 text = "Passed : None"
+
+[node name="UnboadringGroup" type="HBoxContainer" parent="Content/Body/Informations" unique_id=1223983353]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Content/Body/Informations/UnboadringGroup" unique_id=1811695505]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_t45x0")
+text = "Unboarding :"
+
+[node name="CheckButton" type="CheckButton" parent="Content/Body/Informations/UnboadringGroup" unique_id=1179636102]
+layout_mode = 2
 
 [node name="Manage" type="VBoxContainer" parent="Content/Body" unique_id=304530677]
 layout_mode = 2
@@ -149,6 +178,9 @@ layout_mode = 2
 text = "Close"
 
 [connection signal="pressed" from="OpenButton" to="." method="_on_open_button_pressed"]
+[connection signal="pressed" from="Content/Body/Informations/LivesGroup/Less" to="." method="_on_lives_less_pressed"]
+[connection signal="pressed" from="Content/Body/Informations/LivesGroup/More" to="." method="_on_lives_more_pressed"]
+[connection signal="toggled" from="Content/Body/Informations/UnboadringGroup/CheckButton" to="." method="_on_unboarding_button_toggled"]
 [connection signal="pressed" from="Content/Body/Manage/WaveGroup/Less" to="." method="_on_wave_less_pressed"]
 [connection signal="text_changed" from="Content/Body/Manage/WaveGroup/Wave" to="." method="_on_wave_text_changed"]
 [connection signal="pressed" from="Content/Body/Manage/WaveGroup/More" to="." method="_on_wave_more_pressed"]

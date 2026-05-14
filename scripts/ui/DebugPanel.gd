@@ -27,7 +27,7 @@ func _process(_delta: float) -> void:
 	$Content/Body/Informations/NightMode.text = (
 		"Night Mode : %s" % ("ON" if game.is_night_mode else "OFF")
 	)
-	$Content/Body/Informations/Lives.text = "Lives : %d" % game.hearts
+	$Content/Body/Informations/LivesGroup/Value.text = str(game.hearts)
 	$Content/Body/Informations/Kills.text = "Kills : %d" % game.entities_killed
 	$Content/Body/Informations/Passed.text = "Passed : %d" % game.glass_passed
 
@@ -37,6 +37,9 @@ func _on_open_button_pressed() -> void:
 		change_wave = game.current_wave
 		_update_wave_input()
 
+	$Content/Body/Informations/UnboadringGroup/CheckButton.button_pressed = (not (
+		SettingsManager.has_seen_onboarding
+	))
 	$Content.visible = true
 	$OpenButton.visible = false
 	reset_size()
@@ -88,3 +91,23 @@ func _on_update_button_pressed() -> void:
 
 	var night_mode: bool = $Content/Body/Manage/NightModeGroup/CheckButton.button_pressed
 	game.wave_manager.start_wave(change_wave, night_mode)
+
+
+func _on_lives_less_pressed() -> void:
+	game.hearts -= 1
+	game.hearts_manager.update_hearts()
+
+
+func _on_lives_more_pressed() -> void:
+	game.hearts += 1
+	game.hearts_manager.update_hearts()
+
+
+func update_has_seen_unboarding() -> void:
+	$Content/Body/Informations/UnboadringGroup/CheckButton.button_pressed = (not (
+		SettingsManager.has_seen_onboarding
+	))
+
+
+func _on_unboarding_button_toggled(toggled_on: bool) -> void:
+	SettingsManager.has_seen_onboarding = not toggled_on

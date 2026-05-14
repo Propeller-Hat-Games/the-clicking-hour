@@ -24,6 +24,7 @@ func start_game() -> void:
 			while not unboarding_closed:
 				await get_tree().process_frame
 		SettingsManager.has_seen_onboarding = true
+		game.debug_panel.update_has_seen_unboarding()
 		tutorial_wave()
 	else:
 		next_wave()
