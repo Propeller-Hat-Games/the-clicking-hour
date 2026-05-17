@@ -15,6 +15,11 @@ func get_sprites() -> Dictionary:
 
 
 func _ready() -> void:
+	reset_probabilities()
+
+
+## Every glass has the same chance of beeing selected
+func reset_probabilities() -> void:
 	var keys: Array[String] = sprites.keys()
 	var ratio: float = 1.0 / (keys.size())
 	for type in sprites.keys():

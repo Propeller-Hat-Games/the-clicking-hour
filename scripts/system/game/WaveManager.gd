@@ -44,6 +44,7 @@ func next_wave() -> void:
 
 
 func start_wave(wave_index: int, night_mode: bool) -> void:
+	game.glass_manager.reset_probabilities()
 	game.current_wave = wave_index
 	game.is_night_mode = night_mode
 	game.conditions_manager.generate_conditions()
