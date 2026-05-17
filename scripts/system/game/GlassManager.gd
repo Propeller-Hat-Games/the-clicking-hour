@@ -39,6 +39,10 @@ func random_glass_type(current_wave: int) -> String:
 	return glass_node.get_random_glass(current_wave)
 
 
+func reset_probabilities() -> void:
+	glass_node.reset_probabilities()
+
+
 func n_random_glass_types(n: int) -> Array[String]:
 	var types_array: Array[String] = []
 
