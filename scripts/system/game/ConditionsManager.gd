@@ -42,15 +42,20 @@ func init_glass_types(glass_type_count: int) -> void:
 		required_glass_counts.append(1)
 
 
+func clear_glasses() -> void:
+	required_glass_types.clear()
+	required_glass_counts.clear()
+
+
 func generate_conditions_tutorial() -> void:
+	clear_glasses()
 	var glass_type_count := 2
 	init_glass_types(glass_type_count)
 	handle_visuals(glass_type_count)
 
 
 func generate_conditions() -> void:
-	required_glass_types.clear()
-	required_glass_counts.clear()
+	clear_glasses()
 
 	var glass_type_count := 1 + int(min(2, game.current_wave / game.waves_to_add_a_glass_type))
 	# The two numbers are respectively the min and max domain of the curve
