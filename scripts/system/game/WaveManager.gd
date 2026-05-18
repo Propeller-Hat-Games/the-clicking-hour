@@ -31,7 +31,6 @@ func start_game() -> void:
 
 
 func tutorial_wave() -> void:
-	game.conditions_manager.generate_conditions_tutorial()
 	start_wave(0, 0)
 
 
@@ -47,7 +46,11 @@ func start_wave(wave_index: int, night_mode: bool) -> void:
 	game.glass_manager.reset_probabilities()
 	game.current_wave = wave_index
 	game.is_night_mode = night_mode
-	game.conditions_manager.generate_conditions()
+
+	if wave_index == 0:
+		game.conditions_manager.generate_conditions_tutorial()
+	else:
+		game.conditions_manager.generate_conditions()
 
 	game.settings_button.disabled = false
 
