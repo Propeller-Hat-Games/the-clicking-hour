@@ -46,6 +46,11 @@ func update_effects_visibility() -> void:
 
 
 func update_night_mode() -> void:
+	if not _is_first_run and game.black_canvas:
+		var currently_night := game.black_canvas.visible and game.black_canvas.color.r < 0.5
+		if game.is_night_mode == currently_night:
+			return
+
 	update_cursor()
 
 	if _is_first_run:

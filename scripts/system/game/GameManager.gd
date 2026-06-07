@@ -149,7 +149,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if not unboarding.get_meta("is_fading_out", false):
 				unboarding.set_meta("is_fading_out", true)
 				hide_unboarding()
-				get_viewport().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			return
 		_handle_entity_click(event.position)
 
