@@ -4,6 +4,8 @@ extends GameManagerInterface
 ## Handles cursor, VHS effect, and night mode visuals.
 
 var vhs_layer: CanvasLayer
+var _is_first_run: bool = true
+var _night_mode_tween: Tween = null
 
 
 func _process(_delta: float) -> void:
@@ -45,16 +47,86 @@ func update_effects_visibility() -> void:
 
 func update_night_mode() -> void:
 	update_cursor()
+
+	if _is_first_run:
+		_is_first_run = false
+		if game.background:
+			game.background.update_animated_sprite(game.is_night_mode)
+		if game.black_canvas:
+			game.black_canvas.visible = game.is_night_mode
+			game.black_canvas.color = (
+				Color(0.039, 0.039, 0.039, 1.0) if game.is_night_mode else Color(1.0, 1.0, 1.0, 1.0)
+			)
+		if game.cursor_light:
+			game.cursor_light.visible = game.is_night_mode
+			game.cursor_light.energy = 0.75 if game.is_night_mode else 0.0
+		for node in get_tree().get_nodes_in_group(&"Lights"):
+			if node is PointLight2D:
+				node.energy = 1.0 if game.is_night_mode else 0.5
+		return
+
+	if _night_mode_tween != null:
+		_night_mode_tween.kill()
+		_night_mode_tween = null
+
+	var duration := 2.0
+	_night_mode_tween = create_tween()
+	_night_mode_tween.set_parallel(true)
+
 	if game.background:
 		game.background.update_animated_sprite(game.is_night_mode)
+
 	if game.black_canvas:
-		game.black_canvas.visible = game.is_night_mode
+		if not game.black_canvas.visible:
+			game.black_canvas.color = Color(1.0, 1.0, 1.0, 1.0)
+		game.black_canvas.visible = true
+		var target_color := (
+			Color(0.039, 0.039, 0.039, 1.0) if game.is_night_mode else Color(1.0, 1.0, 1.0, 1.0)
+		)
+		(
+			_night_mode_tween
+			. tween_property(game.black_canvas, "color", target_color, duration)
+			. set_trans(Tween.TRANS_SINE)
+			. set_ease(Tween.EASE_IN_OUT)
+		)
+
 	if game.cursor_light:
-		game.cursor_light.visible = game.is_night_mode
+		if game.is_night_mode:
+			if not game.cursor_light.visible:
+				game.cursor_light.energy = 0.0
+			game.cursor_light.visible = true
+			(
+				_night_mode_tween
+				. tween_property(game.cursor_light, "energy", 0.75, duration)
+				. set_trans(Tween.TRANS_SINE)
+				. set_ease(Tween.EASE_IN_OUT)
+			)
+		else:
+			(
+				_night_mode_tween
+				. tween_property(game.cursor_light, "energy", 0.0, duration)
+				. set_trans(Tween.TRANS_SINE)
+				. set_ease(Tween.EASE_IN_OUT)
+			)
 
 	for node in get_tree().get_nodes_in_group(&"Lights"):
 		if node is PointLight2D:
-			node.energy = 1.0 if game.is_night_mode else 0.5
+			var target_energy := 1.0 if game.is_night_mode else 0.5
+			(
+				_night_mode_tween
+				. tween_property(node, "energy", target_energy, duration)
+				. set_trans(Tween.TRANS_SINE)
+				. set_ease(Tween.EASE_IN_OUT)
+			)
+
+	_night_mode_tween.chain().set_parallel(false).tween_callback(
+		func():
+			if game.black_canvas and not game.is_night_mode:
+				game.black_canvas.visible = false
+			if game.cursor_light and not game.is_night_mode:
+				game.cursor_light.visible = false
+			_night_mode_tween = null
+	)
 
 
 func update_cursor() -> void:

@@ -19,7 +19,7 @@ func start_game() -> void:
 
 	if not SettingsManager.has_seen_onboarding:
 		if game.unboarding != null:
-			game.unboarding.visible = true
+			game.show_unboarding()
 			unboarding_closed = false
 			while not unboarding_closed:
 				await get_tree().process_frame
