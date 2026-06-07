@@ -9,6 +9,8 @@ extends Node2D
 
 var _back: Array[Sprite2D] = []
 var _front: Array[Sprite2D] = []
+var _sprite_night: AnimatedSprite2D = null
+var _fade_tween: Tween = null
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -16,7 +18,14 @@ var _front: Array[Sprite2D] = []
 func _ready() -> void:
 	# AnimatedSprite2D
 	if _sprite:
-		_sprite.play()
+		_sprite.play(&"default")
+
+		# Create the night overlay dynamically
+		_sprite_night = _sprite.duplicate() as AnimatedSprite2D
+		add_child(_sprite_night)
+		move_child(_sprite_night, 1)  # Draw right on top of the day sky
+		_sprite_night.play(&"night")
+		_sprite_night.modulate.a = 0.0
 
 	# Background layers
 	_back = _safe_get_sprites([&"Sprite2D_Back", &"Sprite2D_Back2"])
@@ -45,13 +54,26 @@ func _scroll_layer(layer: Array[Sprite2D], speed: float, delta: float) -> void:
 
 
 ## Updates the background animation based on day/night cycle.
-func update_animated_sprite(is_night_mode: bool) -> void:
-	if _sprite == null:
+func update_animated_sprite(is_night_mode: bool, duration: float = 0.0) -> void:
+	if _sprite_night == null:
 		return
 
-	var target_anim := &"night" if is_night_mode else &"default"
-	if _sprite.animation != target_anim:
-		_sprite.play(target_anim)
+	if _fade_tween != null:
+		_fade_tween.kill()
+		_fade_tween = null
+
+	var target_alpha := 1.0 if is_night_mode else 0.0
+
+	if duration <= 0.0:
+		_sprite_night.modulate.a = target_alpha
+	else:
+		_fade_tween = create_tween()
+		(
+			_fade_tween
+			. tween_property(_sprite_night, "modulate:a", target_alpha, duration)
+			. set_trans(Tween.TRANS_SINE)
+			. set_ease(Tween.EASE_IN_OUT)
+		)
 
 
 ## Utility method to safely get multiple Sprite2D nodes by name.

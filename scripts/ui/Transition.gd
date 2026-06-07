@@ -21,4 +21,4 @@ func set_completed_wave(wave_number: int) -> void:
 ## Closes the transition window and signals for the next stage.
 func close_window() -> void:
 	next_stage_requested.emit()
-	queue_free()
+	close()
