@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://crqnun1n00n82" path="res://scenes/environment/neon.tscn" id="14_30v7y"]
 [ext_resource type="PackedScene" uid="uid://cax1bv236pwwl" path="res://scenes/glass.tscn" id="16_cjvif"]
 [ext_resource type="PackedScene" uid="uid://cudhhn1di6nvu" path="res://scenes/ui/debug_panel.tscn" id="20_4vth2"]
+[ext_resource type="FontFile" uid="uid://c48c41w73f34u" path="res://assets/fonts/edit-undo.brk.ttf" id="21_yxe1x"]
 
 [sub_resource type="Curve" id="Curve_c7a3q"]
 _limits = [0.0, 2.0, 0.0, 50.0]
@@ -52,7 +53,22 @@ size = Vector2(224.63614, 24.255402)
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
 light_mode = 1
 
-[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("door", "main_menu", "trash", "glitch_effect", "settings_button", "spawn_area", "unboarding", "board", "heart_container", "background", "black_canvas", "debug_panel", "cursor_light")]
+[sub_resource type="Theme" id="Theme_jrl6a"]
+Label/constants/outline_size = 10
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("21_yxe1x")
+
+[sub_resource type="Gradient" id="Gradient_wcunu"]
+colors = PackedColorArray(1, 0, 1, 1, 0, 0, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2j6ol"]
+gradient = SubResource("Gradient_wcunu")
+
+[sub_resource type="Theme" id="Theme_8ldib"]
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("21_yxe1x")
+
+[node name="GameManager" type="Node2D" unique_id=507958752 node_paths=PackedStringArray("door", "main_menu", "trash", "glitch_effect", "settings_button", "spawn_area", "unboarding", "board", "heart_container", "background", "black_canvas", "debug_panel", "special_wave_ui", "cursor_light")]
 script = ExtResource("1_hwd4i")
 delay_curve = SubResource("Curve_c7a3q")
 glass_count_curve = SubResource("Curve_4vth2")
@@ -72,6 +88,7 @@ heart_scene = ExtResource("3_c7a3q")
 background = NodePath("AnimatedBackground")
 black_canvas = NodePath("BlackCanvas")
 debug_panel = NodePath("NoShaders/DebugPanel")
+special_wave_ui = NodePath("SpecialWaveUI")
 cursor_normal = ExtResource("3_pc0jn")
 cursor_night = ExtResource("4_c7a3q")
 cursor_light = NodePath("CursorLight")
@@ -96,6 +113,7 @@ position = Vector2(324, 405)
 z_index = -2
 
 [node name="GlitchEffect" parent="." unique_id=182762972 instance=ExtResource("9_glitch")]
+visible = false
 
 [node name="Wall" parent="." unique_id=722171110 instance=ExtResource("10_frtjd")]
 z_index = -1
@@ -182,3 +200,51 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 206.0
 offset_bottom = 175.0
+
+[node name="SpecialWaveUI" type="Control" parent="." unique_id=985623970]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 651.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SpecialWaveUI" unique_id=1563592731]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -168.0
+offset_bottom = -74.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="SpecialWaveLabelOutline" type="Label" parent="SpecialWaveUI/MarginContainer" unique_id=463541240]
+clip_children = 2
+layout_mode = 2
+theme = SubResource("Theme_jrl6a")
+text = " Final Challenge - Veebee"
+
+[node name="TextureRect" type="TextureRect" parent="SpecialWaveUI/MarginContainer/SpecialWaveLabelOutline" unique_id=654753566]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -714.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_2j6ol")
+expand_mode = 1
+
+[node name="SpecialWaveLabel" type="Label" parent="SpecialWaveUI/MarginContainer" unique_id=1592840874]
+clip_children = 2
+layout_mode = 2
+theme = SubResource("Theme_8ldib")
+text = " Final Challenge - Veebee"

@@ -25,6 +25,7 @@ extends Node2D
 @export var background: AnimatedBackground
 @export var black_canvas: CanvasModulate
 @export var debug_panel: DebugPanel
+@export var special_wave_ui: Control
 
 @export_group("Assets")
 @export var cursor_normal: Texture2D

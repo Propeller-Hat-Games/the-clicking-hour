@@ -3,8 +3,12 @@ extends GameManagerInterface
 
 ## Handles wave progression and the spawning loop.
 
-var unboarding_closed: bool = false
+# SW = SPECIAL_WAVE
+const SW_NUMBER: int = 20 # at which wave is there a special effect
+const SW_OFFSET: float = 20.0 # the offset from where the text comes from
+const SW_PAUSE: float = 10.0 # the number of seconds the text displays on screen
 
+var unboarding_closed: bool = false
 
 func start_game() -> void:
 	game.current_wave = 0
@@ -59,10 +63,7 @@ func start_wave(wave_index: int, night_mode: bool) -> void:
 	if game.is_night_mode:
 		print("[WAVE] This wave is night mode!")
 
-	if game.current_wave == 20:
-		MusicManager.play_special_music()
-	else:
-		MusicManager.play_game_music(game.is_night_mode)
+	_handle_special_wave()
 	GameEvents.wave_started.emit(game.current_wave, game.is_night_mode)
 
 	await get_tree().create_timer(1.0, false).timeout
@@ -144,3 +145,41 @@ func end_game() -> void:
 		game.current_wave - 1, game.entities_killed, game.glass_passed
 	)
 	await MusicManager.play_menu_music()
+	
+func _handle_special_wave() -> void:
+	if game.current_wave == SW_NUMBER:
+		MusicManager.play_special_music()
+		_play_special_wave_ui_animation()
+	else:
+		MusicManager.play_game_music(game.is_night_mode)
+		game.special_wave_ui.visible = false
+
+func _play_special_wave_ui_animation() -> void:
+	var ui := game.special_wave_ui
+
+	ui.visible = true
+
+	var final_pos := ui.position
+	var start_pos := final_pos + Vector2(-SW_OFFSET, 0)
+
+	ui.position = start_pos
+	ui.modulate.a = 0.0
+
+	var tween := create_tween()
+	
+	tween.parallel().tween_property(ui, "modulate:a", 1.0, 0.5)
+	tween.parallel().tween_property(ui, "position", final_pos, 0.5)
+
+	tween.tween_interval(SW_PAUSE)
+	
+	tween.tween_property(ui, "modulate:a", 0.0, 0.5)
+	tween.parallel().tween_property(ui, "position", final_pos + Vector2(SW_OFFSET, 0), 0.5)
+	
+	await tween.finished
+	
+	
+	if not is_instance_valid(ui):
+		return
+		
+	ui.visible = false
+	ui.position = final_pos
