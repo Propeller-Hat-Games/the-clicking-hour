@@ -58,4 +58,5 @@ func _on_global_effects_toggled(toggled_on: bool) -> void:
 ## Saves settings and signals for the menu to close.
 func _on_back_pressed() -> void:
 	SettingsManager.save_settings()
+	close()
 	close_requested.emit()

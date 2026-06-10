@@ -6,10 +6,23 @@ extends Control
 @export var background_border: TextureRect
 @export var rotation_speed: float = 3.0
 
+var _is_closing: bool = false
+
 
 func _ready() -> void:
 	var window: Control = get_node_or_null("CanvasLayer/Window")
 	if window != null:
+		# Set initial state for fade-in
+		window.modulate.a = 0.0
+		var fade_in_tween := create_tween()
+		(
+			fade_in_tween
+			. tween_property(window, "modulate:a", 1.0, 0.3)
+			. set_trans(Tween.TRANS_SINE)
+			. set_ease(Tween.EASE_OUT)
+		)
+
+		# Floating animation on a separate Tween
 		var tween: Tween = create_tween().set_loops()
 		(
 			tween
@@ -80,4 +93,30 @@ func _ready() -> void:
 
 ## Closes the menu by freeing the node.
 func close() -> void:
+	if _is_closing:
+		return
+	_is_closing = true
+
+	var window: Control = get_node_or_null("CanvasLayer/Window")
+	if window != null:
+		var canvas_layer = get_node_or_null("CanvasLayer")
+		if canvas_layer != null:
+			var blocker := Control.new()
+			blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			blocker.mouse_filter = Control.MOUSE_FILTER_STOP
+			canvas_layer.add_child(blocker)
+
+		var fade_out_tween := create_tween()
+		(
+			fade_out_tween
+			. tween_property(window, "modulate:a", 0.0, 0.25)
+			. set_trans(Tween.TRANS_SINE)
+			. set_ease(Tween.EASE_IN)
+		)
+		fade_out_tween.finished.connect(_on_close_animation_finished)
+	else:
+		_on_close_animation_finished()
+
+
+func _on_close_animation_finished() -> void:
 	queue_free()

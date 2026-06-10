@@ -129,6 +129,7 @@ func _screen_fade_in() -> void:
 func _on_play_button_pressed() -> void:
 	main_menu.close()
 	settings_button.disabled = false
+	await main_menu.tree_exited
 	wave_manager.start_game()
 
 
@@ -144,9 +145,10 @@ func _on_settings_button_pressed() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"interact"):
-		if unboarding != null and unboarding.visible:
-			unboarding.visible = false
-			wave_manager.unboarding_closed = true
+		if unboarding != null and unboarding.visible and unboarding.modulate.a > 0.0:
+			if not unboarding.get_meta("is_fading_out", false):
+				unboarding.set_meta("is_fading_out", true)
+				hide_unboarding()
 			get_viewport().set_input_as_handled()
 			return
 		_handle_entity_click(event.position)
@@ -186,3 +188,29 @@ func _handle_entity_click(_mouse_position: Vector2) -> void:
 	if top_entity != null:
 		top_entity.try_click(self)
 		get_viewport().set_input_as_handled()
+
+
+func show_unboarding() -> void:
+	if unboarding == null:
+		return
+	unboarding.set_meta("is_fading_out", false)
+	unboarding.modulate.a = 0.0
+	unboarding.visible = true
+	var tween := create_tween()
+	tween.tween_property(unboarding, "modulate:a", 1.0, 0.4).set_trans(Tween.TRANS_SINE).set_ease(
+		Tween.EASE_OUT
+	)
+
+
+func hide_unboarding() -> void:
+	if unboarding == null:
+		return
+	var tween := create_tween()
+	tween.tween_property(unboarding, "modulate:a", 0.0, 0.3).set_trans(Tween.TRANS_SINE).set_ease(
+		Tween.EASE_IN
+	)
+	tween.finished.connect(
+		func():
+			unboarding.visible = false
+			wave_manager.unboarding_closed = true
+	)
