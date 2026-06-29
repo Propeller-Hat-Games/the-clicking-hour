@@ -7,6 +7,9 @@ extends Node2D
 @export var speed_front: float = 40.0
 @export var screen_width: float = 1152.0
 
+@export var city_background: Texture2D
+@export var city_background_special: Texture2D
+
 var _back: Array[Sprite2D] = []
 var _front: Array[Sprite2D] = []
 
@@ -21,7 +24,8 @@ func _ready() -> void:
 	# Background layers
 	_back = _safe_get_sprites([&"Sprite2D_Back", &"Sprite2D_Back2"])
 	_front = _safe_get_sprites([&"Sprite2D_Front", &"Sprite2D_Front2"])
-
+	
+	set_special_background(false)
 
 func _process(delta: float) -> void:
 	_scroll_layer(_back, speed_back, delta)
@@ -62,3 +66,10 @@ func _safe_get_sprites(node_names: Array[String]) -> Array[Sprite2D]:
 		if node is Sprite2D:
 			result.append(node as Sprite2D)
 	return result
+	
+func set_special_background(enabled: bool) -> void:
+	var texture := city_background_special if enabled else city_background
+
+	for sprite in _back:
+		if sprite:
+			sprite.texture = texture

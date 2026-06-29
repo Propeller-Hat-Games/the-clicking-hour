@@ -148,9 +148,11 @@ func end_game() -> void:
 	
 func _handle_special_wave() -> void:
 	if game.current_wave == SW_NUMBER:
+		game.background.set_special_background(true)
 		MusicManager.play_special_music()
 		_play_special_wave_ui_animation()
 	else:
+		game.background.set_special_background(false)
 		MusicManager.play_game_music(game.is_night_mode)
 		game.special_wave_ui.visible = false
 

@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://bsuxqfkp8jlbh"]
+[gd_scene format=3 uid="uid://bsuxqfkp8jlbh"]
 
 [ext_resource type="Texture2D" uid="uid://c5v7s6a7qjset" path="res://assets/sprites/environment/background/background_aspritesheet.png" id="1_ewy2f"]
-[ext_resource type="Script" path="res://scripts/environment/AnimatedBackground.gd" id="1_h7ob3"]
+[ext_resource type="Script" uid="uid://cv04ythyxx6id" path="res://scripts/environment/AnimatedBackground.gd" id="1_h7ob3"]
 [ext_resource type="Texture2D" uid="uid://d3qxyxocbaoon" path="res://assets/sprites/environment/background/layer_city_background.png" id="3_4uvy6"]
 [ext_resource type="Texture2D" uid="uid://cv3414s262wd3" path="res://assets/sprites/environment/background/background_night.png" id="3_twueu"]
+[ext_resource type="Texture2D" uid="uid://g30k5yruqqfb" path="res://assets/sprites/environment/background/layer_city_background_special.png" id="3_u2rmy"]
 [ext_resource type="Texture2D" uid="uid://dnl65r3oxdda2" path="res://assets/sprites/environment/background/layer_tree_background.png" id="4_4mu36"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h7ob3"]
@@ -82,31 +83,33 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="AnimatedBackground" type="Node2D"]
+[node name="AnimatedBackground" type="Node2D" unique_id=1128959938]
 script = ExtResource("1_h7ob3")
+city_background = ExtResource("3_4uvy6")
+city_background_special = ExtResource("3_u2rmy")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2052533256]
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_06gk8")
 centered = false
 
-[node name="Sprite2D_Back" type="Sprite2D" parent="."]
+[node name="Sprite2D_Back" type="Sprite2D" parent="." unique_id=500545381]
 scale = Vector2(3, 3)
 texture = ExtResource("3_4uvy6")
 centered = false
 
-[node name="Sprite2D_Back2" type="Sprite2D" parent="."]
+[node name="Sprite2D_Back2" type="Sprite2D" parent="." unique_id=1565197345]
 position = Vector2(1152, 0)
 scale = Vector2(3, 3)
 texture = ExtResource("3_4uvy6")
 centered = false
 
-[node name="Sprite2D_Front" type="Sprite2D" parent="."]
+[node name="Sprite2D_Front" type="Sprite2D" parent="." unique_id=49661116]
 scale = Vector2(3, 3)
 texture = ExtResource("4_4mu36")
 centered = false
 
-[node name="Sprite2D4_Front2" type="Sprite2D" parent="."]
+[node name="Sprite2D4_Front2" type="Sprite2D" parent="." unique_id=981202932]
 position = Vector2(1152, 0)
 scale = Vector2(3, 3)
 texture = ExtResource("4_4mu36")

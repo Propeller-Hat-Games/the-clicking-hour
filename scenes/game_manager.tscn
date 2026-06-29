@@ -229,14 +229,15 @@ mouse_filter = 2
 clip_children = 2
 layout_mode = 2
 theme = SubResource("Theme_jrl6a")
-text = " Final Challenge - Veebee"
+text = " Final Challenge - Fluffclipse"
 
 [node name="TextureRect" type="TextureRect" parent="SpecialWaveUI/MarginContainer/SpecialWaveLabelOutline" unique_id=654753566]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -714.0
+offset_left = 13.0
+offset_right = -669.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -247,4 +248,4 @@ expand_mode = 1
 clip_children = 2
 layout_mode = 2
 theme = SubResource("Theme_8ldib")
-text = " Final Challenge - Veebee"
+text = " Final Challenge - Fluffclipse"
