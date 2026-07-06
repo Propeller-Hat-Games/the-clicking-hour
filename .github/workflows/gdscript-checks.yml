@@ -12,8 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: requirements-dev.txt
+
       - name: Install GDScript Toolkit
-        uses: Scony/godot-gdscript-toolkit@master
+        run: pip install -r requirements-dev.txt
 
       - name: Check Formatting
         run: gdformat --check scripts

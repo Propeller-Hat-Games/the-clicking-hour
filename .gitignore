@@ -22,3 +22,6 @@ mono_crash.*.json
 
 # Releases
 releases/
+
+# Python virtual environment (created by setup_dev.py)
+.venv/

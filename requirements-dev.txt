@@ -1,0 +1,6 @@
+# Development dependencies for The Clicking Hour
+# Used by setup_dev.py and GitHub Actions CI
+#
+# Pin gdtoolkit to match .pre-commit-config.yaml rev
+gdtoolkit==4.5.0
+pre-commit==4.5.1
