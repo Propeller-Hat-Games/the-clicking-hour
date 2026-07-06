@@ -64,7 +64,7 @@ func start_wave(wave_index: int, night_mode: bool) -> void:
 	if game.is_night_mode:
 		print("[WAVE] This wave is night mode!")
 
-	MusicManager.play_game_music(game.is_night_mode)
+	game.special_wave_manager.handle_special_wave(self)
 	GameEvents.wave_started.emit(game.current_wave, game.is_night_mode)
 
 	await get_tree().create_timer(1.0, false).timeout

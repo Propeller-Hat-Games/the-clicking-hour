@@ -7,6 +7,7 @@ extends AudioStreamPlayer
 var _menu_music: AudioStream
 var _normal_playlist: Array[AudioStream] = []
 var _night_playlist: Array[AudioStream] = []
+var _special_music: AudioStream
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 var _fade_tween: Tween
@@ -44,6 +45,10 @@ func _ready() -> void:
 		track.loop = true
 
 	print("[MUSIC] Night playlist loaded: ", _night_playlist.size(), " tracks")
+
+	# Special music
+	_special_music = load("res://assets/musics/background/SpecialDrink.ogg")
+	_special_music.loop = true
 
 
 func _setup_music_bus() -> void:
@@ -129,6 +134,11 @@ func play_game_music(is_night_mode: bool) -> void:
 		print("[MUSIC] NIGHT")
 	else:
 		print("[MUSIC] NORMAL")
+
+
+func play_special_music() -> void:
+	await fade_to(_special_music)
+	print("[MUSIC] SPECIAL")
 
 
 ## Smoothly fades out the current music and stops it.

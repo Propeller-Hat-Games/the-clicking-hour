@@ -25,6 +25,7 @@ extends Node2D
 @export var background: AnimatedBackground
 @export var black_canvas: CanvasModulate
 @export var debug_panel: DebugPanel
+@export var special_wave_ui: Control
 
 @export_group("Assets")
 @export var cursor_normal: Texture2D
@@ -43,6 +44,7 @@ var is_spawning: bool = false
 var glass_manager: GlassManager
 var entities_manager: EntitiesManager
 var wave_manager: WaveManager
+var special_wave_manager: SpecialWaveManager
 var conditions_manager: ConditionsManager
 var hearts_manager: HeartsManager
 var vfx_manager: VFXManager
@@ -82,6 +84,7 @@ func _setup_managers() -> void:
 	glass_manager = GlassManager.new()
 	entities_manager = EntitiesManager.new()
 	wave_manager = WaveManager.new()
+	special_wave_manager = SpecialWaveManager.new()
 	conditions_manager = ConditionsManager.new()
 	hearts_manager = HeartsManager.new()
 	vfx_manager = VFXManager.new()
@@ -91,6 +94,7 @@ func _setup_managers() -> void:
 		glass_manager,
 		entities_manager,
 		wave_manager,
+		special_wave_manager,
 		conditions_manager,
 		hearts_manager,
 		vfx_manager,
