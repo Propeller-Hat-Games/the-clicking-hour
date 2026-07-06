@@ -1,6 +1,6 @@
 # 🕰️ The Clicking Hour
 
-[![Godot Engine](https://img.shields.io/badge/Godot-4.x-%23478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org)
+[![Godot Engine](https://img.shields.io/badge/Godot-4.6.2-%23478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![GDScript](https://img.shields.io/badge/GDScript-%23355570?logo=godot-engine&logoColor=white)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html)
 [![License: Non-Commercial](https://img.shields.io/badge/License-Non--Commercial-red.svg)](LICENSE)
 
@@ -33,7 +33,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 
 ## 🛠️ Technical Stack
 
-- **Engine:** [Godot 4.x](https://godotengine.org/) (Forward Plus renderer)
+- **Engine:** [Godot 4.6.2](https://godotengine.org/) (Forward Plus renderer)
 - **Language:** GDScript
 - **Shaders:** Custom GLSL shaders for glitch and VHS post-processing.
 - **Architecture:**
@@ -66,7 +66,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 This project uses **[GDScript Toolkit](https://github.com/Scony/godot-gdscript-toolkit)** for linting and formatting, integrated with **pre-commit** hooks and **GitHub Actions**.
 
 ### Prerequisites for Developers
-- **Python 3.8+**
+- **Python 3.10+**
 
 ### One-command setup (Linux, macOS, Windows)
 

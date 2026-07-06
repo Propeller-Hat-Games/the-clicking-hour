@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
 Cross-platform development environment setup for The Clicking Hour.
-Works on Linux, macOS, and Windows (Python 3.8+).
+Works on Linux, macOS, and Windows (Python 3.10+).
 
 Usage:
     python setup_dev.py          # Full setup (venv + deps + git hooks)
     python setup_dev.py --reset  # Delete and recreate the venv from scratch
     python setup_dev.py --hooks  # Only (re)install the pre-commit git hooks
 """
+
+from __future__ import annotations
 
 import argparse
 import os
@@ -17,7 +19,7 @@ import sys
 import venv
 from pathlib import Path
 
-MIN_PYTHON = (3, 8)
+MIN_PYTHON = (3, 10)
 VENV_DIR = Path(".venv")
 REQUIREMENTS = Path("requirements-dev.txt")
 
@@ -115,7 +117,7 @@ def install_hooks() -> None:
 
 def print_summary() -> None:
     activate = (
-        rf".venv\Scripts\activate"
+        r".venv\Scripts\activate"
         if IS_WIN
         else "source .venv/bin/activate"
     )
