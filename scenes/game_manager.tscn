@@ -88,7 +88,7 @@ heart_scene = ExtResource("3_c7a3q")
 background = NodePath("AnimatedBackground")
 black_canvas = NodePath("BlackCanvas")
 debug_panel = NodePath("NoShaders/DebugPanel")
-special_wave_ui = NodePath("SpecialWaveUI")
+special_wave_ui = NodePath("NoShaders/SpecialWaveUI")
 cursor_normal = ExtResource("3_pc0jn")
 cursor_night = ExtResource("4_c7a3q")
 cursor_light = NodePath("CursorLight")
@@ -201,19 +201,18 @@ offset_top = 20.0
 offset_right = 206.0
 offset_bottom = 175.0
 
-[node name="SpecialWaveUI" type="Control" parent="." unique_id=985623970]
+[node name="SpecialWaveUI" type="Control" parent="NoShaders" unique_id=985623970]
 visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1152.0
-offset_bottom = 651.0
+offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="SpecialWaveUI" unique_id=1563592731]
+[node name="MarginContainer" type="MarginContainer" parent="NoShaders/SpecialWaveUI" unique_id=1563592731]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -225,13 +224,13 @@ grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
 
-[node name="SpecialWaveLabelOutline" type="Label" parent="SpecialWaveUI/MarginContainer" unique_id=463541240]
+[node name="SpecialWaveLabelOutline" type="Label" parent="NoShaders/SpecialWaveUI/MarginContainer" unique_id=463541240]
 clip_children = 2
 layout_mode = 2
 theme = SubResource("Theme_jrl6a")
 text = " Final Challenge - Fluffclipse"
 
-[node name="TextureRect" type="TextureRect" parent="SpecialWaveUI/MarginContainer/SpecialWaveLabelOutline" unique_id=654753566]
+[node name="TextureRect" type="TextureRect" parent="NoShaders/SpecialWaveUI/MarginContainer/SpecialWaveLabelOutline" unique_id=654753566]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -244,7 +243,7 @@ mouse_filter = 2
 texture = SubResource("GradientTexture1D_2j6ol")
 expand_mode = 1
 
-[node name="SpecialWaveLabel" type="Label" parent="SpecialWaveUI/MarginContainer" unique_id=1592840874]
+[node name="SpecialWaveLabel" type="Label" parent="NoShaders/SpecialWaveUI/MarginContainer" unique_id=1592840874]
 clip_children = 2
 layout_mode = 2
 theme = SubResource("Theme_8ldib")
