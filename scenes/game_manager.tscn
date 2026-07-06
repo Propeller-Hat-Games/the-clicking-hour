@@ -113,7 +113,6 @@ position = Vector2(324, 405)
 z_index = -2
 
 [node name="GlitchEffect" parent="." unique_id=182762972 instance=ExtResource("9_glitch")]
-visible = false
 
 [node name="Wall" parent="." unique_id=722171110 instance=ExtResource("10_frtjd")]
 z_index = -1

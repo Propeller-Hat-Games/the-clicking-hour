@@ -19,7 +19,9 @@ func handle_special_wave(owner: Node) -> void:
 
 
 func play_special_wave_ui_animation(owner: Node) -> void:
-	var ui = game.special_wave_ui
+	var ui: Control = game.special_wave_ui
+	if ui == null:
+		return
 
 	ui.visible = true
 
