@@ -9,6 +9,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -74.0
+offset_top = -17.0
+offset_right = -74.0
+offset_bottom = -17.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
@@ -34,9 +38,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -325.0
-offset_top = -225.0
+offset_top = -295.0
 offset_right = 325.0
-offset_bottom = 225.0
+offset_bottom = 295.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_gradient")
@@ -49,9 +53,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -315.0
-offset_top = -215.0
+offset_top = -285.0
 offset_right = 315.0
-offset_bottom = 215.0
+offset_bottom = 285.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.00392157, 0, 0.0431373, 1)
@@ -74,24 +78,109 @@ alignment = 1
 
 [node name="Title" type="Label" parent="CanvasLayer/Window/VDiv" unique_id=864866868]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 42
 text = "CRE_TITLE"
 horizontal_alignment = 1
 
-[node name="CreditsList" type="Label" parent="CanvasLayer/Window/VDiv" unique_id=541425763]
-custom_minimum_size = Vector2(0, 150)
+[node name="List" type="VBoxContainer" parent="CanvasLayer/Window/VDiv" unique_id=1684333128]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Ferdinand Del Re | Flamasar - ROLE_ART
-Gaspard Ternoy - ROLE_MUSIC
-Baptiste May - ROLE_CODE
-Lucas Guglielmetti - ROLE_CODE
-Hugo Louis Joseph - ROLE_CODE
-Kamil Charbenaga - ROLE_CODE
-Clément Thery - ROLE_CODE"
+theme_override_constants/separation = 8
+
+[node name="ArtLabel" type="Label" parent="CanvasLayer/Window/VDiv/List" unique_id=200686145]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8156863, 0.8156863, 0.8156863, 1)
+theme_override_font_sizes/font_size = 18
+text = "ROLE_ART"
 horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
+
+[node name="ArtList" type="VBoxContainer" parent="CanvasLayer/Window/VDiv/List" unique_id=208025719]
+layout_mode = 2
+
+[node name="Flamasar" type="LinkButton" parent="CanvasLayer/Window/VDiv/List/ArtList" unique_id=495180613]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Flamasar"
+uri = "https://blento.app/flamasar.selfhosted.social"
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Window/VDiv/List" unique_id=140874801]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MusicLabel" type="Label" parent="CanvasLayer/Window/VDiv/List" unique_id=1318817589]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8156863, 0.8156863, 0.8156863, 1)
+theme_override_font_sizes/font_size = 18
+text = "ROLE_MUSIC"
+horizontal_alignment = 1
+
+[node name="MusicList" type="VBoxContainer" parent="CanvasLayer/Window/VDiv/List" unique_id=1207148507]
+layout_mode = 2
+
+[node name="Salami7" type="LinkButton" parent="CanvasLayer/Window/VDiv/List/MusicList" unique_id=184404744]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Salami7"
+uri = "https://www.youtube.com/@Salami7Home"
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/Window/VDiv/List" unique_id=159748454]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="CodeLabel" type="Label" parent="CanvasLayer/Window/VDiv/List" unique_id=1685842270]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8156863, 0.8156863, 0.8156863, 1)
+theme_override_font_sizes/font_size = 18
+text = "ROLE_CODE"
+horizontal_alignment = 1
+
+[node name="CodeList" type="VBoxContainer" parent="CanvasLayer/Window/VDiv/List" unique_id=1545095607]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Baptiste" type="LinkButton" parent="CanvasLayer/Window/VDiv/List/CodeList" unique_id=39525456]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Baptiste May"
+uri = "https://may-baptiste.fr"
+
+[node name="Hugo" type="LinkButton" parent="CanvasLayer/Window/VDiv/List/CodeList" unique_id=1262725678]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Hugo Louis Joseph"
+uri = "https://www.linkedin.com/in/hugo-louis-joseph-282b90394"
+
+[node name="HSeparator3" type="HSeparator" parent="CanvasLayer/Window/VDiv/List" unique_id=1212200172]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="CgjLabel" type="Label" parent="CanvasLayer/Window/VDiv/List" unique_id=201798149]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8156863, 0.8156863, 0.8156863, 1)
+theme_override_font_sizes/font_size = 18
+text = "ROLE_CGJ"
+horizontal_alignment = 1
+
+[node name="CgjList" type="VBoxContainer" parent="CanvasLayer/Window/VDiv/List" unique_id=731440610]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Lucas" type="LinkButton" parent="CanvasLayer/Window/VDiv/List/CgjList" unique_id=1180339345]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Lucas Guglielmetti"
+uri = "https://github.com/Hiiwatari"
+
+[node name="Kamil" type="LinkButton" parent="CanvasLayer/Window/VDiv/List/CgjList" unique_id=1609774409]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Kamil Charbenaga"
+uri = "https://github.com/Sponteuh"
+
+[node name="Clement" type="LinkButton" parent="CanvasLayer/Window/VDiv/List/CgjList" unique_id=1360776575]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Clément Thery"
+uri = "https://github.com/deesty"
 
 [node name="CloseButton" type="Button" parent="CanvasLayer/Window/VDiv" unique_id=1186303319]
 layout_mode = 2

@@ -71,4 +71,5 @@ GridContainer/constants/h_separation = 24
 GridContainer/constants/v_separation = 12
 HBoxContainer/constants/separation = 32
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_cstew")
+LinkButton/font_sizes/font_size = 24
 VBoxContainer/constants/separation = 32

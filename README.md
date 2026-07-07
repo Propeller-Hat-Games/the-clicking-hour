@@ -124,14 +124,15 @@ gdformat --check scripts/
 
 **Propeller Hat Game Team**
 
-- **Art:** Ferdinand Del Re (Flamasar)
-- **Music:** Gaspard Ternoy
+- **Art:** [Flamasar](https://blento.app/flamasar.selfhosted.social)
+- **Music:** [Salami7](https://www.youtube.com/@Salami7Home)
 - **Code:**
-  - Baptiste May
-  - Lucas Guglielmetti
-  - Hugo Louis Joseph
-  - Kamil Charbenaga
-  - Clément Thery
+  - [Baptiste May](https://may-baptiste.fr)
+  - [Hugo Louis Joseph](https://www.linkedin.com/in/hugo-louis-joseph-282b90394)
+- **Code Game Jam:**
+  - [Lucas Guglielmetti](https://github.com/Hiiwatari)
+  - [Kamil Charbenaga](https://github.com/Sponteuh)
+  - [Clément Thery](https://github.com/deesty)
 
 ---
 
