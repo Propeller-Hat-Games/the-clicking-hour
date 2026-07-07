@@ -23,5 +23,8 @@ mono_crash.*.json
 # Releases
 releases/
 
+# Android signing — never commit keystores or credentials
+export_credentials.cfg
+
 # Python virtual environment (created by setup_dev.py)
 .venv/

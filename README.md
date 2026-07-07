@@ -109,6 +109,35 @@ gdlint scripts/
 gdformat --check scripts/
 ```
 
+### Exporting
+
+Use `export.py` to build release binaries for all platforms in one command.
+
+**Prerequisites:** Godot 4 must be installed and available in your PATH.
+
+```bash
+python export.py
+```
+
+This exports all presets defined in `export_presets.cfg` into the `releases/` directory:
+
+| Preset  | Output |
+|---------|--------|
+| Android | `releases/the_clicking_hour_*_android.apk` |
+| Linux   | `releases/the_clicking_hour_*_linux.zip` (binary + Discord SDK `.so` libs) |
+| Windows | `releases/the_clicking_hour_*_windows.zip` (`.exe` + Discord SDK `.dll` libs) |
+| Web     | `releases/the_clicking_hour_*_web.zip` |
+
+#### Options
+
+```bash
+python export.py --preset Linux        # Export a single preset by name
+python export.py --godot /path/godot   # Override the Godot binary path
+python export.py --dry-run             # Preview commands without executing
+```
+
+> **Android signing:** If the release keystore or credentials are missing, the script automatically prompts you to generate them (requires a JDK in PATH).
+
 ---
 
 ## 📂 Project Structure
