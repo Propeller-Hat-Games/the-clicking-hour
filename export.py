@@ -101,17 +101,13 @@ def find_keytool() -> str:
     return kt
 
 
-def gen_keystore() -> None:
-    """Interactively generate the Android release keystore and write .godot/export_credentials.cfg."""
-    step("Android keystore generation")
-
-    keytool = find_keytool()
-    info(f"keytool : {keytool}")
-    info(f"Output  : {KEYSTORE_PATH}")
-    info(f"Alias   : {KEYSTORE_ALIAS}")
-    print()
-
-    # Prompt for passwords securely — never echoed, never in shell history.
+def prompt_passwords() -> tuple[str, str]:
+    """
+    Interactively prompt for a keystore password (min 6 chars, confirmed) and an
+    optional key password.  Returns (ks_pass, key_pass).
+    Shared by gen_keystore() and the credentials-regeneration branch in
+    ensure_android_keystore() so both paths enforce identical validation.
+    """
     ks_pass = getpass.getpass(c("  Keystore password (min 6 chars): ", "36"))
     if len(ks_pass) < 6:
         err("Password must be at least 6 characters.")
@@ -124,9 +120,29 @@ def gen_keystore() -> None:
     key_pass = getpass.getpass(c("  Key password (leave blank to reuse keystore password): ", "36"))
     if not key_pass:
         key_pass = ks_pass
+    return ks_pass, key_pass
+
+
+def gen_keystore() -> None:
+    """Interactively generate the Android release keystore and write .godot/export_credentials.cfg."""
+    step("Android keystore generation")
+
+    keytool = find_keytool()
+    info(f"keytool : {keytool}")
+    info(f"Output  : {KEYSTORE_PATH}")
+    info(f"Alias   : {KEYSTORE_ALIAS}")
+    print()
+
+    # Prompt for passwords securely — never echoed, never in shell history.
+    ks_pass, key_pass = prompt_passwords()
 
     KEYSTORE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
+    # Pass passwords via environment variables so they are never visible in
+    # process listings (ps, /proc/<pid>/cmdline, audit logs, etc.).
+    env = os.environ.copy()
+    env["KS_PASS"] = ks_pass
+    env["KEY_PASS"] = key_pass
     cmd = [
         keytool, "-genkey", "-v",
         "-keystore", str(KEYSTORE_PATH),
@@ -135,10 +151,10 @@ def gen_keystore() -> None:
         "-keysize", "2048",
         "-validity", "10000",
         "-dname", KEYSTORE_DNAME,
-        "-storepass", ks_pass,
-        "-keypass", key_pass,
+        "-storepass:env", "KS_PASS",
+        "-keypass:env", "KEY_PASS",
     ]
-    result = subprocess.run(cmd)
+    result = subprocess.run(cmd, env=env)
     if result.returncode != 0:
         err("keytool failed — keystore was not created.")
         sys.exit(1)
@@ -193,10 +209,9 @@ def ensure_android_keystore() -> None:
         warn(".godot/export_credentials.cfg has no keystore set — filling in now.")
         info(f"Keystore : {KEYSTORE_PATH}")
         print()
-        ks_pass = getpass.getpass(c("  Keystore password: ", "36"))
-        key_pass = getpass.getpass(c("  Key password (leave blank to reuse keystore password): ", "36"))
-        if not key_pass:
-            key_pass = ks_pass
+        # Reuse the shared prompt so validation (min length, confirmation) is
+        # identical to the gen_keystore() flow.
+        ks_pass, key_pass = prompt_passwords()
         write_godot_credentials(str(KEYSTORE_PATH), KEYSTORE_ALIAS, ks_pass, key_pass)
 
 
@@ -207,7 +222,9 @@ def patch_keystore_path(absolute: bool) -> None:
     """
     text = EXPORT_PRESETS.read_text(encoding="utf-8")
     abs_path = str(KEYSTORE_PATH)
-    rel_path = "releases/keystore/release.keystore"
+    # Derive the relative form from the canonical KEYSTORE_PATH constant so
+    # this stays in sync automatically if the keystore location ever changes.
+    rel_path = str(KEYSTORE_PATH.relative_to(PROJECT_DIR))
 
     if absolute:
         patched = text.replace(
@@ -338,25 +355,35 @@ def zip_desktop_export(preset_name: str, version: str, export_path: str, dry_run
         return
 
     libs = list(releases_dir.glob(lib_pattern))
-    files_to_zip = [binary] + libs
+    files_to_zip = [binary, *libs]
 
     if dry_run:
         names = ", ".join(f.name for f in files_to_zip)
         warn(f"Dry-run: would zip [{names}] → {zip_name}")
         return
 
+    # Validate that every expected file is present before touching the archive.
+    missing = [f for f in files_to_zip if not f.exists()]
+    if not binary.exists():
+        err(f"{preset_name} export binary not found: {binary}")
+        return
+    if missing:
+        warn(
+            f"{preset_name} desktop export is incomplete — "
+            f"missing file(s): {', '.join(m.name for m in missing)}"
+        )
+        return
+
     zip_path = releases_dir / zip_name
     info(f"Zipping {preset_name} + {len(libs)} lib(s) → {zip_name} …")
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
         for f in files_to_zip:
-            if f.exists():
-                zf.write(f, f.name)
+            zf.write(f, f.name)
 
     # Remove the individual files — the zip is the release artifact.
     for f in files_to_zip:
-        if f.exists():
-            f.unlink()
-            info(f"Removed {f.name}")
+        f.unlink()
+        info(f"Removed {f.name}")
     ok(f"{preset_name} archive: {zip_name}")
 
 
