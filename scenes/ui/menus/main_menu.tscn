@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cdkbrq21ysjr4"]
 
-[ext_resource type="Script" uid="uid://cvyno2jf52ldj" path="res://scripts/menus/MainMenu.gd" id="1_l6cm7"]
-[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_1g8jr"]
-[ext_resource type="PackedScene" uid="uid://6ejxl705e67l" path="res://scenes/ui/credit_menu.tscn" id="2_credit"]
-[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ekxnf"]
-[ext_resource type="PackedScene" uid="uid://bj3mb4owktbgt" path="res://scenes/ui/options_menu.tscn" id="3_options"]
-[ext_resource type="Texture2D" uid="uid://0xth6aixgqqk" path="res://assets/sprites/title.png" id="5_x2yvf"]
+[ext_resource type="Script" uid="uid://cvyno2jf52ldj" path="res://scripts/ui/menus/MainMenu.gd" id="1_l6cm7"]
+[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/themes/purple_gradient.tres" id="2_1g8jr"]
+[ext_resource type="PackedScene" uid="uid://6ejxl705e67l" path="res://scenes/ui/menus/credit_menu.tscn" id="2_credit"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/themes/main_theme.tres" id="2_ekxnf"]
+[ext_resource type="PackedScene" uid="uid://bj3mb4owktbgt" path="res://scenes/ui/menus/options_menu.tscn" id="3_options"]
+[ext_resource type="Texture2D" uid="uid://0xth6aixgqqk" path="res://assets/sprites/ui/title.png" id="5_x2yvf"]
 
 [node name="MainMenu" type="Control" unique_id=1221100265]
 layout_mode = 3

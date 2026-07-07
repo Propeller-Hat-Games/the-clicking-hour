@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cvkh7cvh5a76j"]
+
+[ext_resource type="PackedScene" uid="uid://de8a82s41jlab" path="res://scenes/game/entity/entity.tscn" id="1_entity"]
+[ext_resource type="Script" uid="uid://xg8glrkv2hcj" path="res://scripts/game/entity/TeleportEntity.gd" id="2_script"]
+
+[node name="TeleportEntity" instance=ExtResource("1_entity")]
+script = ExtResource("2_script")
+
+[node name="CollisionShape2D" parent="ClickArea" index="0"]
+position = Vector2(4.5, -55.5)

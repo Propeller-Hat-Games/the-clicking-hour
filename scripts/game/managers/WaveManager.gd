@@ -139,7 +139,7 @@ func end_game() -> void:
 		game.spawn_area.kill_every_entities()
 	await MusicManager.fade_out()
 
-	var game_over_scene: PackedScene = load("res://scenes/ui/game_over.tscn")
+	var game_over_scene: PackedScene = load("res://scenes/ui/menus/game_over.tscn")
 	var game_over_instance: GameOver = game_over_scene.instantiate()
 	game.add_child(game_over_instance)
 	game_over_instance.set_waves_survived(

@@ -55,7 +55,7 @@ func _on_options_button_pressed() -> void:
 
 	if scene_to_instantiate == null:
 		# Fallback if scene is not exported
-		scene_to_instantiate = load("res://scenes/ui/options_menu.tscn")
+		scene_to_instantiate = load("res://scenes/ui/menus/options_menu.tscn")
 
 	if scene_to_instantiate != null:
 		var options_menu: OptionsMenu = scene_to_instantiate.instantiate()

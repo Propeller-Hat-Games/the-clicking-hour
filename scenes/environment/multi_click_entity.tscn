@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3]
-
-[ext_resource type="PackedScene" uid="uid://de8a82s41jlab" path="res://scenes/environment/entity.tscn" id="1_entity"]
-[ext_resource type="Script" path="res://scripts/environment/entity/MultiClickEntity.gd" id="2_script"]
-
-[node name="MultiClickEntity" instance=ExtResource("1_entity")]
-script = ExtResource("2_script")

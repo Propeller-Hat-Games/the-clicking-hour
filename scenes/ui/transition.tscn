@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bgumxhw7b3qvc"]
 
-[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="1_jpjvg"]
+[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/themes/purple_gradient.tres" id="1_jpjvg"]
 [ext_resource type="Script" uid="uid://b135pwe7w33oj" path="res://scripts/ui/Transition.gd" id="1_script"]
-[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ghw5a"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/themes/main_theme.tres" id="2_ghw5a"]
 
 [node name="Transition" type="Control" unique_id=1884190856]
 layout_mode = 3
