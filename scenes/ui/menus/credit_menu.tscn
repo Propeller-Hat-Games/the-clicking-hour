@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://6ejxl705e67l"]
 
-[ext_resource type="Script" uid="uid://ciogylpjmfthq" path="res://scripts/menus/CreditMenu.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="2_gradient"]
-[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="3_theme"]
+[ext_resource type="Script" uid="uid://ciogylpjmfthq" path="res://scripts/ui/menus/CreditMenu.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/themes/purple_gradient.tres" id="2_gradient"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/themes/main_theme.tres" id="3_theme"]
 
 [node name="CreditMenu" type="Control" unique_id=1963725932]
 layout_mode = 3

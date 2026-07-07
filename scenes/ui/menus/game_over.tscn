@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bhxcy7xwjclhk"]
 
-[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="1_60xr3"]
-[ext_resource type="Script" uid="uid://cxxnc0y4f4dfo" path="res://scripts/menus/GameOver.gd" id="1_script"]
-[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_fu4wh"]
+[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/themes/purple_gradient.tres" id="1_60xr3"]
+[ext_resource type="Script" uid="uid://cxxnc0y4f4dfo" path="res://scripts/ui/menus/GameOver.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/themes/main_theme.tres" id="2_fu4wh"]
 [ext_resource type="Texture2D" uid="uid://cnbrdll6p3kl3" path="res://assets/sprites/environment/entity/entity_normal_hurt.png" id="4_vfrx6"]
 
 [node name="GameOver" type="Control" unique_id=81849337]

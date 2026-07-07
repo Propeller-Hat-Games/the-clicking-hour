@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bj3mb4owktbgt"]
 
-[ext_resource type="Script" uid="uid://bbceki5vhvncf" path="res://scripts/menus/OptionsMenu.gd" id="1_options"]
-[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ekxnf"]
-[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/ui/purple_gradient.tres" id="3_1g8jr"]
+[ext_resource type="Script" uid="uid://bbceki5vhvncf" path="res://scripts/ui/menus/OptionsMenu.gd" id="1_options"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/themes/main_theme.tres" id="2_ekxnf"]
+[ext_resource type="Texture2D" uid="uid://dwydagb230r3a" path="res://assets/themes/purple_gradient.tres" id="3_1g8jr"]
 
 [node name="OptionsMenu" type="Control" unique_id=1148161394]
 layout_mode = 3

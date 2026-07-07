@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dv81us2tealma"]
 
 [ext_resource type="Texture2D" uid="uid://bmidff1r0picd" path="res://assets/sprites/environment/entity/base_pannel.png" id="1_8tprs"]
-[ext_resource type="Script" path="res://scripts/ui/Board.gd" id="2_psm7c"]
-[ext_resource type="Texture2D" path="res://assets/sprites/environment/background/pannel_light.png" id="4_hotih"]
-[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="7_ygvyx"]
+[ext_resource type="Script" uid="uid://dvl7o550xn7fv" path="res://scripts/ui/Board.gd" id="2_psm7c"]
+[ext_resource type="Texture2D" uid="uid://c0bxstx278pey" path="res://assets/sprites/environment/background/pannel_light.png" id="4_hotih"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/themes/main_theme.tres" id="7_ygvyx"]
 
 [node name="Board" type="Sprite2D" unique_id=186680299 node_paths=PackedStringArray("left_slot", "middle_slot", "right_slot", "left_nb", "middle_nb", "right_nb", "light")]
 scale = Vector2(3, 3)

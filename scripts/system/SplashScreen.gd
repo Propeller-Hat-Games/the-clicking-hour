@@ -5,7 +5,7 @@ extends Control
 
 @export var fade_duration: float = 1.5
 @export var wait_duration: float = 1.0
-@export var main_menu_scene_path: String = "res://scenes/game_manager.tscn"
+@export var main_menu_scene_path: String = "res://scenes/game/game_manager.tscn"
 
 var _fade_color_rect: ColorRect
 var _is_skipping: bool = false

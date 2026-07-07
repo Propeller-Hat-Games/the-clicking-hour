@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://de8a82s41jlab"]
 
-[ext_resource type="Script" path="res://scripts/environment/entity/SimpleEntity.gd" id="1_lxsru"]
+[ext_resource type="Script" uid="uid://ft6x8b1ukas1" path="res://scripts/game/entity/SimpleEntity.gd" id="1_lxsru"]
 [ext_resource type="Texture2D" uid="uid://bsa0kpudjh2x3" path="res://assets/sprites/environment/entity/entity_dig_jump.png" id="3_ecdnh"]
 [ext_resource type="Texture2D" uid="uid://bubbum3745hky" path="res://assets/sprites/environment/entity/entity_dig_walk_arm_dish.png" id="4_jfllw"]
 [ext_resource type="Texture2D" uid="uid://bpcss1wrj84rw" path="res://assets/sprites/environment/entity/entity_multiclick_hurt.png" id="5_0lw3d"]

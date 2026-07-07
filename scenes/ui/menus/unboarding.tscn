@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ba4p5yeipj4bk"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/unboarding.png" id="1_qibao"]
-[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/ui/main_theme.tres" id="2_ig80y"]
+[ext_resource type="Texture2D" uid="uid://cave45j0s7tbb" path="res://assets/sprites/ui/unboarding.png" id="1_qibao"]
+[ext_resource type="Theme" uid="uid://dwuqnsorbnha" path="res://assets/themes/main_theme.tres" id="2_ig80y"]
 
 [node name="unboarding" type="Sprite2D" unique_id=353724069]
 scale = Vector2(3, 3)

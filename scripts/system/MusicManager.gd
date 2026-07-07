@@ -37,9 +37,9 @@ func _ready() -> void:
 	print("[MUSIC] Normal playlist loaded: ", _normal_playlist.size(), " tracks")
 
 	# 🌙 Night Mode Playlist
-	_night_playlist.append(load("res://assets/musics/backgroundDarkMode/DrunkGroovy.mp3"))
-	_night_playlist.append(load("res://assets/musics/backgroundDarkMode/DrunkSeaside.mp3"))
-	_night_playlist.append(load("res://assets/musics/backgroundDarkMode/DrunkSerious.mp3"))
+	_night_playlist.append(load("res://assets/musics/darkMode/DrunkGroovy.mp3"))
+	_night_playlist.append(load("res://assets/musics/darkMode/DrunkSeaside.mp3"))
+	_night_playlist.append(load("res://assets/musics/darkMode/DrunkSerious.mp3"))
 
 	for track in _night_playlist:
 		track.loop = true

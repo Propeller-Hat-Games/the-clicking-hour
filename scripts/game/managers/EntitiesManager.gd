@@ -9,10 +9,10 @@ var entity_scenes: Array[PackedScene] = []
 func load_entities() -> void:
 	if game.door:
 		game.door.entity_entered_door.connect(_on_entity_entered_door)
-	_load_entity_scene("res://scenes/environment/entity.tscn")
-	_load_entity_scene("res://scenes/environment/hiding_entity.tscn")
-	_load_entity_scene("res://scenes/environment/multi_click_entity.tscn")
-	_load_entity_scene("res://scenes/environment/teleport_entity.tscn")
+	_load_entity_scene("res://scenes/game/entity/entity.tscn")
+	_load_entity_scene("res://scenes/game/entity/hiding_entity.tscn")
+	_load_entity_scene("res://scenes/game/entity/multi_click_entity.tscn")
+	_load_entity_scene("res://scenes/game/entity/teleport_entity.tscn")
 
 
 func _load_entity_scene(path: String) -> void:
