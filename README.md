@@ -1,6 +1,6 @@
 # 🕰️ The Clicking Hour
 
-[![Godot Engine](https://img.shields.io/badge/Godot-4.x-%23478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org)
+[![Godot Engine](https://img.shields.io/badge/Godot-4.6.2-%23478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![GDScript](https://img.shields.io/badge/GDScript-%23355570?logo=godot-engine&logoColor=white)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html)
 [![License: Non-Commercial](https://img.shields.io/badge/License-Non--Commercial-red.svg)](LICENSE)
 
@@ -33,7 +33,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 
 ## 🛠️ Technical Stack
 
-- **Engine:** [Godot 4.x](https://godotengine.org/) (Forward Plus renderer)
+- **Engine:** [Godot 4.6.2](https://godotengine.org/) (Forward Plus renderer)
 - **Language:** GDScript
 - **Shaders:** Custom GLSL shaders for glitch and VHS post-processing.
 - **Architecture:**
@@ -46,7 +46,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- [Godot Engine 4.x](https://godotengine.org/download)
+- [Godot Engine 4.6.2](https://godotengine.org/download)
 
 ### Installation
 1. Clone the repository:
@@ -66,29 +66,47 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 This project uses **[GDScript Toolkit](https://github.com/Scony/godot-gdscript-toolkit)** for linting and formatting, integrated with **pre-commit** hooks and **GitHub Actions**.
 
 ### Prerequisites for Developers
-- **Python 3**
-- **pip**
+- **Python 3.10+**
 
-### Setting up Pre-commit Hooks
-To ensure your code matches the project's standards before you commit:
-1. Install `pre-commit`:
-   ```bash
-   pip install pre-commit
-   ```
-2. Install the hooks in the project:
-   ```bash
-   pre-commit install
-   ```
+### One-command setup (Linux, macOS, Windows)
+
+```bash
+python setup_dev.py
+```
+
+This script will:
+- Create an isolated Python virtual environment (`.venv/`)
+- Install all dev tools (`pre-commit`, `gdtoolkit`) at the pinned versions
+- Install git hooks so linting runs automatically on every commit
+
+#### Options
+
+```bash
+python setup_dev.py --reset   # Wipe and recreate the venv from scratch
+python setup_dev.py --hooks   # Only (re)install the pre-commit git hooks
+```
 
 ### Running Checks Manually
-You can run the linter and formatter manually on all files:
+
+Activate the virtual environment first:
+
 ```bash
-# Run all pre-commit hooks
+# Linux / macOS
+source .venv/bin/activate
+
+# Windows
+.venv\Scripts\activate
+```
+
+Then:
+
+```bash
+# Run all hooks on every file
 pre-commit run --all-files
 
-# Or run specific tools (requires gdtoolkit installed via pip)
-gdlint .
-gdformat --check .
+# Or run specific tools directly
+gdlint scripts/
+gdformat --check scripts/
 ```
 
 ---
