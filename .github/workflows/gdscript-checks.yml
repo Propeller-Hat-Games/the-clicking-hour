@@ -1,10 +1,6 @@
 name: GDScript Checks
 
-on:
-  push:
-    branches: [main, develop, "feature/**"]
-  pull_request:
-    branches: [main, develop, "feature/**"]
+on: [push, pull_request]
 
 jobs:
   static-checks:
