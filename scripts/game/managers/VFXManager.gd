@@ -66,6 +66,9 @@ func _setup_software_cursor() -> void:
 	cursor_layer.layer = 1000  # Above VHS and all other UI
 	game.add_child(cursor_layer)
 
+	if OS.get_name() == "Android":
+		return
+
 	# Day cursor sprite
 	cursor_day_sprite = Sprite2D.new()
 	cursor_day_sprite.texture = game.cursor_normal
