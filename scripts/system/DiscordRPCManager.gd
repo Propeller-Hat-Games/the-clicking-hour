@@ -12,10 +12,10 @@ var _discord_rpc = null
 func init(p_game: GameManager) -> void:
 	super.init(p_game)
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	if !Engine.has_singleton("DiscordRPC"):
+	if not Engine.has_singleton(&"DiscordRPC"):
 		return
 
-	_discord_rpc = Engine.get_singleton("DiscordRPC")
+	_discord_rpc = Engine.get_singleton(&"DiscordRPC")
 	_discord_rpc.app_id = 1493718940147257365
 	_discord_rpc.large_image = "icon"
 	get_tree().create_timer(1.0).timeout.connect(set_main_menu)

@@ -32,7 +32,6 @@ SettingsManager="*res://scripts/system/SettingsManager.gd"
 MusicManager="*res://scripts/system/MusicManager.gd"
 SfxManager="*res://scripts/system/SfxManager.gd"
 GameEvents="*res://scripts/system/GameEvents.gd"
-DiscordRPCLoader="*uid://ct0yxwshdrke"
 
 [display]
 
