@@ -133,6 +133,11 @@ func try_click(game: Node) -> void:
 		GameEvents.entity_clicked.emit(self)
 		if hearts <= 0:
 			die()
+
+			# GameManager.gd is the parent of SpawnArea.gd's parent which is itself the parent of Entity.gd
+			var game_manager = get_parent().get_parent()
+			game_manager.glass_manager.glass_node.apply_effect(glass_type)
+
 			if &"entities_killed" in game:
 				game.entities_killed += 1
 		else:

@@ -63,3 +63,11 @@ func lose_heart() -> void:
 	update_hearts()
 	if game.hearts <= 0:
 		game.wave_manager.end_game()
+
+
+func grant_heart() -> void:
+	if game.hearts < 5:
+		game.hearts += 1
+		# Placeholder sfx
+		SfxManager.play_correct_glass_sound()
+		update_hearts()
