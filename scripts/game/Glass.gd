@@ -3,7 +3,7 @@ extends Node2D
 
 ## Manages a collection of glass sprites.
 
-@export var sprites: Dictionary[String, Variant] = {}
+@export var sprites: Dictionary[String, GlassInterface] = {}
 # Affects the changes in probabilities, higher influence means repetition is less likely
 @export var influence_curve: Curve
 var probabilities: Dictionary[String, float] = {}

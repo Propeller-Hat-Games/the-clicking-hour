@@ -1,4 +1,4 @@
-extends Sprite2D
+extends GlassInterface
 
 func effect() -> void:
 	# gameManager.gd is the parent of glass.gd's parent which is itself the parent of special.gd
