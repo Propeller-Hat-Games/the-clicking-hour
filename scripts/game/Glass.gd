@@ -62,4 +62,5 @@ func get_random_glass(current_wave: int) -> String:
 
 func apply_effect(entity: Entity) -> void:
 	var type = entity.glass_type
-	sprites.get(type).effect()
+	if sprites.has(type):
+		sprites.get(type).effect()
