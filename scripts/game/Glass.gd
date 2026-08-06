@@ -15,6 +15,7 @@ func get_sprites() -> Dictionary:
 
 
 func _ready() -> void:
+	GameEvents.entity_dead.connect(apply_effect)
 	reset_probabilities()
 
 
@@ -59,5 +60,6 @@ func get_random_glass(current_wave: int) -> String:
 	return return_key
 
 
-func apply_effect(type: String) -> void:
+func apply_effect(entity: Entity) -> void:
+	var type = entity.glass_type
 	sprites.get(type).effect()
