@@ -2,7 +2,7 @@ class_name HeartsManager
 extends GameManagerInterface
 
 ## Handles player health and heart UI animation.
-
+@export var max_hearts: int = 5
 var heart_nodes: Array[Node2D] = []
 
 
@@ -66,7 +66,7 @@ func lose_heart() -> void:
 
 
 func grant_heart() -> void:
-	if game.hearts < 5:
+	if game.hearts < max_hearts:
 		game.hearts += 1
 		# Placeholder sfx
 		SfxManager.play_correct_glass_sound()
