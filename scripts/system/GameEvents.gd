@@ -20,4 +20,6 @@ signal entity_clicked(entity: Entity)
 @warning_ignore("unused_signal")
 signal entity_dead(entity: Entity)
 @warning_ignore("unused_signal")
+signal health_glass_dead
+@warning_ignore("unused_signal")
 signal glass_delivered(type: String, was_correct: bool)

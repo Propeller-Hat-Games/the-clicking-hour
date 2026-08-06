@@ -6,6 +6,10 @@ extends GameManagerInterface
 var heart_nodes: Array[Node2D] = []
 
 
+func _ready() -> void:
+	GameEvents.health_glass_dead.connect(grant_heart)
+
+
 func update_hearts() -> void:
 	for heart in heart_nodes:
 		if is_instance_valid(heart):
