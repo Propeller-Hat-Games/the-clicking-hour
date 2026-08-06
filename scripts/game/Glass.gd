@@ -60,9 +60,4 @@ func get_random_glass(current_wave: int) -> String:
 
 
 func apply_effect(type: String) -> void:
-	# Getting the path for the chosen glass in order to call its effect function
-	var path = "%s" % [type.capitalize()]
-	var glass = get_node_or_null(path)
-	# Failsafe
-	if glass:
-		glass.effect()
+	sprites.get(type).effect()
