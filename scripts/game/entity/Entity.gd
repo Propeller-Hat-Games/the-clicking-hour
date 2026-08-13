@@ -275,7 +275,8 @@ func die() -> void:
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.5)
 
 	tween.set_parallel(false)
-	tween.chain().tween_callback(queue_free)
+	tween.chain().tween_callback(GameEvents.entity_in_bin.emit.bind(self))
+	tween.tween_callback(queue_free)
 
 
 ## Asynchronously handles the entity's disappearance animation.
