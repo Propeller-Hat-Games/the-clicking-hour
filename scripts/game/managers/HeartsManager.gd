@@ -73,5 +73,5 @@ func grant_heart() -> void:
 	if game.hearts < MAX_HEARTS:
 		game.hearts += 1
 		# Placeholder sfx
-		SfxManager.play_correct_glass_sound()
+		SfxManager.play_health_granted_sound()
 		update_hearts()
