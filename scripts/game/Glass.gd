@@ -3,7 +3,7 @@ extends Node2D
 
 ## Manages a collection of glass sprites.
 
-@export var sprites: Dictionary[String, Variant] = {}
+@export var sprites: Dictionary[String, GlassInterface] = {}
 # Affects the changes in probabilities, higher influence means repetition is less likely
 @export var influence_curve: Curve
 var probabilities: Dictionary[String, float] = {}
@@ -15,6 +15,10 @@ func get_sprites() -> Dictionary:
 
 
 func _ready() -> void:
+	GameEvents.entity_dead.connect(apply_effect.bind("dead_effect"))
+	GameEvents.entity_clicked.connect(apply_effect.bind("clicked_effect"))
+	GameEvents.entity_in_bin.connect(apply_effect.bind("bin_entered_effect"))
+	GameEvents.entity_entered_door.connect(apply_effect.bind("door_entered_effect"))
 	reset_probabilities()
 
 
@@ -57,3 +61,9 @@ func get_random_glass(current_wave: int) -> String:
 			probabilities[key] += ratio / (size - 1)
 
 	return return_key
+
+
+func apply_effect(entity: Entity, type_of_effect: String) -> void:
+	var type = entity.glass_type
+	if sprites.has(type):
+		sprites.get(type).call(type_of_effect)

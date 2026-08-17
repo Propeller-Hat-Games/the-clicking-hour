@@ -3,7 +3,12 @@
 [ext_resource type="Script" uid="uid://c3i0tjh2uw8dx" path="res://scripts/game/Glass.gd" id="1_gtrt1"]
 [ext_resource type="Texture2D" uid="uid://bgnhwtcs302ik" path="res://assets/sprites/environment/entity/glass_yellow.png" id="2_na6tc"]
 [ext_resource type="Texture2D" uid="uid://csntdew6jy1a2" path="res://assets/sprites/environment/entity/glass_red.png" id="3_2h05u"]
+[ext_resource type="Script" uid="uid://cqosbqvvs4w6t" path="res://scripts/game/yellow.gd" id="3_ndt4u"]
+[ext_resource type="Script" uid="uid://lbas7p4wdg57" path="res://scripts/game/red.gd" id="5_keoya"]
+[ext_resource type="Script" uid="uid://cdfsqmphhpjk0" path="res://scripts/game/green.gd" id="7_vgtao"]
 [ext_resource type="Texture2D" uid="uid://85yt017iidob" path="res://assets/sprites/environment/entity/glass_green.png" id="8_0ruws"]
+[ext_resource type="Script" uid="uid://b5ejxl0s11r8q" path="res://scripts/game/blue.gd" id="9_5n8g1"]
+[ext_resource type="Script" uid="uid://daiq58q8m4sqc" path="res://scripts/game/special.gd" id="11_30ch2"]
 [ext_resource type="Texture2D" uid="uid://cjm64w2s2xab0" path="res://assets/sprites/environment/entity/glass_blue.png" id="13_6bqtk"]
 [ext_resource type="Texture2D" uid="uid://crgfrkuykqkay" path="res://assets/sprites/environment/entity/glass_special.png" id="18_kntkg"]
 
@@ -12,12 +17,13 @@ _limits = [0.25, 5.0, 0.0, 20.0]
 _data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(20, 0.25), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="Glass" type="Node2D" unique_id=612983208]
+[node name="Glass" type="Node2D" unique_id=612983208 node_paths=PackedStringArray("sprites")]
 script = ExtResource("1_gtrt1")
 sprites = {
 "blue": NodePath("Blue"),
 "green": NodePath("Green"),
 "red": NodePath("Red"),
+"special": NodePath("Special"),
 "yellow": NodePath("Yellow")
 }
 influence_curve = SubResource("Curve_2h05u")
@@ -25,19 +31,24 @@ influence_curve = SubResource("Curve_2h05u")
 [node name="Yellow" type="Sprite2D" parent="." unique_id=528045575]
 scale = Vector2(3, 3)
 texture = ExtResource("2_na6tc")
+script = ExtResource("3_ndt4u")
 
 [node name="Red" type="Sprite2D" parent="." unique_id=1158552911]
 scale = Vector2(3, 3)
 texture = ExtResource("3_2h05u")
+script = ExtResource("5_keoya")
 
 [node name="Green" type="Sprite2D" parent="." unique_id=1736684548]
 scale = Vector2(3, 3)
 texture = ExtResource("8_0ruws")
+script = ExtResource("7_vgtao")
 
 [node name="Blue" type="Sprite2D" parent="." unique_id=1592679913]
 scale = Vector2(3, 3)
 texture = ExtResource("13_6bqtk")
+script = ExtResource("9_5n8g1")
 
 [node name="Special" type="Sprite2D" parent="." unique_id=41615253]
 scale = Vector2(3, 3)
 texture = ExtResource("18_kntkg")
+script = ExtResource("11_30ch2")

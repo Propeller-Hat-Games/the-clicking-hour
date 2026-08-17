@@ -34,6 +34,7 @@ func get_random_entity() -> PackedScene:
 
 
 func _on_entity_entered_door(entity: Entity) -> void:
+	GameEvents.entity_entered_door.emit(entity)
 	if not game.is_spawning:
 		return
 

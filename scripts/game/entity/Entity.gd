@@ -133,6 +133,7 @@ func try_click(game: Node) -> void:
 		GameEvents.entity_clicked.emit(self)
 		if hearts <= 0:
 			die()
+			GameEvents.entity_dead.emit(self)
 			if &"entities_killed" in game:
 				game.entities_killed += 1
 		else:
@@ -274,7 +275,8 @@ func die() -> void:
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.5)
 
 	tween.set_parallel(false)
-	tween.chain().tween_callback(queue_free)
+	tween.chain().tween_callback(GameEvents.entity_in_bin.emit.bind(self))
+	tween.tween_callback(queue_free)
 
 
 ## Asynchronously handles the entity's disappearance animation.

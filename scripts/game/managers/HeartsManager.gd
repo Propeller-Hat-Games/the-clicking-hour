@@ -2,8 +2,12 @@ class_name HeartsManager
 extends GameManagerInterface
 
 ## Handles player health and heart UI animation.
-
+const MAX_HEARTS: int = 5
 var heart_nodes: Array[Node2D] = []
+
+
+func _ready() -> void:
+	GameEvents.heart_granted.connect(grant_heart)
 
 
 func update_hearts() -> void:
@@ -63,3 +67,11 @@ func lose_heart() -> void:
 	update_hearts()
 	if game.hearts <= 0:
 		game.wave_manager.end_game()
+
+
+func grant_heart() -> void:
+	if game.hearts < MAX_HEARTS:
+		game.hearts += 1
+		# Placeholder sfx
+		SfxManager.play_health_granted_sound()
+		update_hearts()

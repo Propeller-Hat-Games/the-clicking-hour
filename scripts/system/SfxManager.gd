@@ -36,6 +36,9 @@ var _sfx_bus_index: int
 @onready var _correct_glass3 := load("res://assets/sounds/Correct3.mp3") as AudioStream
 @onready var _correct_glass4 := load("res://assets/sounds/Correct4.mp3") as AudioStream
 
+# Health granted sounds
+@onready var _health_granted1 := load("res://assets/sounds/Health1.mp3")
+
 
 func _ready() -> void:
 	_sfx_bus_index = AudioServer.get_bus_index(&"SFX")
@@ -70,6 +73,11 @@ func play_click_sound() -> void:
 	var sounds := [_clic1, _clic2, _clic3].filter(func(s): return s != null)
 	if sounds.size() > 0:
 		_play_sound(sounds[_random.randi() % sounds.size()])
+
+
+## Plays the health granted sound effect.
+func play_health_granted_sound() -> void:
+	_play_sound(_health_granted1)
 
 
 ## Plays the entity death sound effect.
