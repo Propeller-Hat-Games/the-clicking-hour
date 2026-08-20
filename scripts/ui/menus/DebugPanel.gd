@@ -116,11 +116,13 @@ func _on_unboarding_button_toggled(toggled_on: bool) -> void:
 
 
 func _setup_spawn_options() -> void:
-	if not game:
-		return
-
+	var spawn_button: Button = $Content/Body/Spawn/Button
 	var entity_input: OptionButton = $Content/Body/Spawn/Entity/Input
 	var glass_input: OptionButton = $Content/Body/Spawn/Glass/Input
+
+	if not game:
+		spawn_button.disabled = true
+		return
 
 	if (
 		entity_input.item_count <= 1
@@ -160,6 +162,13 @@ func _setup_spawn_options() -> void:
 			else:
 				glass_input.add_item(key.capitalize())
 			glass_input.set_item_metadata(idx, key)
+
+	spawn_button.disabled = (
+		game.entities_manager == null
+		or game.glass_manager == null
+		or entity_input.item_count == 0
+		or glass_input.item_count == 0
+	)
 
 
 func _get_entity_name(scene: PackedScene) -> String:
@@ -202,11 +211,14 @@ func _get_entity_icon(scene: PackedScene) -> Texture2D:
 
 
 func _on_spawn_button_pressed() -> void:
-	if not game or not game.spawn_area:
+	if not game or not game.spawn_area or not game.entities_manager or not game.glass_manager:
 		return
 
 	var entity_input: OptionButton = $Content/Body/Spawn/Entity/Input
 	var glass_input: OptionButton = $Content/Body/Spawn/Glass/Input
+
+	if entity_input.item_count == 0 or glass_input.item_count == 0:
+		return
 
 	var selected_entity_idx := entity_input.selected
 	var entity_scene: PackedScene = null
