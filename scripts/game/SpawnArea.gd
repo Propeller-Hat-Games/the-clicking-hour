@@ -46,10 +46,13 @@ func get_valid_random_position(
 	return pos
 
 
-## Instantiates and spawns a random entity within the area, applying current wave modifiers.
-func spawn_entity(game: GameManager) -> void:
-	var random_scene := game.entities_manager.get_random_entity()
-	var entity: Entity = random_scene.instantiate()
+## Instantiates and spawns an entity within the area, applying current wave modifiers.
+## If custom scene or glass type is provided, uses them instead of random selection.
+func spawn_entity(
+	game: GameManager, scene: PackedScene = null, custom_glass_type: String = ""
+) -> void:
+	var entity_scene := scene if scene != null else game.entities_manager.get_random_entity()
+	var entity: Entity = entity_scene.instantiate()
 
 	# Calculate speed first
 	# The two numbers are respectively the min and max domain of the curve
@@ -62,7 +65,11 @@ func spawn_entity(game: GameManager) -> void:
 	entity.position = get_valid_random_position()
 	add_child(entity)
 
-	var glass_type := game.glass_manager.random_glass_type(game.current_wave)
+	var glass_type := (
+		custom_glass_type
+		if not custom_glass_type.is_empty()
+		else game.glass_manager.random_glass_type(game.current_wave)
+	)
 	entity.update_glass_type(glass_type, game.glass_manager.get_glass_sprite(glass_type))
 
 	entity.tree_exited.connect(func(): _on_entity_tree_exited(entity))

@@ -58,6 +58,7 @@ horizontal_alignment = 1
 [node name="Body" type="HSplitContainer" parent="Content" unique_id=1870679551]
 layout_mode = 2
 theme_override_constants/separation = 32
+split_offsets = PackedInt32Array(0, 0)
 
 [node name="Informations" type="VBoxContainer" parent="Content/Body" unique_id=1393896008]
 layout_mode = 2
@@ -173,6 +174,39 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Update"
 
+[node name="Spawn" type="VBoxContainer" parent="Content/Body" unique_id=1216377831]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Content/Body/Spawn" unique_id=1814755035]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_nhodr")
+text = "Spawn"
+horizontal_alignment = 1
+
+[node name="Entity" type="HBoxContainer" parent="Content/Body/Spawn" unique_id=1248526761]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Content/Body/Spawn/Entity" unique_id=82027727]
+layout_mode = 2
+text = "Entity :"
+
+[node name="Input" type="OptionButton" parent="Content/Body/Spawn/Entity" unique_id=160313683]
+layout_mode = 2
+
+[node name="Glass" type="HBoxContainer" parent="Content/Body/Spawn" unique_id=988320440]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Content/Body/Spawn/Glass" unique_id=531709117]
+layout_mode = 2
+text = "Glass :"
+
+[node name="Input" type="OptionButton" parent="Content/Body/Spawn/Glass" unique_id=1186108857]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Content/Body/Spawn" unique_id=625395934]
+layout_mode = 2
+text = "Spawn"
+
 [node name="CloseButton" type="Button" parent="Content" unique_id=1254313724]
 layout_mode = 2
 text = "Close"
@@ -186,4 +220,5 @@ text = "Close"
 [connection signal="pressed" from="Content/Body/Manage/WaveGroup/More" to="." method="_on_wave_more_pressed"]
 [connection signal="pressed" from="Content/Body/Manage/Footer/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="Content/Body/Manage/Footer/UpdateButton" to="." method="_on_update_button_pressed"]
+[connection signal="pressed" from="Content/Body/Spawn/Button" to="." method="_on_spawn_button_pressed"]
 [connection signal="pressed" from="Content/CloseButton" to="." method="_on_close_button_pressed"]
