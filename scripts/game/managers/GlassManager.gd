@@ -46,11 +46,19 @@ func reset_probabilities() -> void:
 func n_random_glass_types(n: int) -> Array[String]:
 	var types_array: Array[String] = []
 
-	var sprites: Array[String] = every_sprites.keys()
-	sprites.shuffle()
+	var criteria_sprites: Array[String] = []
+	if glass_node != null and glass_node.has_method("get_criteria_glass_types"):
+		criteria_sprites = glass_node.get_criteria_glass_types()
+	else:
+		for key in every_sprites.keys():
+			var sprite_node: Sprite2D = every_sprites[key]
+			if not (sprite_node is GlassInterface) or sprite_node.can_appear_in_criteria:
+				criteria_sprites.append(key)
+
+	criteria_sprites.shuffle()
 
 	# We add the sprites contained in a subpart of the sprites randomly sorted array
-	types_array.append_array(sprites.slice(0, min(every_sprites.size(), n)))
+	types_array.append_array(criteria_sprites.slice(0, min(criteria_sprites.size(), n)))
 
 	return types_array
 

@@ -1,7 +1,15 @@
 [gd_scene format=3 uid="uid://cv3k8lepywjd2"]
 
-[ext_resource type="Texture2D" uid="uid://c5duw0ov0beib" path="res://assets/sprites/environment/entity/base_heart.png" id="1_texture"]
+[ext_resource type="Shader" path="res://assets/shaders/heart.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" uid="uid://c5duw0ov0beib" path="res://assets/sprites/environment/entity/base_heart.png" id="2_texture"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_heart"]
+resource_local_to_scene = true
+shader = ExtResource("1_shader")
+shader_parameter/flash_value = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
 
 [node name="Heart" type="Sprite2D" unique_id=514997194]
+material = SubResource("ShaderMaterial_heart")
 scale = Vector2(3, 3)
-texture = ExtResource("1_texture")
+texture = ExtResource("2_texture")
