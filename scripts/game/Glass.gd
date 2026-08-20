@@ -89,12 +89,13 @@ func get_random_glass(current_wave: int) -> String:
 		if total_special_chance > 0.0:
 			var roll := randf()
 			if roll < total_special_chance:
+				var special_roll := randf_range(0.0, total_special_chance)
 				var cumulative: float = 0.0
 				for key in special_keys:
 					var gi := get_glass_interface(key)
 					if gi != null:
 						cumulative += gi.spawn_chance
-						if roll < cumulative:
+						if special_roll < cumulative:
 							return key
 				return special_keys[0]
 
@@ -124,7 +125,7 @@ func get_random_glass(current_wave: int) -> String:
 	if size > 1:
 		# Dont count chosen key, as we distribute probability to the others
 		var current_p: float = probabilities.get(return_key, 0.0)
-		var ratio: float = current_p / (size - 1) * probability_influence
+		var ratio: float = clamp(current_p / (size - 1) * probability_influence, 0.0, current_p)
 
 		# Probabilities may go negative or above 1, it isn't an issue as the sum of all probabilities
 		# will remain equal to 1
