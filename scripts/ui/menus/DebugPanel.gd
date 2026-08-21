@@ -7,7 +7,8 @@ var change_wave: int = 0
 
 func init(p_game: GameManager) -> void:
 	game = p_game
-	_setup_spawn_options()
+	if OS.is_debug_build():
+		_setup_spawn_options()
 
 
 func _ready() -> void:
