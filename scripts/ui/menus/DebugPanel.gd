@@ -164,7 +164,8 @@ func _setup_spawn_options() -> void:
 			glass_input.set_item_metadata(idx, key)
 
 	spawn_button.disabled = (
-		game.entities_manager == null
+		game.spawn_area == null
+		or game.entities_manager == null
 		or game.glass_manager == null
 		or entity_input.item_count == 0
 		or glass_input.item_count == 0
