@@ -11,6 +11,11 @@ var _is_first_run: bool = true
 var _night_mode_tween: Tween = null
 
 
+func init(p_game: GameManager) -> void:
+	super.init(p_game)
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+
 func _process(_delta: float) -> void:
 	var mouse_pos := get_viewport().get_mouse_position()
 	if game.cursor_light:
@@ -122,6 +127,7 @@ func update_night_mode() -> void:
 
 	var duration := 2.0
 	_night_mode_tween = create_tween()
+	_night_mode_tween.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
 	_night_mode_tween.set_parallel(true)
 
 	if game.background:
