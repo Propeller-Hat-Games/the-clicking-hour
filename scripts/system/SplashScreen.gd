@@ -84,6 +84,8 @@ func _transition_to_menu(duration: float) -> void:
 	fade_out_tween.chain().tween_await(get_tree().process_frame)
 	fade_out_tween.tween_callback(
 		func():
-			get_viewport().use_hdr_2d = true
+			get_viewport().use_hdr_2d = ProjectSettings.get_setting(
+				"rendering/viewport/hdr_2d", false
+			)
 			get_tree().change_scene_to_file(main_menu_scene_path)
 	)

@@ -36,6 +36,9 @@ GameEvents="*res://scripts/system/GameEvents.gd"
 [display]
 
 window/hdr/request_hdr_output=true
+window/hdr/request_hdr_output.mobile=false
+window/hdr/request_hdr_output.web=false
+window/hdr/request_hdr_output.gl_compatibility=false
 window/stretch/mode="viewport"
 
 [editor_plugins]
@@ -60,5 +63,7 @@ textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
 viewport/hdr_2d=true
+viewport/hdr_2d.mobile=false
+viewport/hdr_2d.gl_compatibility=false
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true

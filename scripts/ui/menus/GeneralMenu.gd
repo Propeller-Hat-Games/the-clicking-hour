@@ -7,6 +7,7 @@ extends Control
 @export var rotation_speed: float = 3.0
 
 var _is_closing: bool = false
+var _button_tweens: Dictionary[Button, Tween] = {}
 
 
 func _ready() -> void:
@@ -86,31 +87,46 @@ func _setup_button_effects(node: Node) -> void:
 			child.mouse_exited.connect(_on_button_hover.bind(child, false))
 			child.button_down.connect(_on_button_press.bind(child, true))
 			child.button_up.connect(_on_button_press.bind(child, false))
+			child.tree_exiting.connect(func(): _button_tweens.erase(child))
 		_setup_button_effects(child)
+
+
+func _animate_button_scale(
+	btn: Button,
+	target_scale: Vector2,
+	duration: float,
+	trans_type: Tween.TransitionType,
+	ease_type: Tween.EaseType
+) -> void:
+	if _button_tweens.has(btn):
+		var active_tween: Tween = _button_tweens[btn]
+		if active_tween != null and active_tween.is_valid():
+			active_tween.kill()
+	var tween := btn.create_tween()
+	_button_tweens[btn] = tween
+	tween.tween_property(btn, "scale", target_scale, duration).set_trans(trans_type).set_ease(
+		ease_type
+	)
 
 
 func _on_button_hover(btn: Button, hovered: bool) -> void:
 	if btn.disabled:
 		return
 	var target_scale := Vector2(1.05, 1.05) if hovered else Vector2.ONE
-	var tween := btn.create_tween()
-	tween.tween_property(btn, "scale", target_scale, 0.15).set_trans(Tween.TRANS_BACK).set_ease(
-		Tween.EASE_OUT
-	)
+	_animate_button_scale(btn, target_scale, 0.15, Tween.TRANS_BACK, Tween.EASE_OUT)
 
 
 func _on_button_press(btn: Button, pressed: bool) -> void:
-	if btn.disabled:
-		return
 	var target_scale := (
-		Vector2(0.95, 0.95)
-		if pressed
-		else (Vector2(1.05, 1.05) if btn.is_hovered() else Vector2.ONE)
+		Vector2.ONE
+		if btn.disabled
+		else (
+			Vector2(0.95, 0.95)
+			if pressed
+			else (Vector2(1.05, 1.05) if btn.is_hovered() else Vector2.ONE)
+		)
 	)
-	var tween := btn.create_tween()
-	tween.tween_property(btn, "scale", target_scale, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
+	_animate_button_scale(btn, target_scale, 0.1, Tween.TRANS_QUAD, Tween.EASE_OUT)
 
 
 ## Closes the menu by freeing the node.
