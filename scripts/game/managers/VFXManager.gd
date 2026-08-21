@@ -7,6 +7,7 @@ var vhs_layer: CanvasLayer
 var cursor_layer: CanvasLayer = null
 var cursor_day_sprite: Sprite2D = null
 var cursor_night_sprite: Sprite2D = null
+var world_environment: WorldEnvironment = null
 var _is_first_run: bool = true
 var _night_mode_tween: Tween = null
 
@@ -29,11 +30,26 @@ func _process(_delta: float) -> void:
 func load_vfx() -> void:
 	_setup_software_cursor()
 	_setup_vhs_effect()
+	_setup_hdr_environment()
 	update_cursor()
 	update_night_mode()
 
 	GameEvents.wave_started.connect(func(_num: int, _night: bool): update_night_mode())
 	SettingsManager.settings_changed.connect(update_effects_visibility)
+
+
+func _setup_hdr_environment() -> void:
+	world_environment = WorldEnvironment.new()
+	var env := Environment.new()
+	env.background_mode = Environment.BG_CANVAS
+	env.glow_enabled = SettingsManager.global_effects_enabled
+	env.glow_intensity = 0.8
+	env.glow_strength = 1.0
+	env.glow_bloom = 0.3
+	env.glow_hdr_threshold = 1.0
+	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SCREEN
+	world_environment.environment = env
+	game.add_child(world_environment)
 
 
 func _setup_vhs_effect() -> void:
@@ -57,6 +73,8 @@ func update_effects_visibility() -> void:
 	var enabled := SettingsManager.global_effects_enabled
 	if vhs_layer != null:
 		vhs_layer.visible = enabled
+	if world_environment != null and world_environment.environment != null:
+		world_environment.environment.glow_enabled = enabled
 
 
 func _setup_software_cursor() -> void:

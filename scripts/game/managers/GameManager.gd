@@ -124,7 +124,7 @@ func _screen_fade_in() -> void:
 
 	var fade_tween := create_tween()
 	fade_tween.tween_property(fade_rect, "modulate:a", 0.0, 1.5)
-	fade_tween.finished.connect(func(): fade_layer.queue_free())
+	fade_tween.tween_callback(fade_layer.queue_free)
 
 
 # --- CALLBACKS ---
@@ -213,7 +213,7 @@ func hide_unboarding() -> void:
 	tween.tween_property(unboarding, "modulate:a", 0.0, 0.3).set_trans(Tween.TRANS_SINE).set_ease(
 		Tween.EASE_IN
 	)
-	tween.finished.connect(
+	tween.tween_callback(
 		func():
 			unboarding.visible = false
 			wave_manager.unboarding_closed = true

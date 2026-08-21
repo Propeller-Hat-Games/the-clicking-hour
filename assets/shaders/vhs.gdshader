@@ -8,7 +8,7 @@ uniform float scanline_count : hint_range(0, 1080) = 50.0;
 uniform float scanline_opacity : hint_range(0.0, 1.0) = 0.3; // Faible opacité pour que ce soit "léger"
 
 // Noise / Grain
-uniform float noise_opacity : hint_range(0.0, 1.0) = 0.1; // Très léger
+uniform float noise_opacity : hint_range(0.0, 1.0) = 0.05; // Très léger
 uniform float noise_speed = 5.0;
 
 // Chromatic Aberration

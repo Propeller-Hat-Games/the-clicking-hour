@@ -43,52 +43,69 @@ func _ready() -> void:
 		if background == null:
 			background = window.get_node_or_null("background_border")
 
-		if background != null and abs(rotation_speed) > 0.001:
-			# 1. Create a container that will stay static and clip the rotating child
-			var clip_container: Control = Control.new()
-			clip_container.name = &"RotationClipContainer"
-			clip_container.clip_contents = true
+		if background != null and absf(rotation_speed) > 0.001:
+			background.rotation = 0.0
+			var duration: float = TAU / absf(rotation_speed)
+			var rot_sign: float = signf(rotation_speed)
 
-			# 2. Match the container's layout to the original background's layout
-			clip_container.size = background.size
-			clip_container.position = background.position
-			clip_container.layout_mode = background.layout_mode
-			clip_container.anchors_preset = background.anchors_preset
-			clip_container.anchor_left = background.anchor_left
-			clip_container.anchor_top = background.anchor_top
-			clip_container.anchor_right = background.anchor_right
-			clip_container.anchor_bottom = background.anchor_bottom
-			clip_container.offset_left = background.offset_left
-			clip_container.offset_top = background.offset_top
-			clip_container.offset_right = background.offset_right
-			clip_container.offset_bottom = background.offset_bottom
-			clip_container.grow_horizontal = background.grow_horizontal
-			clip_container.grow_vertical = background.grow_vertical
+			if background.texture is GradientTexture2D:
+				var grad_tex: GradientTexture2D = (
+					background.texture.duplicate() as GradientTexture2D
+				)
+				grad_tex.fill = GradientTexture2D.FILL_CONIC
+				grad_tex.fill_from = Vector2(0.5, 0.5)
+				background.texture = grad_tex
 
-			# 3. Move the background into the container
-			var parent := background.get_parent()
-			var index := background.get_index()
-			parent.remove_child(background)
-			clip_container.add_child(background)
-			parent.add_child(clip_container)
-			parent.move_child(clip_container, index)
+				var rotation_tween := background.create_tween().set_loops()
+				rotation_tween.tween_method(
+					func(angle: float):
+						grad_tex.fill_to = Vector2(0.5 + 0.5 * cos(angle), 0.5 + 0.5 * sin(angle)),
+					0.0,
+					TAU * rot_sign,
+					duration
+				)
+			else:
+				var rotation_tween := background.create_tween().set_loops()
+				(
+					rotation_tween
+					. tween_property(background, "rotation", TAU * rot_sign, duration)
+					. from(0.0)
+				)
 
-			# 4. Make the background square and large enough to cover the rectangle during rotation
-			var max_dim = max(clip_container.size.x, clip_container.size.y) * 1.5
-			background.size = Vector2(max_dim, max_dim)
-			background.position = (clip_container.size - background.size) / 2.0
-			background.pivot_offset = background.size / 2.0
-			background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		_setup_button_effects(window)
 
-			# 5. Use a Tween object to manage the rotation logic
-			var duration = TAU / abs(rotation_speed)
-			var target_rotation = TAU * sign(rotation_speed)
 
-			var rotation_tween := background.create_tween().set_loops()
-			rotation_tween.tween_method(
-				func(rot): background.rotation = rot, 0.0, target_rotation, duration
-			)
+## Recursively applies hover and click micro-animations to all child buttons.
+func _setup_button_effects(node: Node) -> void:
+	for child in node.get_children():
+		if child is Button:
+			child.pivot_offset = child.size / 2.0
+			child.resized.connect(func(): child.pivot_offset = child.size / 2.0)
+			child.mouse_entered.connect(_on_button_hover.bind(child, true))
+			child.mouse_exited.connect(_on_button_hover.bind(child, false))
+			child.button_down.connect(_on_button_press.bind(child, true))
+			child.button_up.connect(_on_button_press.bind(child, false))
+		_setup_button_effects(child)
+
+
+func _on_button_hover(btn: Button, hovered: bool) -> void:
+	if btn.disabled:
+		return
+	var target_scale := Vector2(1.05, 1.05) if hovered else Vector2.ONE
+	var tween := btn.create_tween()
+	tween.tween_property(btn, "scale", target_scale, 0.15).set_trans(Tween.TRANS_BACK).set_ease(
+		Tween.EASE_OUT
+	)
+
+
+func _on_button_press(btn: Button, pressed: bool) -> void:
+	if btn.disabled:
+		return
+	var target_scale := Vector2(0.95, 0.95) if pressed else Vector2(1.05, 1.05)
+	var tween := btn.create_tween()
+	tween.tween_property(btn, "scale", target_scale, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(
+		Tween.EASE_OUT
+	)
 
 
 ## Closes the menu by freeing the node.
