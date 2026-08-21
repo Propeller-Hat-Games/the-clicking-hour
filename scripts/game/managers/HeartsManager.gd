@@ -74,7 +74,7 @@ func grant_heart() -> void:
 		# Placeholder sfx
 		SfxManager.play_health_granted_sound()
 
-		heart_nodes = heart_nodes.filter(func(h: Node2D) -> bool: return is_instance_valid(h))
+		heart_nodes.assign(heart_nodes.filter(func(h: Node2D) -> bool: return is_instance_valid(h)))
 
 		var heart: Node2D
 		if heart_nodes.size() == game.hearts - 1:
