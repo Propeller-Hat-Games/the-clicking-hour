@@ -299,11 +299,13 @@ func disappear() -> void:
 			. tween_property(glass, "position", _glass_initial_pos + Vector2(0, 50), 0.5)
 			. set_trans(Tween.TRANS_LINEAR)
 		)
-		glass_tween.tween_property(glass, "modulate:a", 0.0, 0.5).set_trans(Tween.TRANS_LINEAR)
+		glass_tween.parallel().tween_property(glass, "modulate:a", 0.0, 0.5).set_trans(
+			Tween.TRANS_LINEAR
+		)
 
 	if sprite != null and sprite.sprite_frames.has_animation(&"disapear"):
-		sprite.play(&"disapear")
 		tween.chain().tween_await(sprite.animation_finished)
+		sprite.play(&"disapear")
 
 	tween.chain().tween_interval(0.1)
 	tween.tween_callback(queue_free)

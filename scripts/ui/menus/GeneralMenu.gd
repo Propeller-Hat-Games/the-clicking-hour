@@ -65,6 +65,7 @@ func _ready() -> void:
 					duration
 				)
 			else:
+				background.pivot_offset_ratio = Vector2(0.5, 0.5)
 				var rotation_tween := background.create_tween().set_loops()
 				(
 					rotation_tween
@@ -72,7 +73,7 @@ func _ready() -> void:
 					. from(0.0)
 				)
 
-		_setup_button_effects(window)
+		_setup_button_effects(self)
 
 
 ## Recursively applies hover and click micro-animations to all child buttons.
@@ -101,7 +102,11 @@ func _on_button_hover(btn: Button, hovered: bool) -> void:
 func _on_button_press(btn: Button, pressed: bool) -> void:
 	if btn.disabled:
 		return
-	var target_scale := Vector2(0.95, 0.95) if pressed else Vector2(1.05, 1.05)
+	var target_scale := (
+		Vector2(0.95, 0.95)
+		if pressed
+		else (Vector2(1.05, 1.05) if btn.is_hovered() else Vector2.ONE)
+	)
 	var tween := btn.create_tween()
 	tween.tween_property(btn, "scale", target_scale, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(
 		Tween.EASE_OUT
