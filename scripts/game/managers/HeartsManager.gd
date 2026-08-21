@@ -3,6 +3,7 @@ extends GameManagerInterface
 
 ## Handles player health and heart UI animation.
 const MAX_HEARTS: int = 5
+const SPACING: float = 96.0
 var heart_nodes: Array[Node2D] = []
 
 
@@ -16,11 +17,9 @@ func update_hearts() -> void:
 			heart.queue_free()
 	heart_nodes.clear()
 
-	var spacing := 96.0
-
 	for i in range(game.hearts):
 		var heart := game.heart_scene.instantiate()
-		heart.position = Vector2(i * spacing, 0)
+		heart.position = Vector2(i * SPACING, 0)
 		game.heart_container.add_child(heart)
 		heart_nodes.append(heart)
 
@@ -74,4 +73,45 @@ func grant_heart() -> void:
 		game.hearts += 1
 		# Placeholder sfx
 		SfxManager.play_health_granted_sound()
-		update_hearts()
+
+		heart_nodes.assign(heart_nodes.filter(func(h: Node2D) -> bool: return is_instance_valid(h)))
+
+		var heart: Node2D
+		if heart_nodes.size() == game.hearts - 1:
+			heart = game.heart_scene.instantiate()
+			heart.position = Vector2((game.hearts - 1) * SPACING, 0)
+			heart.modulate.a = 0.0
+			if heart.material is ShaderMaterial:
+				(heart.material as ShaderMaterial).set_shader_parameter("flash_value", 1.0)
+			game.heart_container.add_child(heart)
+			heart_nodes.append(heart)
+		else:
+			update_hearts()
+			if not heart_nodes.is_empty():
+				heart = heart_nodes[-1]
+
+		if heart != null and is_instance_valid(heart):
+			animate_heart_gain(heart)
+
+		game.vfx_manager.update_desaturation(clamp((1.0 - (game.hearts / 3.0)) * 0.5, 0.0, 0.5))
+
+
+func animate_heart_gain(heart: Node2D) -> void:
+	# 1. Start: Hide & Full White
+	heart.modulate.a = 0.0
+	if heart.material is ShaderMaterial:
+		(heart.material as ShaderMaterial).set_shader_parameter("flash_value", 1.0)
+
+	var tween := create_tween()
+	# 2. Then: White fade in
+	tween.tween_property(heart, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_SINE).set_ease(
+		Tween.EASE_OUT
+	)
+	# 3. Then: Fade to normal color
+	if heart.material is ShaderMaterial:
+		(
+			tween
+			. tween_property(heart, "material:shader_parameter/flash_value", 0.0, 0.35)
+			. set_trans(Tween.TRANS_SINE)
+			. set_ease(Tween.EASE_OUT)
+		)
