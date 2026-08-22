@@ -20,6 +20,7 @@ var _fade_color_rect: ColorRect
 var _is_skipping: bool = false
 var _audio_unlocked: bool = false
 var _splash_tween: Tween = null
+var _transition_tween: Tween = null
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _audio: AudioStreamPlayer = $AudioStreamPlayer
@@ -70,22 +71,27 @@ func _try_unlock_audio() -> void:
 func _skip() -> void:
 	if _splash_tween != null and _splash_tween.is_valid():
 		_splash_tween.kill()
+	if _transition_tween != null and _transition_tween.is_valid():
+		_transition_tween.kill()
 	_is_skipping = true
 	_transition_to_menu(skip_fade_duration)
 
 
 func _transition_to_menu(duration: float) -> void:
-	var fade_out_tween := create_tween().set_parallel()
-	fade_out_tween.tween_property(_sprite, "modulate:a", 0.0, duration)
-	if fade_audio_out and _audio != null:
-		fade_out_tween.tween_property(_audio, "volume_db", audio_fade_target_db, duration)
-	fade_out_tween.tween_property(_fade_color_rect, "modulate:a", 1.0, duration)
+	if _transition_tween != null and _transition_tween.is_valid():
+		_transition_tween.kill()
 
-	fade_out_tween.chain().tween_await(get_tree().process_frame)
-	fade_out_tween.tween_callback(
+	_transition_tween = create_tween().set_parallel()
+	_transition_tween.tween_property(_sprite, "modulate:a", 0.0, duration)
+	if fade_audio_out and _audio != null:
+		_transition_tween.tween_property(_audio, "volume_db", audio_fade_target_db, duration)
+	_transition_tween.tween_property(_fade_color_rect, "modulate:a", 1.0, duration)
+
+	_transition_tween.chain().tween_await(get_tree().process_frame)
+	_transition_tween.tween_callback(
 		func():
-			get_viewport().use_hdr_2d = ProjectSettings.get_setting(
-				"rendering/viewport/hdr_2d", false
+			get_viewport().use_hdr_2d = ProjectSettings.get_setting_with_override(
+				"rendering/viewport/hdr_2d"
 			)
 			get_tree().change_scene_to_file(main_menu_scene_path)
 	)
