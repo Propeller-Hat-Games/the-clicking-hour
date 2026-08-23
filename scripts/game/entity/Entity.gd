@@ -74,8 +74,8 @@ func _animate_glass_walking(delta: float) -> void:
 		return
 
 	if current_state == EntityState.WALKING and sprite != null:
-		# Sync glass bobbing with walking frames: up on frames 0 and 1, down on frames 2 and 3
-		var y_offset := -2.0 if (sprite.frame == 1 or sprite.frame == 2) else 2.0
+		# Sync glass bobbing with walking frames: up on frames 1 and 2, down on the others
+		var y_offset := -2.0 if sprite.frame in [1, 2] else 2.0
 		glass.position = _glass_initial_pos + Vector2(0, y_offset)
 	elif current_state != EntityState.HIDING:
 		glass.position = glass.position.lerp(_glass_initial_pos, delta * 10.0)
