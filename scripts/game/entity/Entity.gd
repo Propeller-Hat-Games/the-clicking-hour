@@ -225,7 +225,7 @@ func play_synced_animation(
 ) -> void:
 	if sprite == null or not sprite.sprite_frames.has_animation(anim_name):
 		return
-	if is_disappearing and anim_name != &"disapear":
+	if is_disappearing and anim_name != &"disappear":
 		return
 
 	var speed := 1.0
@@ -303,9 +303,9 @@ func disappear() -> void:
 			Tween.TRANS_LINEAR
 		)
 
-	if sprite != null and sprite.sprite_frames.has_animation(&"disapear"):
+	if sprite != null and sprite.sprite_frames.has_animation(&"disappear"):
 		tween.chain().tween_await(sprite.animation_finished)
-		sprite.play(&"disapear")
+		sprite.play(&"disappear")
 
 	tween.chain().tween_interval(0.1)
 	tween.tween_callback(queue_free)
