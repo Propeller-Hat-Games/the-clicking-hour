@@ -7,7 +7,7 @@ extends Control
 @export var rotation_speed: float = 3.0
 
 var _is_closing: bool = false
-var _button_tweens: Dictionary[Button, Tween] = {}
+var _button_tweens: Dictionary[BaseButton, Tween] = {}
 
 
 func _ready() -> void:
@@ -80,7 +80,7 @@ func _ready() -> void:
 ## Recursively applies hover and click micro-animations to all child buttons.
 func _setup_button_effects(node: Node) -> void:
 	for child in node.get_children():
-		if child is Button:
+		if child is BaseButton:
 			child.pivot_offset = child.size / 2.0
 			child.resized.connect(func(): child.pivot_offset = child.size / 2.0)
 			child.mouse_entered.connect(_on_button_hover.bind(child, true))
@@ -92,7 +92,7 @@ func _setup_button_effects(node: Node) -> void:
 
 
 func _animate_button_scale(
-	btn: Button,
+	btn: BaseButton,
 	target_scale: Vector2,
 	duration: float,
 	trans_type: Tween.TransitionType,
@@ -109,14 +109,14 @@ func _animate_button_scale(
 	)
 
 
-func _on_button_hover(btn: Button, hovered: bool) -> void:
+func _on_button_hover(btn: BaseButton, hovered: bool) -> void:
 	if btn.disabled:
 		return
 	var target_scale := Vector2(1.05, 1.05) if hovered else Vector2.ONE
 	_animate_button_scale(btn, target_scale, 0.15, Tween.TRANS_BACK, Tween.EASE_OUT)
 
 
-func _on_button_press(btn: Button, pressed: bool) -> void:
+func _on_button_press(btn: BaseButton, pressed: bool) -> void:
 	var target_scale := (
 		Vector2.ONE
 		if btn.disabled
