@@ -71,8 +71,6 @@ func _try_unlock_audio() -> void:
 func _skip() -> void:
 	if _splash_tween != null and _splash_tween.is_valid():
 		_splash_tween.kill()
-	if _transition_tween != null and _transition_tween.is_valid():
-		_transition_tween.kill()
 	_is_skipping = true
 	_transition_to_menu(skip_fade_duration)
 
