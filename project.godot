@@ -17,7 +17,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="The Clicking Hour"
 config/version="1.2.0"
 run/main_scene="uid://bywu8mmutihmx"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="uid://c03e2rxq5u00k"
@@ -35,7 +35,11 @@ GameEvents="*res://scripts/system/GameEvents.gd"
 
 [display]
 
+window/hdr/request_hdr_output=true
 window/stretch/mode="viewport"
+window/hdr/request_hdr_output.mobile=false
+window/hdr/request_hdr_output.web=false
+window/hdr/request_hdr_output.gl_compatibility=false
 
 [editor_plugins]
 
@@ -56,8 +60,10 @@ locale/translations=PackedStringArray("res://assets/translations/translations.en
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
+viewport/hdr_2d=true
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true
+viewport/hdr_2d.mobile=false
+viewport/hdr_2d.gl_compatibility=false

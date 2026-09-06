@@ -9,6 +9,9 @@ extends Node2D
 
 
 func _ready() -> void:
+	if neon_on_sprite != null:
+		neon_on_sprite.self_modulate = Color(1.3, 1.3, 1.3, 1.0)
+
 	while is_inside_tree():
 		neon_on_sprite.visible = true
 		neon_off_sprite.visible = false

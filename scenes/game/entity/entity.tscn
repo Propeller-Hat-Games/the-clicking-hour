@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bubbum3745hky" path="res://assets/sprites/environment/entity/entity_dig_walk_arm_dish.png" id="4_jfllw"]
 [ext_resource type="Texture2D" uid="uid://bpcss1wrj84rw" path="res://assets/sprites/environment/entity/entity_multiclick_hurt.png" id="5_0lw3d"]
 [ext_resource type="Texture2D" uid="uid://xvd134umlrgv" path="res://assets/sprites/environment/entity/entity_normal_jump.png" id="5_vholj"]
-[ext_resource type="Texture2D" uid="uid://ivpyx6vt8xef" path="res://assets/sprites/environment/entity/entity_disapear.png" id="5_yeioj"]
+[ext_resource type="Texture2D" uid="uid://ivpyx6vt8xef" path="res://assets/sprites/environment/entity/entity_disappear.png" id="5_yeioj"]
 [ext_resource type="Texture2D" uid="uid://i44jygobwtxm" path="res://assets/sprites/environment/entity/entity_multiclick_walk_arm_dish.png" id="6_ce5ni"]
 [ext_resource type="Texture2D" uid="uid://deytrogunhiv6" path="res://assets/sprites/environment/entity/entity_normal_walk_arm_dish.png" id="6_gmka6"]
 [ext_resource type="Texture2D" uid="uid://cnbrdll6p3kl3" path="res://assets/sprites/environment/entity/entity_normal_hurt.png" id="6_kdcua"]
@@ -460,7 +460,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_noay6")
 }],
 "loop": false,
-"name": &"disapear",
+"name": &"disappear",
 "speed": 5.0
 }, {
 "frames": [{
