@@ -23,9 +23,10 @@ func _on_clicked() -> void:
 	var anim_name := StringName(anim_prefix + "_jump")
 	play_synced_animation(anim_name, false, DIG_ANIM_DURATION)
 
+	var tween := create_tween()
+
 	# Animate glass down
 	if glass != null:
-		var tween := create_tween()
 		(
 			tween
 			. tween_property(
@@ -34,35 +35,37 @@ func _on_clicked() -> void:
 			. set_trans(Tween.TRANS_QUART)
 			. set_ease(Tween.EASE_IN)
 		)
-
-	await get_tree().create_timer(DIG_ANIM_DURATION).timeout
-	if not is_inside_tree() or is_disappearing:
-		return
+	else:
+		tween.tween_interval(DIG_ANIM_DURATION)
 
 	# Stay hidden
-	await get_tree().create_timer(HIDE_DURATION - (2.0 * DIG_ANIM_DURATION)).timeout
-	if not is_inside_tree() or is_disappearing:
-		return
+	tween.tween_interval(HIDE_DURATION - (2.0 * DIG_ANIM_DURATION))
 
 	# Emerge (Jump animation played backwards = go up)
-	SfxManager.play_entity_emergence_sound()
-	play_synced_animation(anim_name, true, DIG_ANIM_DURATION)
+	tween.tween_callback(
+		func():
+			if is_disappearing:
+				return
+			SfxManager.play_entity_emergence_sound()
+			play_synced_animation(anim_name, true, DIG_ANIM_DURATION)
+	)
 
 	# Animate glass up
 	if glass != null:
-		var tween := create_tween()
 		(
 			tween
 			. tween_property(glass, "position", _glass_initial_pos, DIG_ANIM_DURATION)
 			. set_trans(Tween.TRANS_QUART)
 			. set_ease(Tween.EASE_OUT)
 		)
+	else:
+		tween.tween_interval(DIG_ANIM_DURATION)
 
-	await get_tree().create_timer(DIG_ANIM_DURATION).timeout
-	if not is_inside_tree() or is_disappearing:
-		return
-
-	current_state = EntityState.WALKING
+	tween.tween_callback(
+		func():
+			if not is_disappearing:
+				current_state = EntityState.WALKING
+	)
 
 
 func _update_animation() -> void:

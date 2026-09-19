@@ -1,6 +1,6 @@
 # 🕰️ The Clicking Hour
 
-[![Godot Engine](https://img.shields.io/badge/Godot-4.6.2-%23478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org)
+[![Godot Engine](https://img.shields.io/badge/Godot-4.7-%23478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![GDScript](https://img.shields.io/badge/GDScript-%23355570?logo=godot-engine&logoColor=white)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html)
 [![License: Non-Commercial](https://img.shields.io/badge/License-Non--Commercial-red.svg)](LICENSE)
 
@@ -33,7 +33,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 
 ## 🛠️ Technical Stack
 
-- **Engine:** [Godot 4.6.2](https://godotengine.org/) (Forward Plus renderer)
+- **Engine:** [Godot 4.7](https://godotengine.org/) (Forward Plus renderer)
 - **Language:** GDScript
 - **Shaders:** Custom GLSL shaders for glitch and VHS post-processing.
 - **Architecture:**
@@ -46,7 +46,7 @@ Your goal is simple but challenging: filter the incoming stream of waiters. The 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- [Godot Engine 4.6.2](https://godotengine.org/download)
+- [Godot Engine 4.7](https://godotengine.org/download)
 
 ### Installation
 1. Clone the repository:

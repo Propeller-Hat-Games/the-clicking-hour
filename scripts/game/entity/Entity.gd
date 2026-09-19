@@ -225,7 +225,7 @@ func play_synced_animation(
 ) -> void:
 	if sprite == null or not sprite.sprite_frames.has_animation(anim_name):
 		return
-	if is_disappearing and anim_name != &"disapear":
+	if is_disappearing and anim_name != &"disappear":
 		return
 
 	var speed := 1.0
@@ -279,7 +279,7 @@ func die() -> void:
 	tween.tween_callback(queue_free)
 
 
-## Asynchronously handles the entity's disappearance animation.
+## Handles the entity's disappearance animation and frees the node.
 func disappear() -> void:
 	if is_disappearing:
 		return
@@ -290,18 +290,25 @@ func disappear() -> void:
 	velocity = Vector2.ZERO
 	set_physics_process(false)
 
-	_animate_glass_disappearance()
+	var tween := create_tween()
 
-	if sprite != null and sprite.sprite_frames.has_animation(&"disapear"):
-		sprite.play(&"disapear")
-		await sprite.animation_finished
-		if not is_inside_tree():
-			return
+	if glass != null:
+		var glass_tween := tween.parallel()
+		(
+			glass_tween
+			. tween_property(glass, "position", _glass_initial_pos + Vector2(0, 50), 0.5)
+			. set_trans(Tween.TRANS_LINEAR)
+		)
+		glass_tween.parallel().tween_property(glass, "modulate:a", 0.0, 0.5).set_trans(
+			Tween.TRANS_LINEAR
+		)
 
-	await get_tree().create_timer(0.1).timeout
-	if not is_inside_tree():
-		return
-	queue_free()
+	if sprite != null and sprite.sprite_frames.has_animation(&"disappear"):
+		tween.chain().tween_await(sprite.animation_finished)
+		sprite.play(&"disappear")
+
+	tween.chain().tween_interval(0.1)
+	tween.tween_callback(queue_free)
 
 
 ## Returns the type of glass carried by this entity.
