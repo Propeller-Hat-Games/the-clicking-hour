@@ -24,18 +24,19 @@
 
 [sub_resource type="Curve" id="Curve_c7a3q"]
 _limits = [0.0, 2.0, 0.0, 50.0]
-_data = [Vector2(0, 2), 0.0, -0.10946449, 0, 0, Vector2(12.530712, 0.9937936), -0.050927356, -0.050927356, 0, 0, Vector2(50, 0.24534512), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 2), 0.0, -0.04221748, 0, 0, Vector2(10, 1.25), -0.0258317, -0.0258317, 0, 0, Vector2(20, 0.5), -0.04049718, -0.04049718, 0, 0, Vector2(50, 0.1), -0.005952944, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="Curve" id="Curve_4vth2"]
-_limits = [1.0, 30.0, 0.0, 20.0]
-_data = [Vector2(0, 1), 0.0, 1.0690237, 0, 0, Vector2(20, 30), 3.1174686, 0.0, 0, 0]
+_limits = [1.0, 15.0, 0.0, 20.0]
+_data = [Vector2(0, 1), 0.0, 0.45074502, 0, 0, Vector2(20, 12), 1.6500015, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_yxe1x"]
-_limits = [0.0, 90.0, 0.0, 50.0]
-_data = [Vector2(0, 0), 0.0, 3.1338024, 0, 0, Vector2(50, 90), 0.0, 0.0, 0, 0]
-point_count = 2
+_limits = [0.0, 300.0, 0.0, 50.0]
+_data = [Vector2(0, 50), 0.0, 2.3439567, 0, 0, Vector2(12.5, 75), 0.0, 0.0, 0, 0, Vector2(25, 150), 0.0, 0.0, 0, 0, Vector2(50, 300), 2.376, 0.0, 0, 0]
+point_count = 4
+metadata/_snap_count = 4
 
 [sub_resource type="Gradient" id="Gradient_c7a3q"]
 offsets = PackedFloat32Array(0, 0.48795182, 1)
@@ -132,8 +133,15 @@ scale = Vector2(3, 3)
 z_index = 7
 position = Vector2(1081, 171)
 
-[node name="Glass" parent="." unique_id=612983208 instance=ExtResource("16_cjvif")]
+[node name="Glass" parent="." unique_id=612983208 node_paths=PackedStringArray("sprites") instance=ExtResource("16_cjvif")]
 visible = false
+sprites = {
+"blue": NodePath("Blue"),
+"green": NodePath("Green"),
+"heal": NodePath("Heal"),
+"red": NodePath("Red"),
+"yellow": NodePath("Yellow")
+}
 
 [node name="Wall Left" type="StaticBody2D" parent="." unique_id=1420222297]
 z_index = 10
